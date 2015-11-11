@@ -1,0 +1,53 @@
+#-------------------------------#   GENERAL   #--------------------------------#
+
+#SEO
+SITE_TITLE;"בא לגן מאורגן"
+SITE_DESC;"בא לגן מאורגן"
+SITE_KEYWORDS;"בא לגן מאורגן"
+
+#HEADER
+BALAGAN;"בא לגן מאורגן"
+MESSAGES;"הודעות"
+
+
+#GENERAL
+REGISTERTION;"הרשמה"
+REGISTER;"הרשם"
+LOGIN;"כניסה"
+USERNAME;"שם משתמש"
+EMAIL;"מייל"
+PASSWORD;"סיסמה"
+REPASSWORD;"אימות סיסמה"
+NAME;"שם מלא"
+PLANING;"תכנון"
+DOCUMENTATION;"תיעוד"
+FINISH;"סיום"
+NEXT_ACTION;"לפעילות הבאה"
+MENU;"תפריט"
+MY_GROUPS;"הקבוצות שלי"
+STUDENTS_PROGRESS;"התקדמות אישית"
+DONE_ACTIONE;"פעיליות שבוצעו"
+LOGOUT;"התנתק"
+
+
+SELECT_GROUP;"בחר קבוצת עבודה"
+SELECT_GOAL;"בחר מטרה"
+SELECT_GAME;"בחר משחק"
+DOC_AFTER_GAME;"תיעוד לאחר משחק"
+TEXT_NOTES;"הערות מילוליות"
+GROUPS_PROGRESS;"התקדמות הקבוצות שלי"
+STUDENT_PROGRESS_SELECT;"התקדמות אישית בחר ילד"
+SPEC_STUDENT_PROGRESS;"התקדמות אישית של"
+NO_STUDENT_PROGRESS_RESULTS;"לא נמצאו תוצאות עבור תלמיד זה"
+
+#ERRORS
+REQUIRED_FIELD;"שדה חובה"
+INVALID_EMAIL;"מייל שגוי"
+PASSWORD_ERROR_MSG;"סיסמה שגויה"
+MISSING_USERNAME;"נא להכניס שם משתמש"
+MISSING_PASSWORD;"נא להכניס סיסמא"
+NOT_VERIFIED;"מייל טרם אומת, נא לאמת אותו לפני הכניסה"
+WRONG_LOGIN;"פרטי כניסה שגויים"
+DOC_WITHOUT_GAME;"נא לתכנן משחק קודם, ולאחר מכן לתעד את התשובות"
+FAILED_DOC;"תיעוד נכשל"
+SUCCESS_DOC;"תועד בהצלחה"

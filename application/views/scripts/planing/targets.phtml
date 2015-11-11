@@ -1,0 +1,40 @@
+<div class="container-fluid">
+    <div class="goals ng-scope" data-ng-controller="Goals">
+        <!--Title-->
+        <div class="row">
+            <div class="second-header">
+                <img src="/images/GROUP_HEADER.png" class="" alt="GROUP_HEADER" />
+                <div class="title"><?php echo $this->lang->_('SELECT_GOAL'); ?></div>
+            </div>
+        </div>
+        <!--Groups Tables-->
+        <div class="row">
+            <table class="table table-goals">
+                <tbody>
+                    <?php foreach ($this->targets as $t) : ?>
+                    <tr>
+                        <td class="icon"><img src="/images/goals/<?php echo $t['icon']; ?>.png" class="" alt="counting" /></td>
+                        <td class="body middle">
+                            <a data-toggle="collapse" data-parent="" href="#goal-games-<?php echo $t['target_id']; ?>" data-ng-click="activeArrowUp()" aria-expanded="true" aria-controls="collapseOne"><div class="big-title"><?php echo $t['name']; ?></div></a>
+                        </td>
+                        <td class="middle"><a data-toggle="collapse" data-parent="" href="#goal-games" data-ng-click="activeArrowUp()" aria-expanded="true" aria-controls="collapseOne"><img class="arrow" data-ng-class="{'arrow-up': arrowUp === true, 'arrow-down': arrowUp === false}" src="/images/arrow.png" class="" alt="arrow" /></a></td>
+                    </tr>
+                    <tr class="hidden-collapse">
+                        <td colspan="3">
+                            <div id="goal-games-<?php echo $t['target_id']; ?>" class="panel-collapse collapse" role="tabpanel">
+                                <table class="table">
+                                    <tbody>
+                                        <?php foreach ($t['levels'] as $l) : ?>
+                                        <tr><td colspan="3" data-ng-click="target = <?php echo $l['level_id']; ?>" data-ng-class="{'active' : target == <?php echo $l['level_id']; ?>}"><a href="<?php echo $this->baseurl(); ?>planing/games/g/<?php echo $this->group_id; ?>/t/<?php echo $t['target_id']; ?>/l/<?php echo $l['level_id']; ?>"><?php echo $l['name']; ?></a></td></tr>
+                                        <?php endforeach; ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </td>
+                    </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

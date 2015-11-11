@@ -1,0 +1,37 @@
+<div class="form-group text-center logo">
+    <img src="/images/home-logo.png" alt="BaLaGan" />
+</div>
+        <div id="error-box" class="error-custom">
+            <?php if(isset($this->flashmsgs)) { ?>
+                <?php   foreach($this->flashmsgs as $msg){
+                            echo $msg;
+            } } ?>
+        </div>
+<div class="form-group"><br></div>
+<form   id="login-form"
+        name="<?php echo $this->element->getAttrib('name'); ?>" 
+        method="<?php echo $this->element->getAttrib('method'); ?>"  
+        action="<?php echo $this->element->getAttrib('action'); ?>"
+        enctype="<?php echo $this->element->getAttrib('enctype'); ?>"
+        role="form"
+        >
+    <div class="row">
+        <div class="col-xs-12">
+            
+            <h3 class="text-center"><?php echo $this->element->getAttrib('lang')->_('LOGIN'); ?></h3>
+            
+            <div class="form-group">
+                <?php echo $this->element->username; ?>
+            </div>
+            
+            <div class="form-group">
+                <?php echo $this->element->password; ?>
+            </div>
+            
+            <br>
+            <div class="form-group">
+                <?php echo $this->element->submit; ?>
+            </div>
+        </div>
+    </div>
+</form>

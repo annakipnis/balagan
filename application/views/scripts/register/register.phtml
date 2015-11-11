@@ -1,0 +1,16 @@
+<form   name="<?php echo $this->element->getAttrib('name'); ?>" 
+        method="<?php echo $this->element->getAttrib('method'); ?>"  
+        action="<?php echo $this->element->getAttrib('action'); ?>"
+        enctype="<?php echo $this->element->getAttrib('enctype'); ?>"
+        role="form"
+        >
+    <section class="form-group">
+        <?php echo $this->element->name; ?>
+        <?php echo $this->element->email; ?>
+        <?php echo $this->element->password; ?>
+        <?php echo $this->element->repassword; ?>
+    </section>
+    <section class="form-group">
+        <?php echo $this->element->submit; ?>
+    </section>
+</form>

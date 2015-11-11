@@ -1,0 +1,26 @@
+<div class="container-fluid">
+    <div class="goals ng-scope" data-ng-controller="Games">
+        <!--Title-->
+        <div class="row">
+            <div class="second-header">
+                <img src="/images/GROUP_HEADER.png" class="" alt="GROUP_HEADER" />
+                <div class="title"><?php echo $this->lang->_('SELECT_GAME'); ?></div>
+            </div>
+        </div>
+        <!--Games Tables-->
+        <div class="row">
+            <table class="table table-games">
+                <tbody>
+                    <?php foreach ($this->games as $g) : ?>
+                    <tr data-ng-click="game = <?php echo $g['game_id']; ?>" data-ng-class="{'active' : game == <?php echo $g['game_id']; ?>}">
+                        <td class="icon"><img src="/images/games/<?php echo $g['icon']; ?>.png" class="" alt="memory_game" /></td>
+                        <td class="body middle" >
+                            <a href="<?php echo $this->baseurl(); ?>groups/group/g/<?php echo $this->group_id; ?>/t/<?php echo $g['target_id']; ?>/l/<?php echo $g['level_id']; ?>/gm/<?php echo $g['game_id']; ?>"><div class="big-title"><?php echo $g['name']; ?></div></a>
+                        </td>
+                    </tr> 
+                    <?php endforeach; ?>
+                </tbody> 
+            </table>
+        </div>
+    </div>
+</div>

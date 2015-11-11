@@ -1,0 +1,30 @@
+<div class="container-fluid">
+    <div class="selected-group">
+        <!--Big Icon-->
+        <div class="row">
+            <div class="big-icon text-center">
+                <img src="/images/groups/group_<?php echo $this->group['color']; ?>.png" class="" alt="group_<?php echo $this->group['color']; ?>" />
+            </div>
+        </div>
+        <!--Groups Details-->
+        <div class="row">
+            <div class="body text-center">
+                <h3><?php echo $this->group['name']; ?></h3>
+                <h5><?php echo $this->group['students']; ?></h5>
+            </div>
+        </div>
+                <!--Actions-->
+        <div class="row">
+            <div class="col-xs-6">
+                <div class="form-group">
+                    <a href="<?php echo $this->baseurl(); ?>planing/targets/g/<?php echo $this->group_id; ?>" class="btn btn-planning"><img src="/images/planing.png" alt="save" /><span><?php echo $this->lang->_('PLANING'); ?></span></a>
+                </div>
+            </div>
+            <div class="col-xs-6">
+                <div class="form-group">
+                    <a href="<?php echo $this->baseurl(); ?>documentation/students/g/<?php echo $this->group_id; ?><?php echo isset($this->target_id) ? '/t/' . $this->target_id : ''; ?><?php echo isset($this->level_id) ? '/l/' . $this->level_id : ''; ?><?php echo isset($this->game_id) ? '/gm/' . $this->game_id : ''; ?>" class="btn btn-next-action"><img src="/images/docomuntation.png" alt="next" /><span><?php echo $this->lang->_('DOCUMENTATION'); ?></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,31 @@
+<div class="container-fluid progress-body">
+    <!--Title-->
+    <div class="row">
+        <div class="second-header progress-header">
+            <img src="/images/GROUP_HEADER.png" alt="STUDENT_HEADER" />
+            <div class="title"><?php echo $this->lang->_('SPEC_STUDENT_PROGRESS'); ?><?php echo isset($this->student_name) ? ' ' . $this->student_name : 'התלמיד'; ?></div>
+        </div>
+    </div>
+    <!--Groups Tables-->
+    <div class="row">
+        <div class="student-doc">
+            <?php if (isset($this->student) && $this->student) : ?>
+            <?php foreach ($this->student as $s) : ?>
+            <div class="col-xs-12 body">
+                <div class="pull-right">
+                    <h4><?php echo $s['target']; ?></h4>
+                    <p><?php echo $s['grade']; ?></p>
+                </div>
+                <div class="pull-left">
+                    <span class="date"><?php echo date('d/m/y', $s['create_date']); ?></span>
+                </div>
+            </div>
+            <?php endforeach; ?>
+            <?php else : ?>
+            <div class="col-xs-12 body">
+                <?php echo $this->lang->_('NO_STUDENT_PROGRESS_RESULTS'); ?>
+            </div>
+            <?php endif; ?>
+        </div>
+    </div>
+</div>

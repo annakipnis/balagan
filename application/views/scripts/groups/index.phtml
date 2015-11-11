@@ -1,0 +1,22 @@
+<div class="container-fluid">
+    <!--Title-->
+    <div class="row">
+        <div class="second-header">
+            <img src="/images/GROUP_HEADER.png" class="" alt="GROUP_HEADER" />
+            <div class="title"><?php echo $this->lang->_('SELECT_GROUP'); ?></div>
+        </div>
+    </div>
+    <!--Groups Tables-->
+    <div class="row">
+        <table class="table table-groups">
+            <tbody>
+                <?php foreach ($this->groups as $g) : ?>
+                <tr>
+                    <td class="icon"><img src="/images/groups/group_<?php echo $g['color']; ?>.png" class="" alt="group_<?php echo $g['color']; ?>" /></td>
+                    <td class="body" ng-click="group = <?php echo $g['group_id']; ?>" ng-class="{'active' : group == <?php echo $g['group_id']; ?>}"><a href="<?php echo $this->baseurl(); ?>groups/group/g/<?php echo $g['group_id']; ?>"><div class="big-title"><?php echo $g['name']; ?></div><span class="small-title"><?php echo $g['students']; ?></span></a></td>
+                </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+</div>

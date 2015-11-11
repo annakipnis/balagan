@@ -1,0 +1,15 @@
+<div class="HP">
+    <div class="container-fluid login-WR">
+        <div id="error-box" class="error-custom">
+            <?php if(isset($this->flashmsgs)) { ?>
+                <?php   foreach($this->flashmsgs as $msg){
+                            echo $msg;
+            } } ?>
+        </div>
+        <div class="row">
+            <div class="col-xs-12" ng-controller="Login">
+                <?php echo $this->form; ?>
+            </div>
+        </div>
+    </div>
+</div>

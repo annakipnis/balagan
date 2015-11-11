@@ -1,0 +1,20 @@
+<div class="container-fluid progress-body">
+    <!--Title-->
+    <div class="row">
+        <div class="second-header progress-header">
+            <img src="/images/GROUP_HEADER.png" alt="STUDENT_HEADER" />
+            <div class="title"><?php echo $this->lang->_('STUDENT_PROGRESS_SELECT'); ?></div>
+        </div>
+    </div>
+    <!--Groups Tables-->
+    <div class="row">
+        <div class="students-doc">
+            <?php foreach ($this->students as $s) : ?>
+            <div class="col-xs-6 text-center">
+                <div class="icon col-xs-6"><span class="icon-student"><i class="fa <?php echo 'MALE' == $s['gender'] ? 'fa-male' : 'fa-female'; ?>"></i></span></div>
+                <div class="body col-xs-6"><a href="<?php echo $this->baseurl(); ?>students/get/s/<?php echo $s['student_id']; ?>"><div class="big-title"><?php echo $s['name']; ?></div></a></div>
+            </div>
+            <?php endforeach; ?>
+        </div>
+    </div>
+</div>
