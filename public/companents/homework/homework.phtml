@@ -1,0 +1,105 @@
+<!-- New Lesson Dash -->
+<div ng-view class="ng-scope answer-lesson">
+    <form ng-submit="submitHomeWork()" name="answer_lesson_form" id="answer-lesson-form" role='form' enctype="multipart/form-data" novalidate>
+        <a id="top"></a>
+        <div class="container label-success" data-ng-show="res.isSuccessSubmit">
+            <span>{{res.successSubmit}}</span>
+        </div>
+        <div class="container label-danger" data-ng-show="res.isErrorSubmit">
+            <span>{{res.errorSubmit}}</span>
+        </div>
+        <div class="homework-change-background-color pan-edit">
+            <select data-ng-model="customColor" name="customColor" data-ng-blur="saveColor(customColor)">
+                <option value="#f1f0f0" style="background: #f1f0f0;">צבע מקורי</option>
+                <option value="#ffffff" style="background: #ffffff;"></option>
+                <option value="#fc611f" style="background: #fc611f;"></option>
+                <option value="#fdc10b" style="background: #fdc10b;"></option>
+                <option value="#a6dae8" style="background: #a6dae8;"></option>
+                <option value="#14b0bf" style="background: #14b0bf;"></option>
+                <option value="#2e7980" style="background: #2e7980;"></option>
+                <option value="#cd6db3" style="background: #cd6db3;"></option>
+                <option value="#8208C0" style="background: #8208C0;"></option>
+                <option value="#23AE89" style="background: #23AE89;"></option>
+                <option value="#E94B3B" style="background: #E94B3B;"></option>
+            </select>
+        </div>
+        <div class="homework-show" style="background: {{customColor}}">
+            <div class="widfix">
+                <div class="LES-DET">
+                    <table class="table"><tbody>
+                            <tr><td class="td-title"><b>{{_l.LESSON_NAME}}: </b></td><td>{{lesson.name}}</td></tr>
+                            <tr><td class="td-title"><b>{{_l.LESSON_DESC}}: </b></td><td>{{lesson.description}}</td></tr>
+                            <tr><td class="td-title"><b>{{_l.LESSON_SUBJECT}}: </b></td><td>{{lesson.subject}}</td></tr>
+                            <tr><td class="td-title"><b>{{_l.LESSON_CLASS}}: </b></td><td>{{lesson.class}}</td></tr>
+                            <tr><td class="td-title"><b>{{_l.LESSON_DEADLINE}}: </b></td><td>{{lesson.deadLine}}</td></tr>
+                    </tbody></table>
+                </div>
+                <h2 class="homework-name">
+                    <input data-ng-model="name" id="name" data-ng-blur="saveName(name)" placeholder="שם העבודה" required>
+                    <div class="error-sign" data-ng-show="errors.HWName"><i class="fa fa-exclamation-circle" title="נא לציין את שם העבודה שמגישים"></i></div>
+                </h2>
+
+                <div class="homework-detail ng-scope" data-ng-repeat="task in lesson.tasks">
+                    <span class="pan-check" data-ng-click="isDone($index)" data-ng-hide="task.done" style="color: {{task.color}};"><i class="fa fa-check"></i> {{_l.FINISH}}</span>
+                    <a href="javascript:;" ng-click="attachsToggle($index)" data-ng-show="task.customLink || task.customFile" class="attachs-link" style="color: {{task.color}}"><span class="add-link ng-binding" style="color: {{task.color}}">+</span> {{_l.ATTACHS}}</a>
+                    <div class="homework-img" data-ng-show="task.attach" style="background: {{task.color}}" data-ng-click="saveImg($index)">
+                        <img data-ng-src="{{task.img}}" data-ng-hide="{{task.answer.img}}" data-ng-show="task.answer.fileIcon === ''" src="{{task.img}}" class="">
+                        <span data-ng-hide="{{task.answer.img}} task.answer.fileIcon" class="">{{task.name}}</span>
+                        <img class="answer-img" data-ng-src="{{task.answer.img}}" data-ng-show="task.answer.img" data-ng-hide="task.done || task.answer.fileIcon">
+                        <i class="fa fa-file-pdf-o" data-ng-show="task.answer.fileIcon === 'PDF'"></i>
+                        <i class="fa fa-file-word-o" data-ng-show="task.answer.fileIcon === 'WORD'"></i>
+                        <i class="fa fa-file-powerpoint-o" data-ng-show="task.answer.fileIcon === 'POWERPOINT'"></i>
+                        <div class="answer-movie" id="mov{{$index}}" data-ng-hide="task.done">
+                            
+                        </div>
+                        
+                        <input type="file" id="file{{$index}}" data-ng-model="task.answer.file" class="fileHide" ng-file-select="onFileSelect($files, $index)">
+                    </div>
+                    <div class="homework-left-side" ng-class="{'no-padding': task.attach == false}" data-ng-click="showAnswerText($index)">
+                        <!--Question-->
+                        <div class="task-ques">
+                            <figure class="text-balloon {{task.colorText}}"></figure>
+                            <p class="homework-edit-text">{{task.guide}}</p>
+                        </div>
+                        <!--Answer Inputs-->
+                        <div class="homework-guide" ng-class="{'no-padding': task.attach == false}" data-ng-hide="task.done">
+                            <div class="links" data-ng-hide="task.edit">
+                                <span data-ng-show="task.google" class="link-google"></span>
+                                <span data-ng-show="task.cet" class="link-cet"></span>
+                            </div>
+                            <textarea data-ng-show="task.edit" id="text{{$index}}" data-ng-model="task.answer.text" ng-blur="saveAnswerText($index, task.answer.text)" placeholder="לחץ כאן להוספת תשובה">{{task.answer.text}}</textarea>
+                            <div class="homework-add-link" ng-class="{'no-padding': task.attach == false}">
+                                <input type="text" id="link{{$index}}" placeholder="הוסיפו קישור" class="link-YELLOW" data-ng-model="task.answer.link" data-ng-blur="hideAnswerText($index);saveAnswerLink($index, task.answer.link)" value="{{task.answer.link}}" />
+                            </div>
+                        </div>
+                        <!--Result-->
+                        <div class="sam-details" style="background: {{task.color}}" data-ng-show="task.done">
+                            <span class="pan-edit sum" data-ng-click="ediTask($index)"></span>
+                            <img data-ng-src="{{task.answer.img}}" ng-class="{'hide' : task.answer.img == ''}" class="hide">
+                            <div class="answer-movie-sum ng-binding" ng-class="{'showMov' : task.answer.movie }" id="movSum{{$index}}">
+
+                            </div>
+                            <p class="ng-binding">{{task.answer.text}}</p>
+                            <img src="<?php echo $this->baseurl(); ?>/images/CHAIN_WHITE.png" class="link-sum" title="" data-ng-show="task.answer.link">
+                        </div>                        
+                    </div>
+                    <div class="attachments attachments-{{$index}}" ng-class="{'no-padding': task.attach == false}" data-ng-hide="task.done || task.customAttachs">
+                        <p class="truncate" data-ng-show="task.customLink"><b>{{_l.ATTACH_LINK}}: </b><a href="{{task.customLink}}" target="_blank">{{task.customLink}}</a></p>
+                        <p class="truncate" data-ng-show="task.customFile"><b>{{_l.ATTACH_FILE}}: </b><a href="/student/dnldfile/file_name/{{task.customFile}}">{{task.customFile}}</a></p>
+                    </div>
+                    <div class="error-sign" data-ng-show="errors.HWTasks && !task.done"><i class="fa fa-exclamation-circle" title="נא למלא את המשימה ובסוף ללחוץ סיים!"></i></div>
+                </div>
+                <div class="task-insight">
+                    <input type="text" id="insight" data-ng-model="insight" data-ng-blur="saveInsight(insight)" required placeholder="כתבו תבונה חדשה שלמדתם במהלך העבודה">
+                    <div class="error-sign" data-ng-show="errors.HWInsight"><i class="fa fa-exclamation-circle" title="נא לכתוב את התבונה שלמדתם"></i></div>
+                </div>
+                <div class="button-answer-lesson">
+                    <button value="{{_l.SAVE}}" class="noBtn save" ng-click="saveAsDraft()">{{_l.SAVE}}</button>
+                    <button type="submit" value="{{_l.SAVE_AND_SUBMIT}}" class="noBtn save-send">{{_l.SAVE_AND_SUBMIT}}</button>
+                </div>
+            </div>
+            
+        </div>
+    </form>
+</div>
+<div ui-view></div>

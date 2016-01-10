@@ -1,0 +1,55 @@
+<!-- Student Dash -->
+<div data-ng-view class="ng-scope">
+    <div class="main">
+        <div class="row">
+            <div class="col-md-12" style="padding: 0;">
+                <div style="height: 300px;line-height: 300px;text-align: center; background-color: #fdc10b;">IMAGE</div>
+            </div>
+        </div>
+        <div class="row rel">
+            <div class="col-md-5 pull-right homeworks">
+                <h2 class="main-title"> {{_l.MY_LESSONS}} <span>({{lessons.length}})</span></h2>
+                <ul class="lessons">
+                    <li data-ng-repeat="lesson in lessons">
+                        <div class="right-details">
+                            <h4 class="remaining">{{remaining(lesson.dead_line)}}</h4>
+                            <p>{{_l.REMAINING_DAYS}}</p>
+                        </div>
+                        <div class="content">
+                            <a href="#lesson/{{lesson.lesson_id}}">
+                                <h4>{{lesson.subject}} | {{lesson.name}}</h4>
+                                <p>{{lesson.description}}</p>
+                            </a>
+                        </div>
+                    </li>
+                </ul>
+                <h2 class="main-title"> {{_l.DRAFT_LESSONS}} <span>({{dHomeworks.length}})</span></h2>
+                <ul class="lessons">
+                    <li data-ng-repeat="dlesson in dHomeworks">
+                        <div class="right-details">
+                            <h4 class="remaining">{{remaining(dlesson.dead_line)}}</h4>
+                            <p>{{_l.REMAINING_DAYS}}</p>
+                        </div>
+                        <div class="content">
+                            <a href="#homework/{{dlesson.homework_id}}">
+                                <h4>{{dlesson.subject}} | {{dlesson.name}}</h4>
+                                <p>{{dlesson.description}}</p>
+                            </a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-7 class-gallery">
+                <h2 class="main-title">{{_l.CLASS_GALLERY}}</h2>
+                <ul class="draft-homeworks" style="display: none;" >
+                    <li data-ng-repeat="homework in homeworks" style="background: {{homework.custom_color}};">
+                        <a href="#homework/{{homework.homework_id}}" class="show-homework">
+                            <span>{{homework.name}}</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<div ui-view></div>

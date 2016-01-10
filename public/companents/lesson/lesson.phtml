@@ -1,0 +1,84 @@
+<!-- New Lesson Dash -->
+<div ng-view class="ng-scope">
+    <form ng-submit="preSubmit()" name="add_lesson_form" id="add-lesson-form" role='form' enctype="multipart/form-data" novalidate>
+        <a id="top"></a>
+        <div class="container label-success" ng-show="res.isSuccessSubmit">
+            <span>{{res.successSubmit}}</span>
+        </div>
+        <div class="container label-danger" ng-show="res.isErrorSubmit">
+            <span>{{res.errorSubmit}}</span>
+        </div>
+        <div class="add-lesson ng-scope">
+            <div class="container">
+                <h2>{{_l.NEW_LESSON_TITLE}}</h2>
+                <input type="text" class="add-lesson-name ng-pristine" ng-class="{'error-in-form': errors.lessonName === 1}" ng-model="lessonForm.lessonName" placeholder="{{_l.LESSON_NAME}}" required>
+                <textarea class="add-lesson-desc ng-pristine" ng-model="lessonForm.lessonDesc" placeholder="{{_l.LESSON_DESC}}"></textarea>
+            </div>
+            <!-- End Lesson Name -->
+            <ul class="lesson-type">
+                <li ng-repeat="type in lessonType" ng-click="addTask(type)" class="ng-scope" style="background: {{type.color}}">
+                    <img ng-src="" class="type-img" src="{{type.img}}">
+                    <h2 class="type-name ng-binding">{{ type.name }}</h2>
+                    <p class="ng-binding">{{ type.description }}</p>
+                </li>
+            </ul>
+            <!-- End Lesson Type -->
+            <div class="lesson-detail">
+                <div class="container-fluid lesson-flow">
+                    <section>
+                        <div class="item ng-scope" ng-repeat="task in tasks" ng-class="{'error-in-tasks': errors.tasks === 1}" style="background: {{ task.color }}">
+                            <div ng-class="{'textW': task.img !== ''}">
+                                <img ng-src="{{task.img}}">
+                                <div class="task-text ng-binding">{{task.name}}</div>
+                            </div>
+                            <a href="javascript:;" class="close" ng-click="deleteTask($index)" style="background: {{task.color}}"><i class="fa fa-times"></i></a>
+                            <span style="background: {{task.color}}"></span>
+                        </div>
+                    </section>
+                    <!-- End Task Item -->
+                    <section>
+                        <div class="student-guide ng-scope" ng-repeat="task in tasks" ng-class="{'active': task.guideShow}">
+                            <h3 class="instruction-for-student">{{_l.GUIDE_FOR_STUDENT}}</h3>
+                            <textarea id="guide{{$index}}" ng-model="lessonForm.tasks[$index].guide" ng-class="{'error-in-guide': errors.tasks === 1}" placeholder="הנחייה לתלמיד" required></textarea>
+
+                            <h2>{{_l.ADD_SELECT_LINK}}</h2>
+                            <div class="links">
+                                <div class="checkboxUn {{task.type}}">
+                                    <input type="checkbox" id="google{{$index}}" value="google" name="linkAdd" ng-model="lessonForm.tasks[$index].google" class="ng-pristine ng-valid">
+                                    <label for="google{{$index}}"></label> <span>{{_l.GOOGLE}}</span> 
+                                </div>
+                                <div class="checkboxUn {{task.type}}">
+                                    <input type="checkbox" value="cet" id="cet{{$index}}" name="linkAdd" ng-model="lessonForm.tasks[$index].cet" class="ng-pristine ng-valid">
+                                    <label for="cet{{$index}}"></label><span>{{_l.CET_LIBRARY}}</span> 
+                                 </div>
+                                <a href="javascript:;" ng-click="linkToggle($index)"><span class="add-link" style="color: {{task.color}}">{{task.sign}}</span> {{_l.ADD_LINK}}</a>
+                                <input type="text" name="custom_link" id="custom-link{{$index}}" value="" placeholder="הכנס קישור" ng-model="lessonForm.tasks[$index].customLink" class="form-control custom-link ng-pristine ng-valid" ng-hide="task.hideCustomLink" />
+                            </div>
+                            <h2 class="add-file-text">{{_l.ADD_FILE}}</h2>
+                            <div class="addFile" ng-click="fileToggle($index)">
+                                <input type="file" name="custom_file" id="custom-file{{$index}}" value="" class="form-control custom-file ng-pristine ng-valid" ng-model="lessonForm.tasks[$index].customFile" ng-file-select="onFileSelect($files, $index)" />
+                            </div>
+                        </div>
+                    </section>
+                    <!-- End Student Details -->
+                </div>
+            </div>
+        </div>
+        <!-- End Add Lesson -->
+        <div class="footer add-lesson ng-scope">
+            <div class="container fooret-contener">
+                <div class="footer-option">
+                    <select ng-model="lessonForm.class" name="class" ng-class="{'error-in-form': errors.class === 1}" ng-options="class for class in classes.values" required><option value="">{{_l.SELECT_CLASS}}</option></select>
+                    <select ng-model="lessonForm.subject" name="subject" ng-class="{'error-in-form': errors.subject === 1}" ng-options="subject for subject in subjects.values" required><option value="">{{_l.SELECT_SUBJECT}}</option></select>
+                    <input type="date" ng-model="lessonForm.deadLine" ng-class="{'error-in-form': errors.deadLine === 1}" ng-change="isIllegalDate()" required/>
+                </div>
+                <!--<div class="container">{{add_lesson_form.$valid}} </div>-->
+                <div class="button-add-lesson">
+                    <button value="{{_l.SAVE}}" class="noBtn save" ng-click="saveAsDraft()">{{_l.SAVE}}</button>
+                    <button type="submit" value="{{_l.SAVE_AND_SUBMIT}}" class="noBtn save-send">{{_l.SAVE_AND_SUBMIT}}</button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<div ui-view></div>

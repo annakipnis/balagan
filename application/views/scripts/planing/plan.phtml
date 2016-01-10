@@ -1,0 +1,23 @@
+<div class="container-fluid">
+    <!--Title-->
+    <div class="row">
+        <div class="second-header">
+            <div class="title"><?php echo $this->lang->_('SELECT_GROUP'); ?></div>
+        </div>
+    </div>
+        <!--Plans Tables-->
+        <div class="row">
+            <table class="table table-games">
+                <tbody>
+                    <?php foreach ($this->plans as $p) : ?>
+                    <tr>
+                        <td class="body middle" >
+                            <a href="<?php echo $this->baseurl(); ?>"></a><div class="big-title"><?php echo $p['game_name']; ?></div></a>
+                        </td>
+                    </tr> 
+                    <?php endforeach; ?>
+                </tbody> 
+            </table>
+        </div>
+    </div>
+</div>

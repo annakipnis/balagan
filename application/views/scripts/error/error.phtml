@@ -1,0 +1,28 @@
+<?php if ( getenv('APPLICATION_ENV') == 'production' ) :?> 
+
+<div style="margin: 0 auto; width: 100%; text-align: center">
+    <h1><?php echo $this->lang->_('PAGE 404 ERROR'); ?></h1>
+</div>
+
+<?php else : ?>
+  <h1>An error occurred</h1>
+  <h2><?php echo $this->message ?></h2>
+
+  <?php if (isset($this->exception)): ?>
+
+  <h3>Exception information:</h3>
+  <p>
+      <b>Message:</b> <?php echo $this->exception->getMessage() ?>
+  </p>
+
+  <h3>Stack trace:</h3>
+  <pre><?php echo $this->exception->getTraceAsString() ?>
+  </pre>
+
+  <h3>Request Parameters:</h3>
+  <pre><?php echo $this->escape(var_export($this->request->getParams(), true)) ?>
+  </pre>
+
+  <?php endif ?>
+
+ <?php endif ?>

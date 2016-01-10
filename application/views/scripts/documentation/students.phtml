@@ -1,0 +1,87 @@
+<div class="container-fluid">
+    <div class="goals ng-scope" data-ng-controller="Students">
+        <div id="error-box" class="error-custom text-center" data-ng-show="docMsg">
+            <div class="alert alert-{{docStatus}} text-center" role="alert"><button type="button" class="close" data-dismiss="alert">&times;</button>{{docMsg}}</div>
+        </div>
+        <!--Title-->
+        <div class="row">
+            <div class="second-header">
+                <img src="<?php echo $this->baseUrl(); ?>/images/GROUP_HEADER.png" class="" alt="GROUP_HEADER" />
+                <div class="title"><?php echo $this->lang->_('DOC_AFTER_GAME'); ?></div>
+            </div>
+        </div>
+        <!--Pop up-->
+        <?php if ( isset($this->recommendation)) : ?>
+        <input type="hidden" id="base_url" value="<?php echo $this->baseUrl(); ?>">
+            <div id="modal">
+                <div class="modalconent">
+                    <button id="button">X</button>
+                    <h1>                    
+                        <img src="<?php echo $this->baseUrl(); ?>/images/logo2.png" class="recommend" alt="" /><br>
+                        <?php echo $this->recommendation; ?>
+                    </h1>
+                    <h2><?php echo $this->lang->_('RECOMMEND_GAME'); ?>
+                       <?php echo $this->recommended_game; ?></h2>
+                </div>
+            </div>
+        <?php endif; ?>
+        <!--Students Tables-->
+        <input type="hidden" id="baseurl" name="baseurl" value="<?php echo $this->baseUrl(); ?>" />
+        <div class="row">
+            <table class="table table-students">
+                <tbody>
+                    <?php if ( isset($this->students) && count($this->students)) : ?>
+                        <?php foreach ($this->students as $s) : ?>
+                        <tr>
+                            <td class="icon"><span class="icon-student"><i class="fa <?php echo 'Male' == $s['gender'] ? 'fa-male' : 'fa-female'; ?>"></i></span></td>
+                            <td class="body middle">
+                                <a data-toggle="collapse" data-parent="" id="student-answers-<?php echo $s['studentID']; ?>" href="#game-answers-<?php echo $s['studentID']; ?>" data-ng-click="activeArrowUp()" aria-expanded="true" aria-controls="collapseOne"><div class="big-title"><?php echo $s['name']; ?></div></a>
+                            </td>
+                            <td class="middle"><a data-toggle="collapse" data-parent="" href="#game-answers-<?php echo $s['studentID']; ?>" data-ng-click="activeArrowUp()" aria-expanded="true" aria-controls="collapseOne"><img class="arrow" data-ng-class="{'arrow-up': arrowUp === true, 'arrow-down': arrowUp === false}" src="<?php echo $this->baseUrl(); ?>/images/arrow.png" class="" alt="arrow" /></a></td>
+                        </tr>
+                        <tr class="hidden-collapse">
+                            <td colspan="3">
+                                <div id="game-answers-<?php echo $s['studentID']; ?>" class="panel-collapse collapse" role="tabpanel">
+                                    <table class="table">
+                                        <tbody>
+                                            <?php foreach ($s['grades'] as $g) : ?>
+                                            <tr><td colspan="3" data-ng-model="grade" id="g-<?php echo $g['gradeID']; ?>-s-<?php echo $s['studentID']; ?>" data-ng-class="{'active' : grade == <?php echo $g['gradeID']; ?>}" data-ng-click="saveParams(<?php echo $s['studentID']; ?>, <?php echo $this->group_id; ?>, <?php echo $g['gradeID']; ?>, <?php echo $this->game_id; ?>)"><?php echo $g['name']; ?></td></tr>
+                                            <?php endforeach; ?>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </td>
+                        </tr>
+                        <!--End Item-->
+                        <?php endforeach; ?>
+                    <?php else : ?>
+                        <tr>
+                            <td><?php echo $this->lang->_('DOC_WITHOUT_GAME'); ?></td>
+                        </tr>
+                    <?php endif; ?>
+                </tbody>
+            </table>
+        </div>
+        <!--Text Notes-->
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <textarea class="form-control form-control-custom" data-ng-model="groupNotes" rows="3" placeholder="<?php echo $this->lang->_('TEXT_NOTES') . '...'; ?>"></textarea>
+                </div>
+            </div>
+        </div>
+        <!--Actions-->
+        <div class="row">
+            <div class="col-xs-6">
+                <div class="form-group">
+                    <a href="<?php echo $this->baseurl(); ?>/groups" class="btn btn-finish"><img src="<?php echo $this->baseUrl(); ?>/images/save.png" alt="save" /><span><?php echo $this->lang->_('FINISH'); ?></span></a>
+                </div>
+            </div>
+            <div class="col-xs-6">
+                <div class="form-group">
+                    <a href="<?php echo $this->baseurl(); ?>/documentation/students/g/<?php echo $this->group_id; ?>/recommend/1" class="btn btn-next-action"><img src="<?php echo $this->baseUrl(); ?>/images/next.png" alt="next" /><span><?php echo $this->lang->_('NEXT_ACTION'); ?></span></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

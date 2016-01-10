@@ -1,0 +1,69 @@
+<!-- New Lesson Dash -->
+<div ng-view class="ng-scope">
+    <div class="main">
+        <div class="row">
+            <div class="col-md-12 my-profile" ng-init="loadTeacher()">
+                <div class="row up">
+                    <div class="col-md-5 pull-right">
+                        <div class="row">
+                            <div class="col-md-4 pull-right">
+                                <img data-src="holder.js/140x140" class="img-circle" alt="100x100" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/PjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMTQwIiBoZWlnaHQ9IjE0MCIgdmlld0JveD0iMCAwIDE0MCAxNDAiIHByZXNlcnZlQXNwZWN0UmF0aW89Im5vbmUiPjxkZWZzLz48cmVjdCB3aWR0aD0iMTQwIiBoZWlnaHQ9IjE0MCIgZmlsbD0iI0VFRUVFRSIvPjxnPjx0ZXh0IHg9IjQ0LjA0Njg3NSIgeT0iNzAiIHN0eWxlPSJmaWxsOiNBQUFBQUE7Zm9udC13ZWlnaHQ6Ym9sZDtmb250LWZhbWlseTpBcmlhbCwgSGVsdmV0aWNhLCBPcGVuIFNhbnMsIHNhbnMtc2VyaWYsIG1vbm9zcGFjZTtmb250LXNpemU6MTBwdDtkb21pbmFudC1iYXNlbGluZTpjZW50cmFsIj4xNDB4MTQwPC90ZXh0PjwvZz48L3N2Zz4=" data-holder-rendered="true" style="width: 100px; height: 100px;">
+                            </div>
+                            <div class="col-md-8">
+                                <h2>{{teacher.name}}</h2>
+                                <ul>
+                                    <li ng-repeat="meta in teacherMeta">
+                                        <span class="user-class">{{meta.class_name}}</span>&nbsp;
+                                        <span class="user-subject">{{meta.subject_name}}</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-7 about-me">
+                        <i class="fa fa-quote-right fa-3"></i>
+                        <p>{{teacher.positioning}}</p>
+                    </div>
+                </div>
+                <div class="row down">
+                    <div class="col-md-12 text-left">
+                        <a href="#" class="edit-profile">{{_l.EDIT_PROFILE}}</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row rel">
+            <div class="col-md-7 lessons-to-check pull-right" ng-init="loadLessons()">
+                <h2 class="main-title"> {{_l.LESSONS_TO_CHECK}} <span>({{lessons.length}})</span></h2>
+                <ul class="lessons">
+                    <li ng-repeat="lesson in lessons">
+                        <div class="right-details">
+                            <h4 class="remaining">{{remaining(lesson.dead_line)}}</h4>
+                            <p>{{_l.REMAINING_DAYS}}</p>
+                        </div>
+                        <div class="content">
+                            <h4>{{lesson.subject}} | {{lesson.name}}</h4>
+                            <p>{{lesson.description}}</p>
+                        </div>
+                        <div class="left-details">
+                            <h4>{{lesson.class}}</h4>
+                            <p class="out-of"><span>21</span> {{_l.OUT_OF}} <span>36</span> {{_l.SUBMITTED}} </p>
+                            <p class="remaining-of"> {{_l.REMAINING_TO_CHECK}} <span>19</span></p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-5 lessons-to-edit" ng-init="loadDraftLessons()">
+                <a href="#" ui-sref="add-lesson" class="new-lesson-title"><i class="fa fa-plus fa-2"></i>&nbsp;{{_l.CREATE_NEW_LESSON}}</a>
+                <h3 class="">{{_l.DRAFT_LESSONS}}<span>({{draftLessons.length}})</span></h3>
+                <ul class="draft-lessons">
+                    <li ng-repeat="draftLesson in draftLessons">
+                        <a href="#edit-lesson/{{draftLesson.lesson_id}}" class="edit-draft-lesson"></a>
+                        <span>{{draftLesson.subject}} | {{draftLesson.name}}</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<div ui-view></div>

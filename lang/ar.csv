@@ -1,0 +1,16 @@
+# arabic language
+fname;الاسم الشخصي
+lname;العائله
+flname; الاسم
+address; العنوان
+password; كلمة المرور
+repassword;  تكرار كلمة المرور
+username; اسم المستخدم
+email; البريد الالكتروني
+here;هنا
+Create account;تسجل
+phone;الهاتف
+mobile;الجوال
+
+# validation msg
+Your email isnot valid; البريد المدخل غير ملائم

@@ -1,0 +1,27 @@
+<div class="container-fluid">
+    <!--Title-->
+    <div class="row">
+        <div class="second-header">
+            <img src="<?php echo $this->baseUrl(); ?>/images/GROUP_HEADER.png" class="" alt="GROUP_HEADER" />
+            <div class="title"><?php echo $this->lang->_('MANAGE_GROUPS'); ?></div>
+        </div>
+    </div>
+    <!--Groups Tables-->
+    <div class="row">
+        <table class="table table-groups">
+            <tbody>
+                <?php foreach ($this->groups as $g) : ?>
+                <tr>
+                    <td class="icon"><img src="<?php echo $this->baseUrl(); ?>/images/groups/group_<?php echo $g['color']; ?>.png" class="" alt="group_<?php echo $g['color']; ?>" /></td>
+                    <td class="body" ng-click="group = <?php echo $g['groupID']; ?>" ng-class="{'active' : group == <?php echo $g['groupID']; ?>}"><a href="<?php echo $this->baseurl(); ?>/manageGroups/group/g/<?php echo $g['groupID']; ?>"><div class="big-title"><?php echo $g['name']; ?></div><span class="small-title"><?php echo $g['students']; ?></span></a></td>
+                    <td class="delete"><br><a href="<?php echo $this->baseurl(); ?>/manageGroups/deletegroup/g/<?php echo $g['groupID']; ?>"><img src="<?php echo $this->baseUrl(); ?>/images/delete.png" class="" alt="" /></a></td>
+
+                </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+        <div class="form-group add-student">
+            <a href="<?php echo $this->baseurl(); ?>/manageGroups/add" class="btn btn-add-student" style="width: 50%; color: #fff;"><img src="<?php echo $this->baseUrl(); ?>/images/add.png" alt="add" /><span><?php echo $this->lang->_('ADD_GROUP'); ?></span></a>
+        </div>
+    </div>
+</div>
