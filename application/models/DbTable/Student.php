@@ -47,11 +47,12 @@ class Application_Model_DbTable_Student extends Zend_Db_Table_Abstract
         return $this->_db->fetchAll($sql);
     }
     
-    public function getAllGroupless( ){
+    public function getAllGroupless($ganID){
         $sql = "
             SELECT *, name as studentName
             FROM $this->_name 
             WHERE groupID IS NULL
+            AND ganID = $ganID
             ORDER BY name ASC";
         
         return $this->_db->fetchAll($sql);

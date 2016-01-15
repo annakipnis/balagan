@@ -90,10 +90,13 @@ class ManageGroupsController extends Zend_Controller_Action
     }
     
     public function addtogroupAction () {
+        $user = Zend_Auth::getInstance()->getStorage()->read();
+        $ganID = $user->ganID;
+
         $groupID = $this->_request->getParam('g');
         
         $student_DB = new Application_Model_DbTable_Student();
-        $students = $student_DB->getAllGroupless();
+        $students = $student_DB->getAllGroupless($ganID);
 
         $this->view->students = $students;
         $this->view->groupID = $groupID;
