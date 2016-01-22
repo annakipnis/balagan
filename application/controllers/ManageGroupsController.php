@@ -4,7 +4,7 @@
  * This controller handles the management of groups and students in group
  *
  */
-class ManageGroupsController extends Zend_Controller_Action
+class ManagegroupsController extends Zend_Controller_Action
 {
     
     function init()
@@ -58,7 +58,7 @@ class ManageGroupsController extends Zend_Controller_Action
 
         if ( !strlen($groupName) ){
             $this->msger->addMessage('<div class="alert alert-danger text-center" role="alert"><button type="button" class="close" data-dismiss="alert">&times;</button>'.$this->lang->_('REQUIRED_GROUPNAME').'</div>');
-            $this->_redirect('/manageGroups/add');
+            $this->_redirect('/managegroups/add');
         }
         
         $group_DB = new Application_Model_DbTable_Group();
@@ -72,7 +72,7 @@ class ManageGroupsController extends Zend_Controller_Action
         } catch (Exception $ex) {
             die( json_encode( array('status'=> 'danger', 'msg' => $group_id) ) );
         }
-        $this->_redirect("/manageGroups");
+        $this->_redirect("/managegroups");
     }
     
         public function editAction(){
@@ -110,7 +110,7 @@ class ManageGroupsController extends Zend_Controller_Action
         $data = array ( 'groupID' => $groupID );
         $student_DB->update($data, "studentID = $studentID");
         
-        $this->_redirect("/manageGroups");
+        $this->_redirect("/managegroups");
 
     }
     
@@ -122,7 +122,7 @@ class ManageGroupsController extends Zend_Controller_Action
         $data = array ( 'groupID' => NULL );
         $student_DB->update($data, "studentID = $studentID");
         
-        $this->_redirect("/manageGroups");
+        $this->_redirect("/managegroups");
     }
     
     public function deletegroupAction () {
@@ -140,6 +140,6 @@ class ManageGroupsController extends Zend_Controller_Action
         
         $group_DB->delete("groupID = $groupID");
         
-        $this->_redirect("/manageGroups");
+        $this->_redirect("/managegroups");
     }
 }

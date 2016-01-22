@@ -4,7 +4,7 @@
  * This controller handles the management of groups and students in group
  *
  */
-class ManageStudentsController extends Zend_Controller_Action
+class ManagestudentsController extends Zend_Controller_Action
 {
     
     function init()
@@ -59,15 +59,15 @@ class ManageStudentsController extends Zend_Controller_Action
 
         if ( !strlen($studentName) ){
             $this->msger->addMessage('<div class="alert alert-danger text-center" role="alert"><button type="button" class="close" data-dismiss="alert">&times;</button>'.$this->lang->_('REQUIRED_STUDENTNAME').'</div>');
-            $this->_redirect('/manageStudents/add');
+            $this->_redirect('/managestudents/add');
         }
         if ( !strlen($gender) ){
             $this->msger->addMessage('<div class="alert alert-danger text-center" role="alert"><button type="button" class="close" data-dismiss="alert">&times;</button>'.$this->lang->_('REQUIRED_GENDER').'</div>');
-            $this->_redirect('/manageStudents/add');
+            $this->_redirect('/managestudents/add');
         }
         if ( !strlen($birthDate) ){
             $this->msger->addMessage('<div class="alert alert-danger text-center" role="alert"><button type="button" class="close" data-dismiss="alert">&times;</button>'.$this->lang->_('REQUIRED_BIRTHDATE').'</div>');
-            $this->_redirect('/manageStudents/add');
+            $this->_redirect('/managestudents/add');
         }
         
         $student_DB = new Application_Model_DbTable_Student();
@@ -82,7 +82,7 @@ class ManageStudentsController extends Zend_Controller_Action
         } catch (Exception $ex) {
             die( json_encode( array('status'=> 'danger', 'msg' => $student_data['birthDate']) ) );
         }
-        $this->_redirect("/manageStudents");
+        $this->_redirect("/managestudents");
     }
     
     public function deleteAction () {
@@ -91,6 +91,6 @@ class ManageStudentsController extends Zend_Controller_Action
         
         $student_DB->delete("studentID = $studentID");
         
-        $this->_redirect("/manageStudents");
+        $this->_redirect("/managestudents");
     }
 }

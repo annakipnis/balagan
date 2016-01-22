@@ -20,7 +20,7 @@ var BalaganApp = angular.module('BalaganApp', []);
                 });
             }
     }]);
-    BalaganApp.controller('ManageStudents', ['$scope', '$http', function ($scope, $http) {
+    BalaganApp.controller('Managestudents', ['$scope', '$http', function ($scope, $http) {
             if( $('#add-form') ){
                 $('#add-form').validate({ // initialize the plugin 
                     validClass: "success",

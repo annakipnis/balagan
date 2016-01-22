@@ -8,11 +8,11 @@ class Application_Form_AddGroup extends Zend_Form {
     $lang = Zend_Registry::get('lang');
     $this->setMethod('post');
     $this->setName('addgroup_form');        
-    $this->setAction($this->_getUrl('manageGroups', 'save')); 
+    $this->setAction($this->_getUrl('managegroups', 'save')); 
     $this->setAttrib('lang', $lang); 
     $this->setAttrib('enctype', 'application/x-www-form-urlencoded');
     $this->setDecorators(array(
-        array('ViewScript', array('viewScript' => 'manageGroups/add.phtml'),'Form')
+        array('ViewScript', array('viewScript' => 'managegroups/add.phtml'),'Form')
     ));
 
     $groupName = $this->createElement('text', 'groupName', array('class' => 'form-element', 'placeholder' => $lang->_('GROUPNAME')));

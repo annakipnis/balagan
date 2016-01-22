@@ -14,7 +14,7 @@
             <div class="col-xs-6 col-md-3 text-center">
                 <div class="icon col-xs-6 col-md-3">
                     <span class="manage-student">
-                    <a href="<?php echo $this->baseurl(); ?>/manageGroups/deletestudent/s/<?php echo $s['studentID']; ?>/g/<?php echo $this->groupID; ?>">
+                    <a href="<?php echo $this->baseurl(); ?>/managestudents/delete/s/<?php echo $s['studentID']; ?>">
                     <img src="<?php echo $this->baseUrl(); ?>/images/students/student.png" class="" alt="" /></a>
                     </span>
                     <div class="manage-student small-title"><?php echo $s['studentName']; ?></div>
@@ -25,6 +25,6 @@
         </div>
     </div>
     <div class="form-group add-student">
-        <a href="<?php echo $this->baseurl(); ?>/manageGroups/addtogroup/g/<?php echo $this->groupID ?>" class="btn btn-add-student" style="width: 50%; color: #fff;"><img src="<?php echo $this->baseUrl(); ?>/images/add.png" alt="add" /><span><?php echo $this->lang->_('ADD_STUDENT'); ?></span></a>
+        <a href="<?php echo $this->baseurl(); ?>/managestudents/add" class="btn btn-add-student" style="width: 50%; color: #fff;"><img src="<?php echo $this->baseUrl(); ?>/images/add.png" alt="add" /><span><?php echo $this->lang->_('ADD_STUDENT'); ?></span></a>
     </div>
 </div>

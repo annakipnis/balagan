@@ -8,11 +8,11 @@ class Application_Form_AddStudent extends Zend_Form {
     $lang = Zend_Registry::get('lang');
     $this->setMethod('post');
     $this->setName('add_form');        
-    $this->setAction($this->_getUrl('manageStudents', 'save')); 
+    $this->setAction($this->_getUrl('managestudents', 'save')); 
     $this->setAttrib('lang', $lang); 
     $this->setAttrib('enctype', 'application/x-www-form-urlencoded');
     $this->setDecorators(array(
-        array('ViewScript', array('viewScript' => 'manageStudents/add.phtml'),'Form')
+        array('ViewScript', array('viewScript' => 'managestudents/add.phtml'),'Form')
     ));
 
     $studentName = $this->createElement('text', 'studentName', array('class' => 'form-element', 'placeholder' => $lang->_('STUDENTNAME')));
