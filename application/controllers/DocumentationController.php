@@ -151,6 +151,10 @@ class DocumentationController extends Zend_Controller_Action
         }
     }
     
+    /*
+     * 
+     */
+    
     public function recommend (){
         $group_id  = $this->_request->getParam('g');
 
