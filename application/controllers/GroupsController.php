@@ -88,8 +88,15 @@ class GroupsController extends Zend_Controller_Action
      * Date   : 29/01/2015
      */
     public function progressAction(){
-        $group_id = $this->_request->getParam('g');
-        $this->view->group_id = $group_id;
+        $groupID = $this->_request->getParam('g');
+        
+        $group_DB = new Application_Model_DbTable_Group();
+        $groupName = $group_DB->getName($groupID);
+        $this->view->group_name = $groupName;
+        
+        $plans_DB = new Application_Model_DbTable_Planing();
+        $plans = $plans_DB->getByGroup ($groupID);
+        $this->view->plans = $plans;
     }
     
 }

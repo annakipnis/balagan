@@ -162,6 +162,7 @@ class DocumentationController extends Zend_Controller_Action
         $last_plan = $plans_DB->getLastPlan ($group_id) [0];
         $target_id = $last_plan ['goal_id'];
         $game_id = $last_plan ['game_id'];
+        $related_plan_id = $last_plan ['planID'];
         
         $targets_DB =  new Application_Model_DbTable_Target();
         $target_level = $targets_DB->getGoalLevel($target_id);
@@ -194,7 +195,7 @@ class DocumentationController extends Zend_Controller_Action
             //return to a game from prev goal
             if ($target_level > 1) {
                 $target_level = $target_level - 1;
-                $recommended_target = $targets_DB->getAllByLevel($target_level) [0];
+                $recommended_target = $targets_DB->getAllByLevel($target_level);
                 $recommendation = $this->lang->_('RECOMMEND_PREV_LEVEL');
             }
         }
@@ -233,9 +234,11 @@ class DocumentationController extends Zend_Controller_Action
         $plan_DB = new Application_Model_DbTable_Planing();
 
         $new_plan = array(
-            'groupID'    => $group_id,
-            'gameID'     => $recommended_game['gameID'],
-            'date'       => date('Y-m-d H:i:s')
+            'groupID'        => $group_id,
+            'gameID'         => $recommended_game['gameID'],
+            'date'           => date('Y-m-d H:i:s'),
+            'recommendation' => $recommendation,
+            'relatedPlanID'  => $related_plan_id
         );
         try{
             $plan_id = $plan_DB->insert( $new_plan );

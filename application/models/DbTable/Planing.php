@@ -31,5 +31,19 @@ class Application_Model_DbTable_Planing extends Zend_Db_Table_Abstract
         
         return $this->_db->fetchAll($sql);
      }
+     
+     //just recommendations
+     public function getByGroup ($group_id) {
+         $sql = "
+            SELECT p.*, g.name as game_name
+            FROM `$this->_name` as p
+            LEFT JOIN `games` as g
+            ON(p.gameID = g.gameID)
+            WHERE p.groupID = $group_id 
+            AND p.relatedPlanID IS NOT NULL 
+            ORDER BY p.date ASC";
+        
+        return $this->_db->fetchAll($sql);
+     }
 }
 

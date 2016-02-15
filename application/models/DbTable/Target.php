@@ -72,7 +72,7 @@ class Application_Model_DbTable_Target extends Zend_Db_Table_Abstract
             SELECT level
             FROM $this->_name 
             WHERE goalID = $goalID";
-        return $this->_db->fetchAll($sql);
+        return $this->_db->fetchOne($sql);
     }
     
     //רמות
@@ -90,7 +90,7 @@ class Application_Model_DbTable_Target extends Zend_Db_Table_Abstract
             FROM $this->_name 
             WHERE level	= $level
             ORDER BY goalID ASC";
-        return $this->_db->fetchRow($sql);
+        return $this->_db->fetchOne($sql);
     }
     
     //all unlearned goal in level - don't have 

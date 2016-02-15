@@ -153,4 +153,12 @@ class PlaningController extends Zend_Controller_Action
         $this->view->groups = $_groups;
     }
     
+    public function doneactivitiesAction () {
+        $user = Zend_Auth::getInstance()->getStorage()->read();
+        $group_DB = new Application_Model_DbTable_Group();
+        $groups   = $group_DB->getAll( $user->ganID );
+        
+        #VIEWS
+        $this->view->groups = $groups;
+    }
 }

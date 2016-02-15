@@ -84,3 +84,7 @@ RECOMMEND_PREV_LEVEL;"מומלץ לערוך תרגול נוסף"
 RECOMMEND_GAME;"משחק מומלץ:"
 
 PLANNED_ACTIVITIES;"פעילויות מתוכננות"
+DONE_ACTIVITIES;"פעילויות שבוצעו"
+GROUP_PROGRESS;"התקדמות הקבוצות שלי"
+SPEC_GROUP_PROGRESS;"התקדמות קבוצת"
+NO_GROUP_PROGRESS_RESULTS;"לא נמצאו תוצאות עבור קבוצה זו"

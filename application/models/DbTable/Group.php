@@ -36,4 +36,12 @@ class Application_Model_DbTable_Group extends Zend_Db_Table_Abstract
         return $this->_db->fetchRow($sql);
     }
    
+    public function getName ($groupID) {
+        $sql = "
+            SELECT name
+            FROM `$this->_name` as g
+            WHERE groupID = $groupID";
+        
+        return $this->_db->fetchOne($sql);
+    }
 }
