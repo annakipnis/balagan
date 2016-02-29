@@ -27,10 +27,14 @@ class GroupsController extends Zend_Controller_Action
         
         /**for pop up**/
         $plans_DB = new Application_Model_DbTable_Planing ();
+        $goals_DB = new Application_Model_DbTable_Target ();
         $_groups  = array();
         foreach($groups as $g) {
             if ($plans_DB->getLastPlan($g['groupID'])) {
-                $g['plan']= $plans_DB->getLastPlan($g['groupID'])[0]['game_name'];
+                $lastplan = $plans_DB->getLastPlan($g['groupID'])[0];
+                $g['plan']= $lastplan['game_name'];
+                $g['goal']= $goals_DB->getGoalName($lastplan['goal_id']);
+
                 $_groups[] = $g;
             }
         }
@@ -56,6 +60,10 @@ class GroupsController extends Zend_Controller_Action
      * Date   : 27/01/2015
      */
     public function indexAction(){
+        
+    }
+    //homepage without popup
+    public function groupsAction () {
         
     }
     /*

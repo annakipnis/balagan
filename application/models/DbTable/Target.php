@@ -108,4 +108,13 @@ class Application_Model_DbTable_Target extends Zend_Db_Table_Abstract
         
         return $this->_db->fetchAll($sql);
     }
+    
+    public function getGoalName($goalID) {
+        $sql = "
+            SELECT name
+            FROM $this->_name 
+            WHERE goalID = $goalID";
+        
+        return $this->_db->fetchOne($sql);
+    }
 }

@@ -110,7 +110,7 @@ class ManagegroupsController extends Zend_Controller_Action
         $data = array ( 'groupID' => $groupID );
         $student_DB->update($data, "studentID = $studentID");
         
-        $this->_redirect("/managegroups");
+        $this->_redirect("/managegroups/group/g/".$groupID);
 
     }
     

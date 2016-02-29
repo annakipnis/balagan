@@ -88,3 +88,5 @@ DONE_ACTIVITIES;"פעילויות שבוצעו"
 GROUP_PROGRESS;"התקדמות הקבוצות שלי"
 SPEC_GROUP_PROGRESS;"התקדמות קבוצת"
 NO_GROUP_PROGRESS_RESULTS;"לא נמצאו תוצאות עבור קבוצה זו"
+
+ARE_YOU_SURE_QUESTION;"האם אתה בטוח שברצונך למחוק?"

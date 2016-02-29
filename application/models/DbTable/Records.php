@@ -20,6 +20,15 @@ class Application_Model_DbTable_Records extends Zend_Db_Table_Abstract
         return $this->_db->fetchAll($sql);
     }
     
+    public function isExists($studentID, $gameID, $gradeID){
+        $sql = "
+            SELECT *
+            FROM `$this->_name` 
+            WHERE studentID = $studentID AND gameID = $gameID AND gradeID = $gradeID";
+        
+        return $this->_db->fetchAll($sql);
+    }
+    
 //    public function insertRecord ($studentID ,$gameID ,$gradeID ,$date ,$groupID) {
 //        $sql = "
 //            INSERT INTO `$this->_name` (studentID, gameID, gradeID, date, groupID)

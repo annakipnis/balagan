@@ -25,6 +25,15 @@
         </div>
     </div>
     <div class="form-group add-student">
-        <a href="<?php echo $this->baseurl(); ?>/managegroups/addtogroup/g/<?php echo $this->groupID ?>" class="btn btn-add-student" style="width: 50%; color: #fff;"><img src="<?php echo $this->baseUrl(); ?>/images/add.png" alt="add" /><span><?php echo $this->lang->_('ADD_STUDENT'); ?></span></a>
+        <div class="col-xs-6">
+            <div class="form-group">
+                <a href="<?php echo $this->baseurl(); ?>/managegroups/addtogroup/g/<?php echo $this->groupID ?>" class="btn btn-next-action"><img src="<?php echo $this->baseUrl(); ?>/images/add.png" alt="next" /><span><?php echo $this->lang->_('ADD_STUDENT'); ?></span></a>
+            </div>
+        </div>
+        <div class="col-xs-6">
+            <div class="form-group">
+                <a href="<?php echo $this->baseurl(); ?>/managegroups" class="btn btn-finish"><img src="<?php echo $this->baseUrl(); ?>/images/save.png" alt="save" /><span><?php echo $this->lang->_('FINISH'); ?></span></a>
+            </div>
+        </div>
     </div>
 </div>

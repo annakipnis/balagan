@@ -7,6 +7,8 @@
         </div>
     </div>
     <!--Groups Tables-->
+    <input type="hidden" id="base_url" value="<?php echo $this->baseUrl(); ?>">
+    <input type="hidden" id="are_you_sure" value="<?php echo $this->lang->_('ARE_YOU_SURE_QUESTION'); ?>">
     <div class="row">
         <table class="table table-groups">
             <tbody>
@@ -14,7 +16,7 @@
                 <tr>
                     <td class="icon"><img src="<?php echo $this->baseUrl(); ?>/images/groups/group_<?php echo $g['color']; ?>.png" class="" alt="group_<?php echo $g['color']; ?>" /></td>
                     <td class="body" ng-click="group = <?php echo $g['groupID']; ?>" ng-class="{'active' : group == <?php echo $g['groupID']; ?>}"><a href="<?php echo $this->baseurl(); ?>/managegroups/group/g/<?php echo $g['groupID']; ?>"><div class="big-title"><?php echo $g['name']; ?></div><span class="small-title"><?php echo $g['students']; ?></span></a></td>
-                    <td class="delete"><br><a href="<?php echo $this->baseurl(); ?>/managegroups/deletegroup/g/<?php echo $g['groupID']; ?>"><img src="<?php echo $this->baseUrl(); ?>/images/delete.png" class="" alt="" /></a></td>
+                    <td class="delete"><br><button onclick="deletegroup('<?php echo $g['groupID']; ?>')"><img src="<?php echo $this->baseUrl(); ?>/images/delete.png" class="" alt="" /></button></td>
 
                 </tr>
                 <?php endforeach; ?>

@@ -469,8 +469,12 @@ dt{
 .form-group.add-student {
     text-align: center !important;
 }
+.delete > button {
+    border: none;
+    background-color: transparent;
+}
 
-.delete > a > img {
+.delete > button > img {
     height: 30px !important;
 
 }

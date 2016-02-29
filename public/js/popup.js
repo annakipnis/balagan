@@ -8,7 +8,7 @@ window.onload = function () {
     if (button) {
         button.onclick = function () {
             document.getElementById('modal').style.display = "none";
-            window.location.href = document.getElementById('base_url').value + "/groups";
+            window.location.href = document.getElementById('base_url').value + "/groups/groups";
         };
     }
 };

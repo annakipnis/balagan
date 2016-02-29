@@ -88,7 +88,8 @@ class Application_Model_DbTable_Student extends Zend_Db_Table_Abstract
             ON(g.goalID = go.goalID)
             LEFT JOIN `grades` as gr
             ON(r.gradeID = gr.gradeID)
-            WHERE s.studentID = $studentID";
+            WHERE s.studentID = $studentID
+            ORDER BY r.date DESC";
         
         return $this->_db->fetchAll($sql);
     }

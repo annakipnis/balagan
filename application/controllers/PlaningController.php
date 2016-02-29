@@ -144,8 +144,11 @@ class PlaningController extends Zend_Controller_Action
         $plans_DB = new Application_Model_DbTable_Planing ();
         $_groups  = array();
         foreach($groups as $g) {
-            $g['plan']= $plans_DB->getLastPlan($g['groupID'])[0]['game_name'];
-            $_groups[] = $g;
+            $result = $plans_DB->getLastPlan($g['groupID']);
+            if (count($result) > 0) {
+                $g['plan']= $result[0]['game_name'];
+                $_groups[] = $g;
+            }
         }
           
             

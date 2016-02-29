@@ -41,7 +41,7 @@ class Application_Model_DbTable_Planing extends Zend_Db_Table_Abstract
             ON(p.gameID = g.gameID)
             WHERE p.groupID = $group_id 
             AND p.relatedPlanID IS NOT NULL 
-            ORDER BY p.date ASC";
+            ORDER BY p.date DESC";
         
         return $this->_db->fetchAll($sql);
      }
