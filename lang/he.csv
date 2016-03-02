@@ -61,7 +61,7 @@ GAMENAME;"שם המשחק"
 
 #ERRORS
 REQUIRED_FIELD;"שדה חובה"
-INVALID_EMAIL;"מייל שגוי"
+INVALID_EMAIL;"אימייל שגוי"
 PASSWORD_ERROR_MSG;"סיסמה שגויה"
 MISSING_USERNAME;"נא להכניס שם משתמש"
 MISSING_PASSWORD;"נא להכניס סיסמא"
@@ -76,6 +76,11 @@ REQUIRED_GENDER;"נא להכניס מין"
 REQUIRED_BIRTHDATE;"נא להכניס תאריך לידה"
 REQUIRED_GROUPNAME;"נא להכניס שם קבוצה"
 REQUIRED_GAMENAME;"נא להכניס שם משחק"
+REQUIRED_EMAIL;"נא להכניס אימייל"
+REQUIRED_PASSWORD;"נא להכניס סיסמא"
+EMAIL_EXISTS;"משתמש קיים, נא לבחור אימייל אחר"
+PASSWORD_TOO_SHORT;"נא לבחור סיסמא בעלת 4 תווים לפחות"
+REQUIRED_GAN_NAME;"נא להכניס שם גן"
 
 #המלצות
 RECOMMEND_CURRENT_LEVEL;"מומלץ לערוך תרגול נוסף"
@@ -90,3 +95,12 @@ SPEC_GROUP_PROGRESS;"התקדמות קבוצת"
 NO_GROUP_PROGRESS_RESULTS;"לא נמצאו תוצאות עבור קבוצה זו"
 
 ARE_YOU_SURE_QUESTION;"האם אתה בטוח שברצונך למחוק?"
+
+ADMIN_WELCOME;"ניהול מערכת"
+ADMIN_MANAGE_GAN;"ניהול גן"
+ADMIN_ADD_GAN;"הוספת גן"
+ADMIN_ADD_USER;"הוסף משתמש"
+ADMIN_ADD_GOALS;"הוספת מטרות"
+
+IS_ADMIN;"מנהל מערכת:"
+GANNAME;"שם הגן"

@@ -17,10 +17,11 @@ class Application_Model_DbTable_Users extends Zend_Db_Table_Abstract
         $sql = "
             SELECT *
             FROM $this->_name as u
-            LEFT JOIN 'gan' as g
-            ON (u.ganID = g.ganID)";
+            LEFT JOIN `gan` as g
+            ON (u.ganID = g.ganID)
+            WHERE g.ganID = $ganID";
         
-        return $this->_db->fetchRow($sql);
+        return $this->_db->fetchAll($sql);
     }
 
     public function getUserInfo($username){
@@ -30,6 +31,14 @@ class Application_Model_DbTable_Users extends Zend_Db_Table_Abstract
 
     public function isExist($username){
         return $this->_db->fetchRow('SELECT SQL_CACHE email FROM '.$this->_name.' WHERE `email` = "'.$username.'"');
+    }
+    
+    public function isAdmin( $username ){
+        $sql = "
+            SELECT *
+            FROM $this->_name 
+            WHERE email = '$username' AND isAdmin = 1";
+        return $this->_db->fetchRow($sql);
     }
    
 }

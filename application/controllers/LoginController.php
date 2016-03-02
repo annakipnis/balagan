@@ -173,7 +173,15 @@ class LoginController extends Zend_Controller_Action
             
             //$user = new Application_Model_DbTable_Users();
             //$user->setLastLogin($userInfo->user_id);
-            $this->_redirect('/groups');
+            
+            #check if user is admin
+            if ($user_DB->isAdmin($username)) {
+                $_SESSION['Default']['admin'] = true;
+                $this->_redirect('/admin');
+            }
+            else {
+                $this->_redirect('/groups');
+            }
         }
         else
         {

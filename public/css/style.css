@@ -407,6 +407,14 @@ ul{
 dt{
     display: none !important;
 }
+
+dt > label{
+    font-size: 24px;
+    font-weight: normal;
+}
+#isAdmin-label{
+    display: block !important;
+}
 .rel{
     position: relative;
 }

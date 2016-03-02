@@ -29,7 +29,7 @@ class LogoutController extends Zend_Controller_Action
     public function indexAction(){
         # clear everything - session is cleared also!
         Zend_Auth::getInstance()->clearIdentity();
-        
+        unset($_SESSION['Default']['admin']);
         $this->_redirect('/');
     }
     

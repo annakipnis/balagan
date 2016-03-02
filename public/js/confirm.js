@@ -4,9 +4,23 @@
  * and open the template in the editor.
  */
 
-function deletegroup(groupID, text) {
+function deletegroup(groupID) {
     var ans = confirm(document.getElementById('are_you_sure').value);
     if (ans == true) {
         window.location.href = document.getElementById('base_url').value + '/managegroups/deletegroup/g/' + groupID;
+    } 
+}
+
+function deleteuser(userID, ganID) {
+    var ans = confirm(document.getElementById('are_you_sure').value);
+    if (ans == true) {
+        window.location.href = document.getElementById('base_url').value + '/admin/deleteuser/g/'+ ganID +'/u/' + userID;
+    } 
+}
+
+function deletegan(ganID) {
+    var ans = confirm(document.getElementById('are_you_sure').value);
+    if (ans == true) {
+        window.location.href = document.getElementById('base_url').value + '/admin/deletegan/g/'+ ganID;
     } 
 }

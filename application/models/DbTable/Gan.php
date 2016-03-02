@@ -57,5 +57,13 @@ class Application_Model_DbTable_Gan extends Zend_Db_Table_Abstract
         
         return $this->_db->fetchRow($sql);
     }
+    
+    public function getAll () {
+        $sql = "
+            SELECT *
+            FROM `$this->_name`";
+        
+        return $this->_db->fetchAll($sql);
+    }
    
 }

@@ -19,9 +19,15 @@ and open the template in the editor.
     <body>
         <!--header-->
         <?php if( Zend_Auth::getInstance()->hasIdentity() ) : ?>
-        <header class="navbar" id="header" role="banner">
-            <?php echo $this->partial('header.phtml', array('lang' => $this->lang));?>
-        </header>
+            <?php if(isset($_SESSION['Default']['admin'])) : ?>
+                <header class="navbar" id="header" role="banner">
+                    <?php echo $this->partial('header_admin.phtml', array('lang' => $this->lang));?>
+                </header>
+            <?php else : ?>
+                <header class="navbar" id="header" role="banner">
+                    <?php echo $this->partial('header.phtml', array('lang' => $this->lang));?>
+                </header>
+            <?php endif; ?>
         <?php endif; ?>
         <!-- BODY -->
         <div id="body" data-ng-app="BalaganApp"><?php echo $this->layout()->content; ?></div>
