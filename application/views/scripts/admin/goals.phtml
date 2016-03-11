@@ -1,0 +1,28 @@
+<div class="container-fluid">
+    <!--Title-->
+    <div class="row">
+        <div class="second-header">
+            <img src="<?php echo $this->baseUrl(); ?>/images/ADMIN_HEADER.png" class="" alt="GROUP_HEADER" />
+            <div class="title"><?php echo $this->lang->_('ADMIN_WELCOME'); ?></div>
+        </div>
+    </div>
+    <input type="hidden" id="base_url" value="<?php echo $this->baseUrl(); ?>">
+    <input type="hidden" id="are_you_sure" value="<?php echo $this->lang->_('ARE_YOU_SURE_QUESTION'); ?>">
+    <div class="row">
+        <table class="table table-groups">
+            <tbody>
+                <?php foreach ($this->goals as $g) : ?>
+                <tr>
+                    <td class="icon"><img src="<?php echo $this->baseUrl(); ?>/images/goals/<?php echo $g['icon']; ?>.png" class="" alt="" /></td>
+                    <td class="body"><a href="<?php echo $this->baseurl(); ?>/admin/subgoals/g/<?php echo $g['goalID']; ?>"><div class="big-title"><?php echo $g['name']; ?></div></a></td>
+                    <td class="delete"><br><button onclick="deletegoal('<?php echo $g['goalID']; ?>')"><img src="<?php echo $this->baseUrl(); ?>/images/delete.png" class="" alt="" /></button></td>
+
+                </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+    <div class="form-group add-student">
+            <a href="<?php echo $this->baseurl(); ?>/admin/addgoal" class="btn btn-add-student" style="width: 50%; color: #fff;"><img src="<?php echo $this->baseUrl(); ?>/images/add.png" alt="add" /><span><?php echo $this->lang->_('ADMIN_ADD_GOAL'); ?></span></a>
+    </div>
+</div>

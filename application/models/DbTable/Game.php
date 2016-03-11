@@ -67,5 +67,14 @@ class Application_Model_DbTable_Game extends Zend_Db_Table_Abstract
         
         return $this->_db->fetchAll($sql);
     }
+    
+    public function getGoal ($gameID){
+        $sql = "
+            SELECT goalID
+            FROM `$this->_name`
+            WHERE gameID = $gameID";
+        
+        return $this->_db->fetchOne($sql);
+    }
    
 }

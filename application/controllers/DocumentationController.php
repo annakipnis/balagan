@@ -177,14 +177,19 @@ class DocumentationController extends Zend_Controller_Action
             $records = $records_DB->getAll($group_id, $game_id);
 
             $count_1 = 0;
+            $count_2 = 0;
+            $count_3 = 0;
             $count_4 = 0;
             foreach ($records as $r) {
                 $grade = $r ['grade_value'];
                 settype($grade, "integer");
                 if ($grade == 1){
                     $count_1++;
-                }
-                else if ($grade == 4){
+                } else if ($grade == 2){
+                    $count_2++;
+                } else if($grade == 3){
+                    $count_3++;
+                } else if ($grade == 4){
                     $count_4++;
                 }
             }
@@ -196,7 +201,9 @@ class DocumentationController extends Zend_Controller_Action
             $recommended_target = $target_id; 
             $recommendation = $this->lang->_('RECOMMEND_CURRENT_LEVEL');
 
-            if ($count_1 >= $num_of_students / 2) {
+            if (($num_of_students > 2 && $count_1 >= $num_of_students / 2) 
+            || ($num_of_students == 1 && $count_1 == 1)
+            || ($num_of_students == 2 && ($count_1 == 2 || ($count_1 ==1 && $count_2 == 1)))) {
                 //return to a game from prev goal
                 if ($target_level > 1) {
                     $target_level = $target_level - 1;
@@ -204,7 +211,9 @@ class DocumentationController extends Zend_Controller_Action
                     $recommendation = $this->lang->_('RECOMMEND_PREV_LEVEL');
                 }
             }
-            else if ($count_4 >= $num_of_students - 1) {
+            else if (($num_of_students > 2 && $count_4 >= $num_of_students - 1)
+            || ($num_of_students == 1 && $count_4 == 1)
+            || ($num_of_students == 2 && ($count_4 == 2 || ($count_4 == 1 && $count_3 == 1)))) {
                 $unlearned_targets = $targets_DB->getUnlearnedInLevel ($target_level, $group_id);
                 //next target in current level 
                 if (count($unlearned_targets) > 0) {

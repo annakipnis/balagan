@@ -149,5 +149,140 @@ class AdminController extends Zend_Controller_Action
         
         $this->_redirect("/admin/gan");
     }
+    
+    public function goalsAction() {
+        $goals_DB = new Application_Model_DbTable_Target();
+        $this->view->goals = $goals_DB->getAll();
+    }
+    
+    public function subgoalsAction() {
+        $goalID = $this->_request->getParam('g');
+        $goals_DB = new Application_Model_DbTable_Target();
+        $subgoals = $goals_DB->getAllSubGoals($goalID);
+        
+        $_subgoals  = array();
+        foreach($subgoals as $s) {
+                $s['subgoals']= ($goals_DB->getAllSubGoals($s['goalID']));
+                $_subgoals[] = $s;
+        }
+        
+        $this->view->subgoals = $_subgoals;
+        $this->view->goalParent = $goalID;
+    }
+    
+    public function gamesAction(){
+        $goalID = $this->_request->getParam('g');
+        $games_DB = new Application_Model_DbTable_Game();
+        $this->view->games = $games_DB->getAll($goalID);
+        $this->view->goalID = $goalID;
+    }
+    
+    public function deletegoalAction(){
+        $goalID = $this->_request->getParam('g');
+        $goals_DB = new Application_Model_DbTable_Target();
+        $goals_DB->delete("goalID = $goalID");
+        
+        $this->_redirect("/admin/goals/");
+    }
+    
+    public function deletesubgoalAction(){
+        $goalID = $this->_request->getParam('g');
+        $goals_DB = new Application_Model_DbTable_Target();
+        $goalID_parent = $goals_DB->getGoalParent($goalID);
+        $goals_DB->delete("goalID = $goalID");
+        
+        $this->_redirect("/admin/subgoals/g/".$goalID_parent);
+    }
+    
+    public function deletegameAction(){
+        $gameID = $this->_request->getParam('g');
+        $games_DB = new Application_Model_DbTable_Game();
+        $goalID = $games_DB->getGoal($gameID);
+        $data = array ('active' => FALSE);
+        $games_DB->update($data, "gameID = $gameID");
+        
+        $this->_redirect("/admin/games/g/".$goalID);
+    }
+    
+    public function addgoalAction() {
+        $form = new Application_Form_AddGoal();        
+        $this->view->form = $form; 
+    }
+    
+    public function savegoalAction() {
+        $request = $this->getRequest();
+        $goal_data = $request->getPost();
+        $goal_DB = new Application_Model_DbTable_Target();
+        $goalID_parent = $this->_request->getParam('g');
+                
+        $goalName = trim($goal_data['goalName']);
+
+        if (!strlen($goalName) ){
+            $this->msger->addMessage('<div class="alert alert-danger text-center" role="alert"><button type="button" class="close" data-dismiss="alert">&times;</button>'.$this->lang->_('REQUIRED_GOAL_NAME').'</div>');
+            $this->_redirect('/admin/addgoal/g/'.$goalID_parent);
+        } else if (count($goal_DB->isExists($goal_data['goalName'])) > 0) {
+            $this->msger->addMessage('<div class="alert alert-danger text-center" role="alert"><button type="button" class="close" data-dismiss="alert">&times;</button>'.$this->lang->_('GOAL_NAME_EXISTS').'</div>');
+            $this->_redirect('/admin/addgoal/g/'.$goalID_parent);
+        }
+        
+        $goalLevel = trim($goal_data['goalLevel']);
+        if (!strlen($goalLevel) ){
+            $this->msger->addMessage('<div class="alert alert-danger text-center" role="alert"><button type="button" class="close" data-dismiss="alert">&times;</button>'.$this->lang->_('REQUIRED_GOAL_LEVEL').'</div>');
+            $this->_redirect('/admin/addgoal/g/'.$goalID_parent);
+        } else if (!is_numeric($goal_data['goalLevel'])) {
+            $this->msger->addMessage('<div class="alert alert-danger text-center" role="alert"><button type="button" class="close" data-dismiss="alert">&times;</button>'.$this->lang->_('REQUIRED_GOAL_LEVEL_INT').'</div>');
+            $this->_redirect('/admin/addgoal/g/'.$goalID_parent);
+        }
+        
+        $new_goal = array(
+            'goalID_parent' => $goalID_parent,
+            'name'  => $goal_data['goalName'],
+            'icon' => 'counting',
+            'level' => $goal_data['goalLevel'],
+        );
+        try{
+            $goal_id = $goal_DB->insert( $new_goal );
+        } catch (Exception $ex) {
+            die( json_encode( array('status'=> 'danger', 'msg' => 'Error') ) );
+        }
+        if ($goalID_parent){
+            $this->_redirect("/admin/subgoals/g/".$goalID_parent);
+
+        } else {
+            $this->_redirect("/admin/goals");
+        }
+    }
+    
+    public function addgameAction() {
+        $form = new Application_Form_AddGameToGoal();        
+        $this->view->form = $form; 
+    }
+    
+    public function savegameAction() {
+        $goalID = $this->_request->getParam('g');
+        
+        $request = $this->getRequest();
+        $game_data = $request->getPost();
+        
+        $gameName = trim($game_data['gameName']);
+
+        if ( !strlen($gameName) ){
+            $this->msger->addMessage('<div class="alert alert-danger text-center" role="alert"><button type="button" class="close" data-dismiss="alert">&times;</button>'.$this->lang->_('REQUIRED_GAMENAME').'</div>');
+            $this->_redirect('/admin/addgame/g/'.$goalID);
+        }
+        
+        $games_DB = new Application_Model_DbTable_Game();
+        $new_game = array(
+            'goalID'    => $goalID,
+            'name'      => $game_data['gameName'],
+        );
+        try{
+            $game_id = $games_DB->insert( $new_game );
+        } catch (Exception $ex) {
+            die( json_encode( array('status'=> 'danger', 'msg' => $group_id) ) );
+        }
+        $this->_redirect("/admin/games/g/".$goalID);
+    }
+    
 }
 

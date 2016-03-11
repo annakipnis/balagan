@@ -85,12 +85,21 @@ class ManagestudentsController extends Zend_Controller_Action
         $this->_redirect("/managestudents");
     }
     
-    public function deleteAction () {
+    public function deletestudentAction () {
         $studentID = $this->_request->getParam('s');
         $student_DB = new Application_Model_DbTable_Student();
         
         $student_DB->delete("studentID = $studentID");
         
         $this->_redirect("/managestudents");
+    }
+    
+    public function deleteAction () {
+        $user = Zend_Auth::getInstance()->getStorage()->read();
+        
+        $student_DB = new Application_Model_DbTable_Student();
+        $students = $student_DB->getAllInGan ($user->ganID);
+        #VIEWS
+        $this->view->students = $students;
     }
 }

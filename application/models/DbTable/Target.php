@@ -117,4 +117,22 @@ class Application_Model_DbTable_Target extends Zend_Db_Table_Abstract
         
         return $this->_db->fetchOne($sql);
     }
+    
+    public function getGoalParent($goalID) {
+        $sql = "
+            SELECT goalID_parent
+            FROM $this->_name 
+            WHERE goalID = $goalID";
+        
+        return $this->_db->fetchOne($sql);
+    }
+    
+    public function isExists($goalName) {
+        $sql = "
+            SELECT name
+            FROM $this->_name 
+            WHERE name REGEXP '$goalName'";
+        
+        return $this->_db->fetchAll($sql);
+    }
 }

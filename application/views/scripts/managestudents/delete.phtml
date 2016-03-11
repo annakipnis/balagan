@@ -3,7 +3,7 @@
     <div class="row">
         <div class="second-header">
             <img src="<?php echo $this->baseUrl(); ?>/images/GROUP_HEADER.png" class="" alt="GROUP_HEADER" />
-            <div class="title"><?php echo $this->lang->_('MANAGE_STUDENTS'); ?></div>
+            <div class="title"><?php echo $this->lang->_('DELETE_STUDENT'); ?></div>
         </div>
     </div>
     </div>
@@ -14,6 +14,7 @@
             <div class="col-xs-6 col-md-3 text-center">
                 <div class="icon col-xs-6 col-md-3">
                     <span class="manage-student">
+                    <a href="<?php echo $this->baseurl(); ?>/managestudents/deletestudent/s/<?php echo $s['studentID']; ?>">
                     <img src="<?php echo $this->baseUrl(); ?>/images/students/student.png" class="" alt="" /></a>
                     </span>
                     <div class="manage-student small-title"><?php echo $s['studentName']; ?></div>
@@ -21,18 +22,6 @@
             </div>
             <?php endforeach; ?>
             
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-xs-6">
-            <div class="form-group">
-                <a href="<?php echo $this->baseurl(); ?>/managestudents/add" class="btn btn-planning"><img src="<?php echo $this->baseUrl(); ?>/images/add.png" alt="save" /><span><?php echo $this->lang->_('ADD_STUDENT'); ?></span></a>
-            </div>
-        </div>
-        <div class="col-xs-6">
-            <div class="form-group">
-                <a href="<?php echo $this->baseurl(); ?>/managestudents/delete" class="btn btn-next-action"><img src="<?php echo $this->baseUrl(); ?>/images/add.png" alt="next" /><span><?php echo $this->lang->_('DELETE_STUDENT'); ?></a>
-            </div>
         </div>
     </div>
 </div>
