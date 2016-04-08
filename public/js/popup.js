@@ -12,3 +12,34 @@ window.onload = function () {
         };
     }
 };
+
+function nextActivity(groupID, recommendation){
+    var notes = $('#groupNotes').val();
+    var base_url = $('#baseurl').val();
+    var data = {g:groupID, recommend:recommendation, notes:notes};
+    $.ajax({
+        type: 'POST',
+        url: base_url + '/documentation/students',
+        async: false,
+        data: data,
+        success: function(result) {
+            if (recommendation == '0') {
+                window.location.href = base_url + "/groups/groups";
+            } else {
+               //return parameters to view, for popup
+                var data = JSON.parse(result);
+                $("#recommended_game").text(data.recommended_game);
+                $("#recommendation").text(data.recommendation);
+                if (data.continue_childrenless == true) {
+                    var ans = confirm(document.getElementById('contiue_childrenless').value);
+                    if (ans == true) {
+                        document.getElementById('modal').style.display = "block";
+                    } 
+                }
+                else {
+                    document.getElementById('modal').style.display = "block";
+                }
+            }
+        }
+    });
+}

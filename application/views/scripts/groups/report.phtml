@@ -1,0 +1,24 @@
+<?php
+header("Content-type: application/vnd.ms-excel");
+header("Content-Disposition: attachment;Filename=".$this->group_name.".xls");
+
+echo "<html>";
+echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">";
+echo "<body>";
+echo "<table>";
+echo "<tr>";
+echo "<td><b>".$this->lang->_('REPORT_DATE')."</b></td>";
+echo "<td><b>".$this->lang->_('REPORT_GAME')."</b></td>";
+echo "<td><b>".$this->lang->_('REPORT_RECOMMEND')."</b></td>";
+echo "</tr>";
+foreach ($this->plans as $p):
+    echo "<tr>";
+    echo "<td>".$p['date']."</td>";
+    echo "<td>".$p['game_name']."</td>";
+    echo "<td>".$p['recommendation']."</td>";
+    echo "</tr>";
+endforeach;
+echo "</table> ";
+echo "</body>";
+echo "</html>";
+?>

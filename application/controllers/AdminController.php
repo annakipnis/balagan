@@ -33,7 +33,7 @@ class AdminController extends Zend_Controller_Action
     
 
     public function indexAction(){
-        
+
     }
     
     public function ganAction(){
@@ -151,8 +151,12 @@ class AdminController extends Zend_Controller_Action
     }
     
     public function goalsAction() {
+        $fieldID = $this->_request->getParam('f');
+        if ($fieldID) {
+            $_SESSION['Default']['field'] = $fieldID;
+        }
         $goals_DB = new Application_Model_DbTable_Target();
-        $this->view->goals = $goals_DB->getAll();
+        $this->view->goals = $goals_DB->getAll($_SESSION['Default']['field']);
     }
     
     public function subgoalsAction() {
@@ -173,7 +177,7 @@ class AdminController extends Zend_Controller_Action
     public function gamesAction(){
         $goalID = $this->_request->getParam('g');
         $games_DB = new Application_Model_DbTable_Game();
-        $this->view->games = $games_DB->getAll($goalID);
+        $this->view->games = $games_DB->getAll($_SESSION['Default']['field'], $goalID);
         $this->view->goalID = $goalID;
     }
     
@@ -204,9 +208,53 @@ class AdminController extends Zend_Controller_Action
         $this->_redirect("/admin/games/g/".$goalID);
     }
     
+    public function addfieldAction () {
+        $form = new Application_Form_AddField();        
+        $this->view->form = $form; 
+    }
+    
+    public function savefieldAction () {
+        $request = $this->getRequest();
+        $field_data = $request->getPost();
+        $field_DB = new Application_Model_DbTable_Field();
+                
+        $fieldName = trim($field_data['fieldName']);
+
+        if (!strlen($fieldName) ){
+            $this->msger->addMessage('<div class="alert alert-danger text-center" role="alert"><button type="button" class="close" data-dismiss="alert">&times;</button>'.$this->lang->_('REQUIRED_FIELD_NAME').'</div>');
+            $this->_redirect('/admin/addfield');
+        } else if (count($field_DB->isExists($field_data['fieldName'])) > 0) {
+            $this->msger->addMessage('<div class="alert alert-danger text-center" role="alert"><button type="button" class="close" data-dismiss="alert">&times;</button>'.$this->lang->_('FIELD_NAME_EXISTS').'</div>');
+            $this->_redirect('/admin/addfield');
+        }
+        
+        $new_field = array(
+            'name'  => $field_data['fieldName'],
+        );
+        try{
+            $field_id = $field_DB->insert( $new_field );
+        } catch (Exception $ex) {
+            die( json_encode( array('status'=> 'danger', 'msg' => 'Error') ) );
+        }
+        $this->_redirect("/admin/fields");
+    }
+    
+    public function deletefieldAction(){
+        $fieldID = $this->_request->getParam('f');
+        $field_DB = new Application_Model_DbTable_Field();
+        $field_DB->delete("fieldID = $fieldID");
+        
+        $this->_redirect("/admin/fields");
+    }
+    
     public function addgoalAction() {
         $form = new Application_Form_AddGoal();        
         $this->view->form = $form; 
+        
+        $goalID_parent = $this->_request->getParam('g');
+        if ($goalID_parent) {
+            $this->view->goalID_parent = $goalID_parent;
+        }
     }
     
     public function savegoalAction() {
@@ -226,19 +274,24 @@ class AdminController extends Zend_Controller_Action
         }
         
         $goalLevel = trim($goal_data['goalLevel']);
-        if (!strlen($goalLevel) ){
-            $this->msger->addMessage('<div class="alert alert-danger text-center" role="alert"><button type="button" class="close" data-dismiss="alert">&times;</button>'.$this->lang->_('REQUIRED_GOAL_LEVEL').'</div>');
-            $this->_redirect('/admin/addgoal/g/'.$goalID_parent);
-        } else if (!is_numeric($goal_data['goalLevel'])) {
-            $this->msger->addMessage('<div class="alert alert-danger text-center" role="alert"><button type="button" class="close" data-dismiss="alert">&times;</button>'.$this->lang->_('REQUIRED_GOAL_LEVEL_INT').'</div>');
-            $this->_redirect('/admin/addgoal/g/'.$goalID_parent);
+        if ($goalID_parent) {
+            if (!strlen($goalLevel) ){
+                $this->msger->addMessage('<div class="alert alert-danger text-center" role="alert"><button type="button" class="close" data-dismiss="alert">&times;</button>'.$this->lang->_('REQUIRED_GOAL_LEVEL').'</div>');
+                $this->_redirect('/admin/addgoal/g/'.$goalID_parent);
+            } else if (!is_numeric($goal_data['goalLevel'])) {
+                $this->msger->addMessage('<div class="alert alert-danger text-center" role="alert"><button type="button" class="close" data-dismiss="alert">&times;</button>'.$this->lang->_('REQUIRED_GOAL_LEVEL_INT').'</div>');
+                $this->_redirect('/admin/addgoal/g/'.$goalID_parent);
+            }
+        } else {
+            $goalLevel = 0;
         }
         
         $new_goal = array(
             'goalID_parent' => $goalID_parent,
             'name'  => $goal_data['goalName'],
             'icon' => 'counting',
-            'level' => $goal_data['goalLevel'],
+            'level' => $goalLevel,
+            'fieldID' => $_SESSION['Default']['field']
         );
         try{
             $goal_id = $goal_DB->insert( $new_goal );
@@ -275,6 +328,7 @@ class AdminController extends Zend_Controller_Action
         $new_game = array(
             'goalID'    => $goalID,
             'name'      => $game_data['gameName'],
+            'fieldID'   => $_SESSION['Default']['field'],
         );
         try{
             $game_id = $games_DB->insert( $new_game );
@@ -283,6 +337,10 @@ class AdminController extends Zend_Controller_Action
         }
         $this->_redirect("/admin/games/g/".$goalID);
     }
-    
+    public function fieldsAction () {
+        $fields_DB = new Application_Model_DbTable_Field ();
+        $fields = $fields_DB->getAll();
+        $this->view->fields = $fields;
+    }
 }
 

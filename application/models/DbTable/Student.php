@@ -76,7 +76,7 @@ class Application_Model_DbTable_Student extends Zend_Db_Table_Abstract
      * Date   : 03/03/15
      * get all games and grades of a student (התקדמות אישית)
      */
-    public function get( $studentID ){
+    public function get( $studentID, $fieldID){
         $sql = "
             SELECT s.name as student, r.date, gr.name as grade, go.name as goal
             FROM $this->_name as s
@@ -89,7 +89,27 @@ class Application_Model_DbTable_Student extends Zend_Db_Table_Abstract
             LEFT JOIN `grades` as gr
             ON(r.gradeID = gr.gradeID)
             WHERE s.studentID = $studentID
+            AND go.fieldID = $fieldID
             ORDER BY r.date DESC";
+        
+        return $this->_db->fetchAll($sql);
+    }
+    
+    public function getRecords( $studentID, $fieldID){
+        $sql = "
+            SELECT s.name as student, r.date, gr.name as grade, go.name as goal
+            FROM $this->_name as s
+            LEFT JOIN `records` as r
+            ON(s.studentID = r.studentID)
+            LEFT JOIN `games` as g
+            ON(r.gameID = g.gameID)
+            LEFT JOIN `goals` as go
+            ON(g.goalID = go.goalID)
+            LEFT JOIN `grades` as gr
+            ON(r.gradeID = gr.gradeID)
+            WHERE s.studentID = $studentID
+            AND go.fieldID = $fieldID
+            ORDER BY r.date ASC";
         
         return $this->_db->fetchAll($sql);
     }

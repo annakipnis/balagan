@@ -30,6 +30,8 @@ class LogoutController extends Zend_Controller_Action
         # clear everything - session is cleared also!
         Zend_Auth::getInstance()->clearIdentity();
         unset($_SESSION['Default']['admin']);
+        unset($_SESSION['Default']['entry']);
+        unset($_SESSION['Default']['field']);
         $this->_redirect('/');
     }
     

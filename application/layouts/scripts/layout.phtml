@@ -5,6 +5,7 @@ To change this template file, choose Tools | Templates
 and open the template in the editor.
 -->
 <html>
+    <?php if(!isset($_SESSION['Default']['report'])) : ?>
     <head>
         <title><?php echo $this->lang->_('SITE_TITLE'); ?></title>
         <meta charset="UTF-8">
@@ -19,7 +20,11 @@ and open the template in the editor.
     <body>
         <!--header-->
         <?php if( Zend_Auth::getInstance()->hasIdentity() ) : ?>
-            <?php if(isset($_SESSION['Default']['admin'])) : ?>
+            <?php if(isset($_SESSION['Default']['entry'])) : ?>
+                <header class="navbar" id="header" role="banner">
+                    <?php echo $this->partial('header_entry.phtml', array('lang' => $this->lang));?>
+                </header>
+            <?php elseif(isset($_SESSION['Default']['admin'])) : ?>
                 <header class="navbar" id="header" role="banner">
                     <?php echo $this->partial('header_admin.phtml', array('lang' => $this->lang));?>
                 </header>
@@ -47,4 +52,8 @@ and open the template in the editor.
             <script type="text/javascript" src="<?php echo $this->baseUrl(); ?>/js/jquery-validation/messages_he.js"></script>
         </footer>
     </body>
+    <?php else: ?>
+        <div id="body" data-ng-app="BalaganApp"><?php echo $this->layout()->content; ?></div>
+        <?php unset($_SESSION['Default']['report']);?>
+    <?php endif; ?>
 </html>

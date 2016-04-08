@@ -32,6 +32,13 @@ function deletegoal(goalID) {
     } 
 }
 
+function deletefield (fieldID) {
+    var ans = confirm(document.getElementById('are_you_sure').value);
+    if (ans == true) {
+        window.location.href = document.getElementById('base_url').value + '/admin/deletefield/f/'+ fieldID;
+    }
+}
+
 function deletesubgoal(goalID) {
     var ans = confirm(document.getElementById('are_you_sure').value);
     if (ans == true) {

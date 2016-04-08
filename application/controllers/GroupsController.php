@@ -24,24 +24,7 @@ class GroupsController extends Zend_Controller_Action
         
         #VIEWS
         $this->view->groups = $groups;
-        
-        /**for pop up**/
-        $plans_DB = new Application_Model_DbTable_Planing ();
-        $goals_DB = new Application_Model_DbTable_Target ();
-        $_groups  = array();
-        foreach($groups as $g) {
-            if ($plans_DB->getLastPlan($g['groupID'])) {
-                $lastplan = $plans_DB->getLastPlan($g['groupID'])[0];
-                $g['plan']= $lastplan['game_name'];
-                $g['goal']= $goals_DB->getGoalName($lastplan['goal_id']);
-
-                $_groups[] = $g;
-            }
-        }
-          
-        $this->view->groups_with_plans = $_groups;
-        
-        
+                
         #Layout
         $this->_helper->layout->setLayout('layout');
         $this->config = Zend_Registry::get('config');
@@ -60,7 +43,30 @@ class GroupsController extends Zend_Controller_Action
      * Date   : 27/01/2015
      */
     public function indexAction(){
-        
+        $field_id  = $this->_request->getParam('f');
+        if ($field_id) {
+            $_SESSION['Default']['field'] = $field_id;
+            
+            /**for pop up**/
+            $user = Zend_Auth::getInstance()->getStorage()->read();
+            $group_DB = new Application_Model_DbTable_Group();
+            $groups   = $group_DB->getAll( $user->ganID );
+            
+            $plans_DB = new Application_Model_DbTable_Planing ();
+            $goals_DB = new Application_Model_DbTable_Target ();
+            $_groups  = array();
+            foreach($groups as $g) {
+                if ($plans_DB->getLastPlan($g['groupID'], $_SESSION['Default']['field'])) {
+                    $lastplan = $plans_DB->getLastPlan($g['groupID'], $_SESSION['Default']['field'])[0];
+                    $g['plan']= $lastplan['game_name'];
+                    $g['goal']= $goals_DB->getGoalName($lastplan['goal_id']);
+
+                    $_groups[] = $g;
+                }
+            }
+          
+            $this->view->groups_with_plans = $_groups;
+        }
     }
     //homepage without popup
     public function groupsAction () {
@@ -90,6 +96,14 @@ class GroupsController extends Zend_Controller_Action
             $this->view->group_id = $group_id;
             $this->view->group    = $group;
         }
+        $comments_DB = new Application_Model_DbTable_Comments();
+        if (!isset($_SESSION['Default']['field'])) {
+            $this->view->comments = "";
+            $this->view->field_error = true;
+        } else {
+            $last_comment = $comments_DB->getLast($group_id, $_SESSION['Default']['field']);
+            $this->view->comments = $last_comment['text'];
+        }
     }
     /*
      * Author : M_AbuAjaj
@@ -103,8 +117,26 @@ class GroupsController extends Zend_Controller_Action
         $this->view->group_name = $groupName;
         
         $plans_DB = new Application_Model_DbTable_Planing();
-        $plans = $plans_DB->getByGroup ($groupID);
-        $this->view->plans = $plans;
+        if (!isset($_SESSION['Default']['field'])) {
+            $this->view->field_error = true;
+        } else {
+            $plans = $plans_DB->getByGroup ($groupID, $_SESSION['Default']['field']);
+            $this->view->plans = $plans;
+
+            $this->view->groupID = $groupID;
+        }
     }
     
+    public function reportAction() {
+        $groupID = $this->_request->getParam('g');
+        $_SESSION['Default']['report'] = true;
+        
+        $group_DB = new Application_Model_DbTable_Group();
+        $groupName = $group_DB->getName($groupID);
+        $this->view->group_name = $groupName;
+        
+        $plans_DB = new Application_Model_DbTable_Planing();
+        $plans = $plans_DB->getByGroupReverse ($groupID, $_SESSION['Default']['field']);
+        $this->view->plans = $plans;
+    }
 }

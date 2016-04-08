@@ -80,7 +80,7 @@ html, body {
     font-size: 100%;
     font: inherit;
     vertical-align: baseline;
-    font-family: 'Myriad Pro Regular';
+    font-family: Arial, sans-serif;
 }
 ol, ul {
     list-style: none;
@@ -95,7 +95,7 @@ body {
     background: #fff;
     line-height: 1;
     color: #666;
-    font-family: 'Myriad Pro Regular';
+    font-family: Arial, sans-serif;
 }
 #body{
     width: 100%;
@@ -245,7 +245,7 @@ ul{
     border-bottom: 1px solid #589691;
 }
 .table-groups .body .big-title, .table-goals .body .big-title, .table-games .body .big-title, .table-students .body .big-title, .students-doc .body .big-title{
-    font-size: 27px;
+    font-size: 22px;
 }
 .table-groups .body .small-title, .table-goals .body .small-title, .table-games .body .small-title, .table-students .body .small-title{
     font-size: 14px;
@@ -409,12 +409,10 @@ dt{
 }
 
 dt > label{
-    font-size: 24px;
+    font-size: 22px;
     font-weight: normal;
 }
-#isAdmin-label{
-    display: block !important;
-}
+
 .rel{
     position: relative;
 }
@@ -457,7 +455,7 @@ dt > label{
     color: #ffffff;
     border-bottom: 1px solid #fff;
     line-height: 30px;
-    font-size: 20px;
+    font-size: 18px;
 }
 .navbar-nav>li:last-child>a {
     border-bottom: 0;

@@ -176,11 +176,11 @@ class LoginController extends Zend_Controller_Action
             
             #check if user is admin
             if ($user_DB->isAdmin($username)) {
-                $_SESSION['Default']['admin'] = true;
-                $this->_redirect('/admin');
+                $_SESSION['Default']['entry'] = true;
+                $this->_redirect('/entry');
             }
             else {
-                $this->_redirect('/groups');
+                $this->_redirect('/fields');
             }
         }
         else

@@ -3,17 +3,17 @@
 /**
  * This controller handle the frontend website
  *
- * @author M_AbuAjaj
+ * 
  */
-class IndexController extends Zend_Controller_Action
+class EntryController extends Zend_Controller_Action
 {
     
     function init()
     {
         
-        if( Zend_Auth::getInstance()->hasIdentity() )
+        if( !Zend_Auth::getInstance()->hasIdentity() )
         {
-            $this->_redirect('/fields');
+            $this->_redirect('/');
         }
         
         #Layout
@@ -31,13 +31,23 @@ class IndexController extends Zend_Controller_Action
         $this->lang = Zend_Registry::get('lang');
     }
     
-    /*
-     * Author : M_AbuAjaj
-     * Date   : 27/01/2015
-     */
+
     public function indexAction(){
-        $form = new Application_Form_Login();
-        $this->view->form = $form;
+        unset($_SESSION['Default']['admin']);
+        $_SESSION['Default']['entry'] = true;
+    }
+    
+    public function adminAction () {
+        unset($_SESSION['Default']['entry']);
+        $_SESSION['Default']['admin'] = true;
+        $this->_redirect('/admin/gan');
+    }
+    
+    public function userAction () {
+        unset($_SESSION['Default']['entry']);
+        unset($_SESSION['Default']['admin']);
+        $this->_redirect('/fields');
     }
     
 }
+

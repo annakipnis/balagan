@@ -36,14 +36,12 @@ class Application_Model_DbTable_Grade extends Zend_Db_Table_Abstract
      * Date   : 24/02/15
      * Get All Games (By target + level)
      */
-    public function getAll( $goalID = 0 ){
+    public function getAll($goalID){
         $sql = "
             SELECT *
-            FROM $this->_name ";
-        if( $goalID ){
-           $sql .= " WHERE goalID = $goalID"; 
-        }
-        $sql .= " ORDER BY gradeID ASC ";
+            FROM $this->_name
+            WHERE goalID = $goalID
+            ORDER BY gradeID ASC ";
         
         return $this->_db->fetchAll($sql);
     }

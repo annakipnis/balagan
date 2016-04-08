@@ -11,9 +11,13 @@
             <div class="body text-center">
                 <h3><?php echo $this->group['name']; ?></h3>
                 <h5><?php echo $this->group['students']; ?></h5>
+                <br>
+                <br>
+                <h5><?php echo $this->comments ?></h5>
             </div>
         </div>
-                <!--Actions-->
+        <!--Actions-->
+        <?php if (!isset($this->field_error)): ?>
         <div class="row">
             <div class="col-xs-6">
                 <div class="form-group">
@@ -26,5 +30,8 @@
                 </div>
             </div>
         </div>
+        <?php else: ?>
+            <?php echo $this->lang->_('NO_FIELD_CHOSEN'); ?>
+        <?php endif; ?>
     </div>
 </div>

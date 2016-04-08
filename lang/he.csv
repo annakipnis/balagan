@@ -11,6 +11,7 @@ MESSAGES;"הודעות"
 
 
 #GENERAL
+FIELDS;"תחומים"
 REGISTERTION;"הרשמה"
 REGISTER;"הרשם"
 LOGIN;"כניסה"
@@ -85,7 +86,7 @@ REQUIRED_GAN_NAME;"נא להכניס שם גן"
 
 #המלצות
 RECOMMEND_CURRENT_LEVEL;"מומלץ לערוך תרגול נוסף"
-RECOMMEND_NEXT_LEVEL;"הידד! נראה שהקבוצה הפנימה את הנושא"
+RECOMMEND_NEXT_LEVEL;"הידד נראה שהקבוצה הפנימה את הנושא"
 RECOMMEND_PREV_LEVEL;"מומלץ לערוך תרגול נוסף"
 RECOMMEND_GAME;"משחק מומלץ:"
 
@@ -96,6 +97,7 @@ SPEC_GROUP_PROGRESS;"התקדמות קבוצת"
 NO_GROUP_PROGRESS_RESULTS;"לא נמצאו תוצאות עבור קבוצה זו"
 
 ARE_YOU_SURE_QUESTION;"האם אתה בטוח שברצונך למחוק?"
+CONTINUE_QUESTION;"לא דווח לגבי כל הילדים, האם להמשיך?"
 
 ADMIN_WELCOME;"ניהול מערכת"
 ADMIN_MANAGE_GAN;"ניהול גן"
@@ -105,13 +107,32 @@ ADMIN_ADD_USER;"הוסף משתמש"
 ADMIN_ADD_GOALS;"הוספת מטרות"
 ADMIN_ADD_GOAL;"הוסף מטרה"
 ADMIN_ADD_GAME;"הוסף משחק"
+ADMIN_ADD_FIELD;"הוסף תחום"
 
 IS_ADMIN;"מנהל מערכת:"
 GANNAME;"שם הגן"
 GOAL_NAME;"שם המטרה"
 GOAL_LEVEL;"רמה"
+FIELD_NAME;"שם התחום"
 
 REQUIRED_GOAL_NAME;"נא להכניס שם מטרה"
 REQUIRED_GOAL_LEVEL;"נא להכניס רמה"
 REQUIRED_GOAL_LEVEL_INT;"נא להכניס מספר בשדה רמה"
 GOAL_NAME_EXISTS;"נא לבחור שם מטרה שאינו קיים"
+
+ADMIN_ENTRY;"כניסת מנהל מערכת"
+USER_ENTRY;"כניסת משתמש"
+
+STUDENT_REPORT;"צור דוח"
+
+REPORT_DATE;"תאריך"
+REPORT_GOAL;"מטרה"
+REPORT_GRADE;"ציון מילולי"
+REPORT_GAME;"משחק"
+REPORT_RECOMMEND;"המלצה"
+
+SELECT_FIELD;"בחר תחום"
+NO_FIELD_CHOSEN;"לא נבחר תחום."
+
+REQUIRED_FIELD_NAME;"נא להכניס שם תחום"
+FIELD_NAME_EXISTS;"נא לבחור שם תחום שאינו קיים"

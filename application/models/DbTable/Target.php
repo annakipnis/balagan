@@ -49,11 +49,12 @@ class Application_Model_DbTable_Target extends Zend_Db_Table_Abstract
      * Date   : 24/02/15
      * Get All Targets
      */
-    public function getAll(){
+    public function getAll($fieldID){
         $sql = "
             SELECT *
             FROM $this->_name 
             WHERE goalID_parent IS NULL
+            AND fieldID = $fieldID
             ORDER BY name ASC";
         return $this->_db->fetchAll($sql);
     }
@@ -84,17 +85,18 @@ class Application_Model_DbTable_Target extends Zend_Db_Table_Abstract
         return $this->_db->fetchAll($sql);
     }
     
-    public function getAllByLevel ($level) {
+    public function getAllByLevel ($level, $fieldID) {
         $sql = "
             SELECT goalID
             FROM $this->_name 
             WHERE level	= $level
+            AND fieldID = $fieldID
             ORDER BY goalID ASC";
         return $this->_db->fetchOne($sql);
     }
     
     //all unlearned goal in level - don't have 
-    public function getUnlearnedInLevel ($level, $groupID) {
+    public function getUnlearnedInLevel ($level, $groupID, $fieldID) {
         $sql = "
             SELECT *
             FROM $this->_name as g
@@ -103,6 +105,7 @@ class Application_Model_DbTable_Target extends Zend_Db_Table_Abstract
             LEFT JOIN `records` as r
             ON(r.gameID = gm.gameID)
             WHERE g.level = $level
+            AND g.fieldID = $fieldID
             AND r.groupID = $groupID
             AND r.gameID IS NULL";
         

@@ -1,0 +1,28 @@
+<?php
+header("Content-type: application/vnd.ms-excel");
+header("Content-Disposition: attachment;Filename=".$this->student_name.".xls");
+
+echo "<html>";
+//echo "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">";
+echo "<meta charset=\"UTF-8\">";
+echo "<meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">";
+echo "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no\">";
+
+echo "<body>";
+echo "<table>";
+echo "<tr>";
+echo "<td><b>".$this->lang->_('REPORT_DATE')."</b></td>";
+echo "<td><b>".$this->lang->_('REPORT_GOAL')."</b></td>";
+echo "<td><b>".$this->lang->_('REPORT_GRADE')."</b></td>";
+echo "</tr>";
+foreach ($this->records as $s):
+    echo "<tr>";
+    echo "<td>".$s['date']."</td>";
+    echo "<td>".$s['goal']."</td>";
+    echo "<td>".$s['grade']."</td>";
+    echo "</tr>";
+endforeach;
+echo "</table> ";
+echo "</body>";
+echo "</html>";
+?>

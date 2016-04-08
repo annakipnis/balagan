@@ -46,8 +46,7 @@ class PlaningController extends Zend_Controller_Action
         if( $group_id ){
             $target_DB = new Application_Model_DbTable_Target();
             //$level_DB  = new Application_Model_DbTable_Level();
-            
-            $targets   = $target_DB->getAll();
+            $targets   = $target_DB->getAll($_SESSION['Default']['field']);
             $_targets  = array();
             foreach ($targets as $t) { 
                 $t['subgoals'] = $target_DB->getAllSubGoals( $t['goalID'] );
@@ -68,7 +67,7 @@ class PlaningController extends Zend_Controller_Action
         
         if( $group_id && $target_id ){
             $game_DB = new Application_Model_DbTable_Game();
-            $games = $game_DB->getAll($target_id);
+            $games = $game_DB->getAll($_SESSION['Default']['field'], $target_id);
             
             $this->view->group_id = $group_id;
             $this->view->games  = $games;
@@ -88,7 +87,8 @@ class PlaningController extends Zend_Controller_Action
             $new_plan = array(
                 'groupID'    => $group_id,
                 'gameID'     => $game_id,
-                'date'       => date('Y-m-d H:i:s')
+                'date'       => date('Y-m-d H:i:s'),
+                'fieldID'    => $_SESSION['Default']['field']
             );
             try{
                 $plan_id = $plan_DB->insert( $new_plan );
@@ -127,6 +127,7 @@ class PlaningController extends Zend_Controller_Action
         $new_game = array(
             'goalID'    => $target_id,
             'name'      => $game_data['gameName'],
+            'fieldID'   => $_SESSION['Default']['field'],
         );
         try{
             $game_id = $games_DB->insert( $new_game );
@@ -143,17 +144,19 @@ class PlaningController extends Zend_Controller_Action
         
         $plans_DB = new Application_Model_DbTable_Planing ();
         $_groups  = array();
-        foreach($groups as $g) {
-            $result = $plans_DB->getLastPlan($g['groupID']);
-            if (count($result) > 0) {
-                $g['plan']= $result[0]['game_name'];
-                $_groups[] = $g;
-            }
+        if (!isset ($_SESSION['Default']['field'])) {
+            $this->view->field_error = true;
+        } else {
+            foreach($groups as $g) {
+                $result = $plans_DB->getLastPlan($g['groupID'], $_SESSION['Default']['field']);
+                if (count($result) > 0) {
+                    $g['plan']= $result[0]['game_name'];
+                    $_groups[] = $g;
+                }
+            }            
+            #VIEWS
+            $this->view->groups = $_groups;
         }
-          
-            
-        #VIEWS
-        $this->view->groups = $_groups;
     }
     
     public function doneactivitiesAction () {

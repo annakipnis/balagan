@@ -1,0 +1,28 @@
+<div class="container-fluid">
+    <!--Title-->
+    <div class="row">
+        <div class="second-header">
+            <img src="<?php echo $this->baseUrl(); ?>/images/GROUP_HEADER.png" class="" alt="GROUP_HEADER" />
+            <div class="title"><?php echo $this->lang->_('SELECT_FIELD'); ?></div>
+        </div>
+    </div>
+    <!--Fields Tables-->
+    <input type="hidden" id="base_url" value="<?php echo $this->baseUrl(); ?>">
+    <input type="hidden" id="are_you_sure" value="<?php echo $this->lang->_('ARE_YOU_SURE_QUESTION'); ?>">
+    <div class="row">
+        <table class="table table-groups">
+            <tbody>
+                <?php foreach ($this->fields as $f) : ?>
+                <tr>
+                    <td class="icon"><img src="<?php echo $this->baseUrl(); ?>/images/games/memory.png" class="" alt="" /></td>
+                    <td class="body" ng-click="field = <?php echo $f['fieldID']; ?>" ng-class="{'active' : field == <?php echo $f['fieldID']; ?>}"><a href="<?php echo $this->baseurl(); ?>/admin/goals/f/<?php echo $f['fieldID']; ?>"><div class="big-title"><?php echo $f['name']; ?></div></a></td>
+                    <td class="delete"><br><button onclick="deletefield('<?php echo $f['fieldID']; ?>')"><img src="<?php echo $this->baseUrl(); ?>/images/delete.png" class="" alt="" /></button></td>
+                </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
+    <div class="form-group add-student">
+        <a href="<?php echo $this->baseurl(); ?>/admin/addfield" class="btn btn-add-student" style="width: 50%; color: #fff;"><img src="<?php echo $this->baseUrl(); ?>/images/add.png" alt="add" /><span><?php echo $this->lang->_('ADMIN_ADD_FIELD'); ?></span></a>
+    </div>
+</div>

@@ -20,20 +20,21 @@ class Application_Model_DbTable_Planing extends Zend_Db_Table_Abstract
         return $this->_db->fetchAll($sql);
     }
     
-     public function getLastPlan ($group_id) {
+     public function getLastPlan ($group_id, $fieldID) {
          $sql = "
             SELECT p.*, g.gameID as game_id, g.goalID as goal_id, g.name as game_name
             FROM `$this->_name` as p
             LEFT JOIN `games` as g
             ON(p.gameID = g.gameID)
             WHERE p.groupID = $group_id
+            AND p.fieldID = $fieldID
             ORDER BY p.date DESC";
         
         return $this->_db->fetchAll($sql);
      }
      
      //just recommendations
-     public function getByGroup ($group_id) {
+     public function getByGroup ($group_id, $fieldID) {
          $sql = "
             SELECT p.*, g.name as game_name
             FROM `$this->_name` as p
@@ -41,7 +42,22 @@ class Application_Model_DbTable_Planing extends Zend_Db_Table_Abstract
             ON(p.gameID = g.gameID)
             WHERE p.groupID = $group_id 
             AND p.relatedPlanID IS NOT NULL 
+            AND p.fieldID = $fieldID
             ORDER BY p.date DESC";
+        
+        return $this->_db->fetchAll($sql);
+     }
+     
+     public function getByGroupReverse ($group_id, $fieldID) {
+         $sql = "
+            SELECT p.*, g.name as game_name
+            FROM `$this->_name` as p
+            LEFT JOIN `games` as g
+            ON(p.gameID = g.gameID)
+            WHERE p.groupID = $group_id 
+            AND p.relatedPlanID IS NOT NULL 
+            AND p.fieldID = $fieldID
+            ORDER BY p.date ASC";
         
         return $this->_db->fetchAll($sql);
      }

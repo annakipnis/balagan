@@ -12,14 +12,18 @@
         <div class="row">
             <table class="table table-groups">
                 <tbody>
-                    <?php foreach ($this->groups as $g) : ?>
-                        <?php if (isset($g['plan'])) : ?>
-                        <tr>
-                            <td class="icon"><img src="<?php echo $this->baseUrl(); ?>/images/groups/group_<?php echo $g['color']; ?>.png" class="" alt="group_<?php echo $g['color']; ?>" /></td>
-                            <td class="body" ng-click="group = <?php echo $g['groupID']; ?>" ng-class="{'active' : group == <?php echo $g['groupID']; ?>}"><a href="<?php echo $this->baseurl(); ?>/documentation/students/g/<?php echo $g['groupID']; ?>"><div class="big-title"><?php echo $g['name']; ?></div><span class="small-title"><?php echo $g['plan']; ?></span></a></td>
-                        </tr>
-                        <?php endif; ?>
-                    <?php endforeach; ?>
+                    <?php if (!isset ($this->field_error)): ?>
+                        <?php foreach ($this->groups as $g) : ?>
+                            <?php if (isset($g['plan'])) : ?>
+                            <tr>
+                                <td class="icon"><img src="<?php echo $this->baseUrl(); ?>/images/groups/group_<?php echo $g['color']; ?>.png" class="" alt="group_<?php echo $g['color']; ?>" /></td>
+                                <td class="body" ng-click="group = <?php echo $g['groupID']; ?>" ng-class="{'active' : group == <?php echo $g['groupID']; ?>}"><a href="<?php echo $this->baseurl(); ?>/documentation/students/g/<?php echo $g['groupID']; ?>"><div class="big-title"><?php echo $g['name']; ?></div><span class="small-title"><?php echo $g['plan']; ?></span></a></td>
+                            </tr>
+                            <?php endif; ?>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <?php echo $this->lang->_('NO_FIELD_CHOSEN'); ?>
+                    <?php endif; ?>
                 </tbody>
             </table>
         </div>

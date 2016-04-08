@@ -70,8 +70,8 @@ class DocumentationController extends Zend_Controller_Action
         } 
         else {
             $plans_DB = new Application_Model_DbTable_Planing();
-            if ($plans_DB->getLastPlan ($group_id)) {
-                $last_plan = $plans_DB->getLastPlan ($group_id) [0];
+            if ($plans_DB->getLastPlan ($group_id, $_SESSION['Default']['field'])) {
+                $last_plan = $plans_DB->getLastPlan ($group_id, $_SESSION['Default']['field']) [0];
                 $group_id = $last_plan ['groupID'];
                 $target_id = $last_plan ['goal_id'];
                 $game_id = $last_plan ['game_id'];
@@ -98,6 +98,23 @@ class DocumentationController extends Zend_Controller_Action
             }
         }
         
+        $notes = $this->getRequest()->getPost('notes');
+        if ($notes) {
+            $comments_DB = new Application_Model_DbTable_Comments();
+            $new_comment = array(
+                'groupID'  => $group_id,
+                'gameID'   => $game_id,
+                'date'     => date('Y-m-d H:i:s'),
+                'text'     => $notes,
+                'fieldID'  =>  $_SESSION['Default']['field']
+            );
+            try{
+                $comment_id = $comments_DB->insert($new_comment);
+            } catch (Exception $ex) {
+                die( json_encode( array('status'=> 'danger', 'msg' => $this->lang->_('FAILED_DOC')) ) );
+            }
+        }
+        
         if ($is_recommend) {
             $this->recommend ();
         }
@@ -116,8 +133,8 @@ class DocumentationController extends Zend_Controller_Action
                     'gameID'     => $_params['gameID'],
                     'gradeID'    => $_params['gradeID'],
                     'date'       => date('Y-m-d H:i:s'),
-                    'groupID'    => $_params['groupID']
-
+                    'groupID'    => $_params['groupID'],
+                    'fieldID'    => $_SESSION['Default']['field']
                 );
                 try{
                     $doc_id = $doc_DB->insert( $new_doc );
@@ -163,8 +180,8 @@ class DocumentationController extends Zend_Controller_Action
         $group_id  = $this->_request->getParam('g');
 
         $plans_DB = new Application_Model_DbTable_Planing();
-        if ($plans_DB->getLastPlan ($group_id)) {
-            $last_plan = $plans_DB->getLastPlan ($group_id) [0];
+        if ($plans_DB->getLastPlan ($group_id, $_SESSION['Default']['field'])) {
+            $last_plan = $plans_DB->getLastPlan ($group_id, $_SESSION['Default']['field']) [0];
             $target_id = $last_plan ['goal_id'];
             $game_id = $last_plan ['game_id'];
             $related_plan_id = $last_plan ['planID'];
@@ -195,6 +212,12 @@ class DocumentationController extends Zend_Controller_Action
             }
 
             $num_of_students = count($records);
+            $continue_childrenless = false;
+            $students_DB = new Application_Model_DbTable_Student();
+            $real_num_of_students = count($students_DB->getAll($group_id));
+            if ($num_of_students < $real_num_of_students) {
+                $continue_childrenless = true;
+            }
             $num_of_levels = count($targets_DB->getLevels());
 
             //current target
@@ -207,14 +230,14 @@ class DocumentationController extends Zend_Controller_Action
                 //return to a game from prev goal
                 if ($target_level > 1) {
                     $target_level = $target_level - 1;
-                    $recommended_target = $targets_DB->getAllByLevel($target_level);
+                    $recommended_target = $targets_DB->getAllByLevel($target_level, $_SESSION['Default']['field']);
                     $recommendation = $this->lang->_('RECOMMEND_PREV_LEVEL');
                 }
             }
             else if (($num_of_students > 2 && $count_4 >= $num_of_students - 1)
             || ($num_of_students == 1 && $count_4 == 1)
             || ($num_of_students == 2 && ($count_4 == 2 || ($count_4 == 1 && $count_3 == 1)))) {
-                $unlearned_targets = $targets_DB->getUnlearnedInLevel ($target_level, $group_id);
+                $unlearned_targets = $targets_DB->getUnlearnedInLevel ($target_level, $group_id, $_SESSION['Default']['field']);
                 //next target in current level 
                 if (count($unlearned_targets) > 0) {
                     $recommended_target = $unlearned_targets [0]['goalID'];
@@ -223,7 +246,7 @@ class DocumentationController extends Zend_Controller_Action
                 //if learned all targets in current level, move to next level
                 else if ($target_level < $num_of_levels) {
                     $target_level = $target_level + 1;
-                    $recommended_target = $targets_DB->getAllByLevel($target_level)['goalID'];
+                    $recommended_target = $targets_DB->getAllByLevel($target_level, $_SESSION['Default']['field']);
                     $recommendation = $this->lang->_('RECOMMEND_NEXT_LEVEL');
                 }
             }
@@ -252,14 +275,23 @@ class DocumentationController extends Zend_Controller_Action
                 'gameID'         => $recommended_game['gameID'],
                 'date'           => date('Y-m-d H:i:s'),
                 'recommendation' => $recommendation,
-                'relatedPlanID'  => $related_plan_id
+                'relatedPlanID'  => $related_plan_id,
+                'fieldID'        => $_SESSION['Default']['field']
             );
             try{
                 $plan_id = $plan_DB->insert( $new_plan );
             } catch (Exception $ex) {
                 die( json_encode( array('status'=> 'danger', 'msg' => $this->lang->_('FAILED_DOC')) ) );
             }    
+            //return json to ajax
+            $this->getHelper('Layout')->disableLayout();
+            $this->getHelper('ViewRenderer')->setNoRender();
+
+            echo json_encode(array ('recommendation'   => $recommendation, 
+                                    'recommended_game' => $recommended_game['name'],
+                                    'continue_childrenless' => $continue_childrenless));
         }
+        
     }
     
 }

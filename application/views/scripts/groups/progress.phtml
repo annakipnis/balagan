@@ -9,23 +9,34 @@
     <!--Groups Tables-->
     <div class="row">
         <div class="student-doc">
-            <?php if (isset($this->plans) && $this->plans) : ?>
-            <?php foreach ($this->plans as $p) : ?>
-            <div class="col-xs-12 body">
-                <div class="pull-right">
-                    <h4><?php echo $p['game_name']; ?></h4>
-                    <p><?php echo $p['recommendation'] ?></p>
+            <?php if (!isset ($this->field_error)) : ?>
+                <?php if (isset($this->plans) && $this->plans) : ?>
+                <?php foreach ($this->plans as $p) : ?>
+                <div class="col-xs-12 body">
+                    <div class="pull-right">
+                        <h4><?php echo $p['game_name']; ?></h4>
+                        <p><?php echo $p['recommendation'] ?></p>
+                    </div>
+                    <div class="pull-left">
+                        <span class="date"><?php echo $p['date']; ?></span>
+                    </div>
                 </div>
-                <div class="pull-left">
-                    <span class="date"><?php echo $p['date']; ?></span>
+                <?php endforeach; ?>
+                <?php else : ?>
+                <div class="col-xs-12 body">
+                    <?php echo $this->lang->_('NO_GROUP_PROGRESS_RESULTS'); ?>
                 </div>
-            </div>
-            <?php endforeach; ?>
-            <?php else : ?>
-            <div class="col-xs-12 body">
-                <?php echo $this->lang->_('NO_GROUP_PROGRESS_RESULTS'); ?>
-            </div>
+                <?php endif; ?>
+            <?php else: ?>
+                <?php echo $this->lang->_('NO_FIELD_CHOSEN'); ?>
             <?php endif; ?>
         </div>
     </div>
+    <?php if (!isset ($this->field_error)) : ?>
+    <div class="col-xs-6">
+        <div class="form-group">
+            <a href="<?php echo $this->baseurl(); ?>/groups/report/g/<?php echo $this->groupID; ?>" class="btn btn-finish"><img src="<?php echo $this->baseUrl(); ?>/images/docomuntation.png" alt="next" /><span><?php echo $this->lang->_('STUDENT_REPORT'); ?></a>
+        </div>
+    </div>
+    <?php endif; ?>
 </div>

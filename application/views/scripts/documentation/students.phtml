@@ -11,22 +11,19 @@
             </div>
         </div>
         <!--Pop up-->
-        <?php if ( isset($this->recommendation)) : ?>
         <input type="hidden" id="base_url" value="<?php echo $this->baseUrl(); ?>">
-            <div id="modal">
-                <div class="modalconent">
-                    <button id="button">X</button>
-                    <h1>                    
-                        <img src="<?php echo $this->baseUrl(); ?>/images/logo2.png" class="recommend" alt="" /><br>
-                        <?php echo $this->recommendation; ?>
-                    </h1>
-                    <h2><?php echo $this->lang->_('RECOMMEND_GAME'); ?>
-                       <?php echo $this->recommended_game; ?></h2>
-                </div>
+        <div id="modal" style="display: none;">
+            <div class="modalconent">
+                <button id="button">X</button>
+                <h1><img src="<?php echo $this->baseUrl(); ?>/images/logo2.png" class="recommend" alt="" /><br></h1>
+                <h1 id="recommendation"><?php echo $this->recommendation; ?></h1>
+                <h2><?php echo $this->lang->_('RECOMMEND_GAME'); ?></h2>
+                <h2 id="recommended_game"><?php echo $this->recommended_game; ?></h2>
             </div>
-        <?php endif; ?>
+        </div>
         <!--Students Tables-->
-        <input type="hidden" id="baseurl" name="baseurl" value="<?php echo $this->baseUrl(); ?>" />
+        <input type="hidden" id="baseurl" name="baseurl" value="<?php echo $this->baseUrl(); ?>">
+        <input type="hidden" id="contiue_childrenless" value="<?php echo $this->lang->_('CONTINUE_QUESTION'); ?>">
         <div class="row">
             <table class="table table-students">
                 <tbody>
@@ -66,7 +63,7 @@
         <div class="row">
             <div class="col-xs-12">
                 <div class="form-group">
-                    <textarea class="form-control form-control-custom" data-ng-model="groupNotes" rows="3" placeholder="<?php echo $this->lang->_('TEXT_NOTES') . '...'; ?>"></textarea>
+                    <textarea id="groupNotes" class="form-control form-control-custom" data-ng-model="groupNotes" rows="3" placeholder="<?php echo $this->lang->_('TEXT_NOTES') . '...'; ?>"></textarea>
                 </div>
             </div>
         </div>
@@ -74,12 +71,12 @@
         <div class="row">
             <div class="col-xs-6">
                 <div class="form-group">
-                    <a href="<?php echo $this->baseurl(); ?>/groups/groups" class="btn btn-finish"><img src="<?php echo $this->baseUrl(); ?>/images/save.png" alt="save" /><span><?php echo $this->lang->_('FINISH'); ?></span></a>
+                    <div class="btn btn-finish" onclick="nextActivity('<?php echo $this->group_id; ?>', '0')"><img src="<?php echo $this->baseUrl(); ?>/images/save.png" alt="save" /><span><?php echo $this->lang->_('FINISH'); ?></span></div>
                 </div>
             </div>
             <div class="col-xs-6">
                 <div class="form-group">
-                    <a href="<?php echo $this->baseurl(); ?>/documentation/students/g/<?php echo $this->group_id; ?>/recommend/1" class="btn btn-next-action"><img src="<?php echo $this->baseUrl(); ?>/images/next.png" alt="next" /><span><?php echo $this->lang->_('NEXT_ACTION'); ?></span></a>
+                    <div class="btn btn-next-action" onclick="nextActivity('<?php echo $this->group_id; ?>', '1')"><img src="<?php echo $this->baseUrl(); ?>/images/next.png" alt="next" /><span><?php echo $this->lang->_('NEXT_ACTION'); ?></span></div>
                 </div>
             </div>
         </div>

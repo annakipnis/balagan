@@ -30,6 +30,7 @@ class StudentsController extends Zend_Controller_Action
      * Date   : 06/11/2014
      */
     public function indexAction(){
+        unset($_SESSION['Default']['report']);
         #Get All Students
         $student_DB = new Application_Model_DbTable_Student();
         $students   = $student_DB->getAllInGan( $this->user->ganID );
@@ -44,20 +45,43 @@ class StudentsController extends Zend_Controller_Action
         if( $this->getRequest()->isGet() ){
             $student_id = $this->_request->getParam('s');
             $student_DB = new Application_Model_DbTable_Student();
-            $student = $student_DB->get($student_id);
-            $results = array();
-            foreach ($student as $row) {
-                if( $row['grade'] && $row['goal'] && $row['date'] ){
-                    $results[] = $row;
+            if (!isset($_SESSION['Default']['field'])) {
+                $this->view->field_error = true;
+            } else {
+                $student = $student_DB->get($student_id, $_SESSION['Default']['field']);
+                $results = array();
+                foreach ($student as $row) {
+                    if( $row['grade'] && $row['goal'] && $row['date'] ){
+                        $results[] = $row;
+                    }
                 }
+
+                if( $student && isset($student[0]) && isset($student[0]['student']) ) {
+                    $this->view->student_name = $student[0]['student'];
+                }
+
+                $this->view->student = $results;
+                $this->view->studentID = $student_id;
             }
-            
-            if( $student && isset($student[0]) && isset($student[0]['student']) ) {
-                $this->view->student_name = $student[0]['student'];
-            }
-            
-            $this->view->student = $results;
         }
     }
     
+    public function reportAction(){
+        $student_id = $this->_request->getParam('s');
+        $_SESSION['Default']['report'] = true;
+        
+        $student_DB = new Application_Model_DbTable_Student();
+        $student = $student_DB->getRecords($student_id, $_SESSION['Default']['field']);
+        $results = array();
+        foreach ($student as $row) {
+            if( $row['grade'] && $row['goal'] && $row['date'] ){
+                $results[] = $row;
+            }
+        }
+        if( $student && isset($student[0]) && isset($student[0]['student']) ) {
+            $this->view->student_name = $student[0]['student'];
+        }
+        
+        $this->view->records = $results;
+    }
 }
