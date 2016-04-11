@@ -45,5 +45,8 @@ class Application_Model_DbTable_Grade extends Zend_Db_Table_Abstract
         
         return $this->_db->fetchAll($sql);
     }
+    
+    
+    
    
 }

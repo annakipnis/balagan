@@ -83,6 +83,7 @@ REQUIRED_PASSWORD;"נא להכניס סיסמא"
 EMAIL_EXISTS;"משתמש קיים, נא לבחור אימייל אחר"
 PASSWORD_TOO_SHORT;"נא לבחור סיסמא בעלת 4 תווים לפחות"
 REQUIRED_GAN_NAME;"נא להכניס שם גן"
+REQUIRED_GRADE_NAME;"נא להכניס את כל ההיגדים"
 
 #המלצות
 RECOMMEND_CURRENT_LEVEL;"מומלץ לערוך תרגול נוסף"
@@ -108,6 +109,8 @@ ADMIN_ADD_GOALS;"הוספת מטרות"
 ADMIN_ADD_GOAL;"הוסף מטרה"
 ADMIN_ADD_GAME;"הוסף משחק"
 ADMIN_ADD_FIELD;"הוסף תחום"
+ADMIN_EDIT_GOAL;"עריכת מטרה"
+
 
 IS_ADMIN;"מנהל מערכת:"
 GANNAME;"שם הגן"
@@ -136,3 +139,9 @@ NO_FIELD_CHOSEN;"לא נבחר תחום."
 
 REQUIRED_FIELD_NAME;"נא להכניס שם תחום"
 FIELD_NAME_EXISTS;"נא לבחור שם תחום שאינו קיים"
+
+
+GRADE1;"היגד עם ציון 1"
+GRADE2;"היגד עם ציון 2"
+GRADE3;"היגד עם ציון 3"
+GRADE4;"היגד עם ציון 4"

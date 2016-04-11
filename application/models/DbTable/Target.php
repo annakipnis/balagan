@@ -112,6 +112,18 @@ class Application_Model_DbTable_Target extends Zend_Db_Table_Abstract
         return $this->_db->fetchAll($sql);
     }
     
+    public function getGoalAndGrades ($goalID) {
+        $sql = "
+            SELECT *, gr.name as gradeName
+            FROM $this->_name as g
+            LEFT JOIN `grades` as gr
+            ON(g.goalID = gr.goalID)
+            WHERE g.goalID = $goalID
+            ORDER BY gr.value ASC";
+        
+        return $this->_db->fetchAll($sql);
+    }
+    
     public function getGoalName($goalID) {
         $sql = "
             SELECT name

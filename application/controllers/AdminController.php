@@ -262,8 +262,19 @@ class AdminController extends Zend_Controller_Action
         $goal_data = $request->getPost();
         $goal_DB = new Application_Model_DbTable_Target();
         $goalID_parent = $this->_request->getParam('g');
+        $grade_DB = new Application_Model_DbTable_Grade();
                 
         $goalName = trim($goal_data['goalName']);
+        
+        $grade1 = trim($goal_data['grade1']);
+        $grade2 = trim($goal_data['grade2']);
+        $grade3 = trim($goal_data['grade3']);
+        $grade4 = trim($goal_data['grade4']);
+
+        if (!strlen($grade1)||!strlen($grade2)||!strlen($grade3)||!strlen($grade4) ){
+            $this->msger->addMessage('<div class="alert alert-danger text-center" role="alert"><button type="button" class="close" data-dismiss="alert">&times;</button>'.$this->lang->_('REQUIRED_GRADE_NAME').'</div>');
+            $this->_redirect('/admin/addgoal/g/'.$goalID_parent);
+        }
 
         if (!strlen($goalName) ){
             $this->msger->addMessage('<div class="alert alert-danger text-center" role="alert"><button type="button" class="close" data-dismiss="alert">&times;</button>'.$this->lang->_('REQUIRED_GOAL_NAME').'</div>');
@@ -293,8 +304,39 @@ class AdminController extends Zend_Controller_Action
             'level' => $goalLevel,
             'fieldID' => $_SESSION['Default']['field']
         );
+                
+
         try{
-            $goal_id = $goal_DB->insert( $new_goal );
+            $goal_id = $goal_DB->insert($new_goal);
+        } catch (Exception $ex) {
+            die( json_encode( array('status'=> 'danger', 'msg' => 'Error') ) );
+        }
+        
+        $new_grade1 = array(
+            'goalID' => $goal_id,
+            'name'  => $goal_data['grade1'],
+            'value' => 1
+        );
+        $new_grade2 = array(
+            'goalID' => $goal_id,
+            'name'  => $goal_data['grade2'],
+            'value' => 2
+        );
+        $new_grade3 = array(
+            'goalID' => $goal_id,
+            'name'  => $goal_data['grade3'],
+            'value' => 3
+        );
+        $new_grade4 = array(
+            'goalID' => $goal_id,
+            'name'  => $goal_data['grade4'],
+            'value' => 4
+        );
+        try{
+            $grade_id1 = $grade_DB->insert($new_grade1);
+            $grade_id2 = $grade_DB->insert($new_grade2);
+            $grade_id3 = $grade_DB->insert($new_grade3);
+            $grade_id4 = $grade_DB->insert($new_grade4);
         } catch (Exception $ex) {
             die( json_encode( array('status'=> 'danger', 'msg' => 'Error') ) );
         }
@@ -342,5 +384,24 @@ class AdminController extends Zend_Controller_Action
         $fields = $fields_DB->getAll();
         $this->view->fields = $fields;
     }
+   
+     public function editgoalAction() {
+        $goalID = $this->_request->getParam('g');
+        $goalID_parent = $this->_request->getParam('g');
+        if ($goalID_parent) {
+            $this->view->goalID_parent = $goalID_parent;
+        }
+        $goal_DB = new Application_Model_DbTable_Target();
+        $goalName = $goal_DB->getGoalName($goalID);
+        $grades = $goal_DB->getGoalAndGrades($goalID);
+        
+        $form = new Application_Form_AddGoal(array('goalname' => $goalName,
+                                                   'goallevel'=> $grades[0]['level'],
+                                                   'grade1'   => $grades[0]['gradeName'],
+                                                   'grade2'   => $grades[1]['gradeName'],
+                                                   'grade3'   => $grades[2]['gradeName'],
+                                                   'grade4'   => $grades[3]['gradeName']));        
+        $this->view->form = $form; 
+     }
 }
 
