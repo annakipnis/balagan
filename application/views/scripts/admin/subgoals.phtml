@@ -3,7 +3,7 @@
     <div class="row">
         <div class="second-header">
             <img src="<?php echo $this->baseUrl(); ?>/images/ADMIN_HEADER.png" class="" alt="GROUP_HEADER" />
-            <div class="title"><?php echo $this->lang->_('ADMIN_WELCOME'); ?></div>
+            <div class="title"><?php echo $this->lang->_('ADMIN_GOALS'); ?></div>
         </div>
     </div>
     <input type="hidden" id="base_url" value="<?php echo $this->baseUrl(); ?>">
@@ -18,7 +18,7 @@
                     <?php else:?>
                         <td class="body"><a href="<?php echo $this->baseurl(); ?>/admin/games/g/<?php echo $g['goalID']; ?>"><div class="big-title"><?php echo $g['name']; ?></div></a></td>
                     <?php endif;?>
-                    <td class=""><br><a href="<?php echo $this->baseurl(); ?>/admin/editgoal/g/<?php echo $g['goalID']; ?>/gp/<?php echo $this->goalParent; ?>" class="" style="width: 50%;color: #fff;"><img src="<?php echo $this->baseUrl(); ?>/images/edit.png" alt="" /><span><?php echo $this->lang->_('ADMIN_ADD_GOAL'); ?></span></a></td>
+                    <td class="delete"><br><a href="<?php echo $this->baseurl(); ?>/admin/editgoal/g/<?php echo $g['goalID']; ?>/gp/<?php echo $this->goalParent; ?>" class=""><img src="<?php echo $this->baseUrl(); ?>/images/edit.png" alt="" /></a></td>
                     <td class="delete"><br><button onclick="deletesubgoal('<?php echo $g['goalID']; ?>')"><img src="<?php echo $this->baseUrl(); ?>/images/delete.png" class="" alt="" /></button></td>
               
                 </tr>

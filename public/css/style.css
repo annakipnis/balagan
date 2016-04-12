@@ -485,6 +485,10 @@ dt > label{
 
 }
 
+.delete > a > img {
+    height: 30px !important;
+    margin-left: -15px;
+}
 .form-element {
     width: 100%;
     font-size: 24px;
