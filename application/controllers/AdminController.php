@@ -403,5 +403,110 @@ class AdminController extends Zend_Controller_Action
                                                    'grade4'   => $grades[3]['gradeName']));        
         $this->view->form = $form; 
      }
+     
+     
+     
+     
+    public function updategoalAction() {
+        $request = $this->getRequest();
+        $goal_data = $request->getPost();
+        $goal_DB = new Application_Model_DbTable_Target();
+        $goalID_parent = $this->_request->getParam('gp');
+        $goalID = $this->_request->getParam('g');
+        $grade_DB = new Application_Model_DbTable_Grade();
+                
+        $goalName = trim($goal_data['goalName']);
+        
+        $grade1 = trim($goal_data['grade1']);
+        $grade2 = trim($goal_data['grade2']);
+        $grade3 = trim($goal_data['grade3']);
+        $grade4 = trim($goal_data['grade4']);
+
+        if (!strlen($grade1)||!strlen($grade2)||!strlen($grade3)||!strlen($grade4) ){
+            $this->msger->addMessage('<div class="alert alert-danger text-center" role="alert"><button type="button" class="close" data-dismiss="alert">&times;</button>'.$this->lang->_('REQUIRED_GRADE_NAME').'</div>');
+            $this->_redirect('/admin/addgoal/g/'.$goalID_parent);
+        }
+
+        if (!strlen($goalName) ){
+            $this->msger->addMessage('<div class="alert alert-danger text-center" role="alert"><button type="button" class="close" data-dismiss="alert">&times;</button>'.$this->lang->_('REQUIRED_GOAL_NAME').'</div>');
+            $this->_redirect('/admin/addgoal/g/'.$goalID_parent);
+        } //else if (count($goal_DB->isExists($goal_data['goalName'])) > 0) {
+//            $this->msger->addMessage('<div class="alert alert-danger text-center" role="alert"><button type="button" class="close" data-dismiss="alert">&times;</button>'.$this->lang->_('GOAL_NAME_EXISTS').'</div>');
+//            $this->_redirect('/admin/addgoal/g/'.$goalID_parent);
+//        }
+        
+        $goalLevel = trim($goal_data['goalLevel']);
+        if ($goalID_parent) {
+            if (!strlen($goalLevel) ){
+                $this->msger->addMessage('<div class="alert alert-danger text-center" role="alert"><button type="button" class="close" data-dismiss="alert">&times;</button>'.$this->lang->_('REQUIRED_GOAL_LEVEL').'</div>');
+                $this->_redirect('/admin/addgoal/g/'.$goalID_parent);
+            } else if (!is_numeric($goal_data['goalLevel'])) {
+                $this->msger->addMessage('<div class="alert alert-danger text-center" role="alert"><button type="button" class="close" data-dismiss="alert">&times;</button>'.$this->lang->_('REQUIRED_GOAL_LEVEL_INT').'</div>');
+                $this->_redirect('/admin/addgoal/g/'.$goalID_parent);
+            }
+        } else {
+            $goalLevel = 0;
+        }
+        
+        $updated_goal = array(
+            'goalID_parent' => $goalID_parent,
+            'name'  => $goal_data['goalName'],
+            'icon' => 'counting',
+            'level' => $goalLevel,
+            'fieldID' => $_SESSION['Default']['field']
+        );
+                
+
+        try{
+            $where_goal = $goal_DB->getAdapter()->quoteInto('goalID = ?', $goalID);
+            $goal_DB->update($updated_goal, $where_goal);
+        } catch (Exception $ex) {
+            die( json_encode( array('status'=> 'danger', 'msg' => 'Error') ) );
+        }
+        
+        $new_grade1 = array(
+            'goalID' => $goalID,
+            'name'  => $goal_data['grade1'],
+            'value' => 1
+        );
+        $new_grade2 = array(
+            'goalID' => $goalID,
+            'name'  => $goal_data['grade2'],
+            'value' => 2
+        );
+        $new_grade3 = array(
+            'goalID' => $goalID,
+            'name'  => $goal_data['grade3'],
+            'value' => 3
+        );
+        $new_grade4 = array(
+            'goalID' => $goalID,
+            'name'  => $goal_data['grade4'],
+            'value' => 4
+        );
+        try{
+            $where_grade1['goalID = ?'] = $goalID;
+            $where_grade1['value = ?']  = 1;
+            $grade_DB->update($new_grade1, $where_grade1);
+            $where_grade2['goalID = ?'] = $goalID;
+            $where_grade2['value = ?']  = 2;
+            $grade_DB->update($new_grade2, $where_grade2);
+            $where_grade3['goalID = ?'] = $goalID;
+            $where_grade3['value = ?']  = 3;
+            $grade_DB->update($new_grade3, $where_grade3);
+            $where_grade4['goalID = ?'] = $goalID;
+            $where_grade4['value = ?']  = 4;
+            $grade_DB->update($new_grade4, $where_grade4);
+
+        } catch (Exception $ex) {
+            die( json_encode( array('status'=> 'danger', 'msg' => 'Error') ) );
+        }
+        if ($goalID_parent){
+            $this->_redirect("/admin/subgoals/g/".$goalID_parent);
+
+        } else {
+            $this->_redirect("/admin/goals");
+        }
+    }
 }
 
