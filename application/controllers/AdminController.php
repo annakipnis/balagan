@@ -29,6 +29,8 @@ class AdminController extends Zend_Controller_Action
         $this->msger = $this->_helper->getHelper('FlashMessenger');
         $this->view->flashmsgs = $this->msger->getMessages();
         $this->lang = Zend_Registry::get('lang');
+        
+        $this->view->userRole = $_SESSION['Default']['role'];
     }
     
 
