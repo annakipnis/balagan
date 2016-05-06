@@ -16,6 +16,7 @@
                 <tr>
                     <td class="icon"><img src="<?php echo $this->baseUrl(); ?>/images/games/memory.png" class="" alt="" /></td>
                     <td class="body" ng-click="field = <?php echo $f['fieldID']; ?>" ng-class="{'active' : field == <?php echo $f['fieldID']; ?>}"><a href="<?php echo $this->baseurl(); ?>/admin/goals/f/<?php echo $f['fieldID']; ?>"><div class="big-title"><?php echo $f['name']; ?></div></a></td>
+                    <td class="delete"><br><a href="<?php echo $this->baseurl(); ?>/admin/editfield/f/<?php echo $f['fieldID']; ?>" class=""><img src="<?php echo $this->baseUrl(); ?>/images/edit.png" alt="" /></a></td>
                     <td class="delete"><br><button onclick="deletefield('<?php echo $f['fieldID']; ?>')"><img src="<?php echo $this->baseUrl(); ?>/images/delete.png" class="" alt="" /></button></td>
                 </tr>
                 <?php endforeach; ?>

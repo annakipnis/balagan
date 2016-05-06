@@ -6,15 +6,23 @@
             <div class="title"><?php echo $this->lang->_('STUDENT_PROGRESS_SELECT'); ?></div>
         </div>
     </div>
+    <?php if ($this->acl->isAllowed($this->userRole,'students','read')):?>
     <!--Groups Tables-->
     <div class="row">
         <div class="students-doc">
+            <?php if(isset($this->students)): ?>
             <?php foreach ($this->students as $s) : ?>
             <div class="col-xs-6 text-center">
                 <div class="icon col-xs-6"><span class="icon-student"><i class="fa <?php echo 'Male' == $s['gender'] ? 'fa-male' : 'fa-female'; ?>"></i></span></div>
                 <div class="body col-xs-6"><a href="<?php echo $this->baseurl(); ?>/students/get/s/<?php echo $s['studentID']; ?>"><div class="big-title"><?php echo $s['studentName']; ?></div></a></div>
             </div>
             <?php endforeach; ?>
+            <?php else: ?>
+                <?php echo $this->lang->_('NO_FIELD_CHOSEN'); ?>
+            <?php endif; ?>
         </div>
     </div>
+    <?php else: ?>
+        <?php echo $this->lang->_('ACCESS_DENIED'); ?>
+    <?php endif;?>
 </div>

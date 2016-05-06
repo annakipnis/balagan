@@ -6,6 +6,7 @@
             <div class="title"><?php echo $this->lang->_('SPEC_GROUP_PROGRESS'); ?><?php echo isset($this->group_name) ? ' ' . $this->group_name : ' '; ?></div>
         </div>
     </div>
+    <?php if ($this->acl->isAllowed($this->userRole,'groups','read')):?>
     <!--Groups Tables-->
     <div class="row">
         <div class="student-doc">
@@ -39,4 +40,7 @@
         </div>
     </div>
     <?php endif; ?>
+    <?php else: ?>
+        <?php echo $this->lang->_('ACCESS_DENIED'); ?>
+    <?php endif;?>
 </div>

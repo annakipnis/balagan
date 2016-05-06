@@ -6,6 +6,7 @@
                 <img src="<?php echo $this->baseUrl(); ?>/images/groups/group_<?php echo $this->group['color']; ?>.png" class="" alt="group_<?php echo $this->group['color']; ?>" />
             </div>
         </div>
+        <?php if ($this->acl->isAllowed($this->userRole,'groups','read')):?>
         <!--Groups Details-->
         <div class="row">
             <div class="body text-center">
@@ -33,5 +34,8 @@
         <?php else: ?>
             <?php echo $this->lang->_('NO_FIELD_CHOSEN'); ?>
         <?php endif; ?>
+    <?php else: ?>
+        <?php echo $this->lang->_('ACCESS_DENIED'); ?>
+    <?php endif;?>
     </div>
 </div>

@@ -30,7 +30,7 @@ class Application_Model_DbTable_Planing extends Zend_Db_Table_Abstract
             AND p.fieldID = $fieldID
             ORDER BY p.date DESC";
         
-        return $this->_db->fetchAll($sql);
+        return $this->_db->fetchRow($sql);
      }
      
      //just recommendations

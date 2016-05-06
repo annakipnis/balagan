@@ -19,12 +19,14 @@ class ManagegroupsController extends Zend_Controller_Action
         
         #GROUPS
         $group_DB = new Application_Model_DbTable_Group();
-        $groups   = $group_DB->getAll($user->ganID);
-        
-        #VIEWS
-        $this->view->groups = $groups;
-        
-        
+        if (isset ($_SESSION['Default']['field'])) {
+            $groups   = $group_DB->getAll($user->ganID, $_SESSION['Default']['field']);
+            if ($groups) {
+                $this->view->groups = $groups;
+            }
+        } else {
+            $this->view->error = true;
+        }
         #Layout
         $this->_helper->layout->setLayout('layout');
         $this->config = Zend_Registry::get('config');
@@ -36,11 +38,13 @@ class ManagegroupsController extends Zend_Controller_Action
         $this->msger = $this->_helper->getHelper('FlashMessenger');
         $this->view->flashmsgs = $this->msger->getMessages();
         $this->lang = Zend_Registry::get('lang');
+        
+        $this->view->userRole = $_SESSION['Default']['role'];
     }
     
     
     public function indexAction(){
-        
+
     }
     
     public function addAction(){
@@ -65,12 +69,13 @@ class ManagegroupsController extends Zend_Controller_Action
         $new_group = array(
             'name'       => $group_data['groupName'],
             'color'     => $group_data['color'],
-            'ganID'     => $user->ganID
+            'ganID'     => $user->ganID,
+            'fieldID'   => $_SESSION['Default']['field']
         );
         try{
             $group_id = $group_DB->insert( $new_group );
         } catch (Exception $ex) {
-            die( json_encode( array('status'=> 'danger', 'msg' => $group_id) ) );
+            die( json_encode( array('status'=> 'danger', 'msg' => $ex->getMessage()) ) );
         }
         $this->_redirect("/managegroups");
     }
@@ -82,7 +87,7 @@ class ManagegroupsController extends Zend_Controller_Action
         public function groupAction () {
         $groupID = $this->_request->getParam('g');
         
-        $student_DB = new Application_Model_DbTable_Student();
+        $student_DB = new Application_Model_DbTable_StudentsInField();
         $students = $student_DB->getAll ($groupID);
 
         $this->view->students = $students;
@@ -95,8 +100,8 @@ class ManagegroupsController extends Zend_Controller_Action
 
         $groupID = $this->_request->getParam('g');
         
-        $student_DB = new Application_Model_DbTable_Student();
-        $students = $student_DB->getAllGroupless($ganID);
+        $student_DB = new Application_Model_DbTable_StudentsInField();
+        $students = $student_DB->getAllGroupless($ganID, $_SESSION['Default']['field']);
 
         $this->view->students = $students;
         $this->view->groupID = $groupID;
@@ -106,9 +111,11 @@ class ManagegroupsController extends Zend_Controller_Action
         $studentID = $this->_request->getParam('s');
         $groupID = $this->_request->getParam('g');
         
-        $student_DB = new Application_Model_DbTable_Student();
+        $students_DB = new Application_Model_DbTable_Student ();
+        $id = $students_DB->getID ($studentID, $_SESSION['Default']['field']);
+        $student_DB = new Application_Model_DbTable_StudentsInField();
         $data = array ( 'groupID' => $groupID );
-        $student_DB->update($data, "studentID = $studentID");
+        $student_DB->update($data, "id = $id");
         
         $this->_redirect("/managegroups/group/g/".$groupID);
 
@@ -118,9 +125,11 @@ class ManagegroupsController extends Zend_Controller_Action
         $studentID = $this->_request->getParam('s');
         $groupID = $this->_request->getParam('g');
         
-        $student_DB = new Application_Model_DbTable_Student();
+        $students_DB = new Application_Model_DbTable_Student ();
+        $id = $students_DB->getID ($studentID, $_SESSION['Default']['field']);
+        $student_DB = new Application_Model_DbTable_StudentsInField();
         $data = array ( 'groupID' => NULL );
-        $student_DB->update($data, "studentID = $studentID");
+        $student_DB->update($data, "id = $id");
         
         $this->_redirect("/managegroups");
     }
@@ -129,17 +138,56 @@ class ManagegroupsController extends Zend_Controller_Action
         $groupID = $this->_request->getParam('g');
         
         $group_DB = new Application_Model_DbTable_Group();
-        $student_DB = new Application_Model_DbTable_Student();
+        $student_DB = new Application_Model_DbTable_StudentsInField();
         $students = $student_DB->getAll($groupID);
         
         foreach ($students as $s) {
             $data = array ( 'groupID' => NULL );
-            $studentID = $s['studentID'];
-            $student_DB->update($data, "studentID = $studentID");
+            $studentID = $s['id'];
+            $student_DB->update($data, "id = $studentID");
         }
         
         $group_DB->delete("groupID = $groupID");
         
         $this->_redirect("/managegroups");
+    }
+    
+    public function importgroupsAction () {
+        $fieldID = $this->_request->getParam('f');
+        if ($fieldID) {
+            $user = Zend_Auth::getInstance()->getStorage()->read();
+            $groups_DB = new Application_Model_DbTable_Group();
+            $students_DB = new Application_Model_DbTable_StudentsInField();
+            $groups = $groups_DB->getAll($user->ganID, $fieldID);
+            foreach ($groups as $g) {
+                $new_group = array('name'    => $g['name'],
+                                   'color'   => $g['color'],
+                                   'ganID'   => $user->ganID,
+                                   'fieldID' => $_SESSION['Default']['field']);
+                try{
+                    $group_id = $groups_DB->insert($new_group);
+                } catch (Exception $ex) {
+                    die( json_encode( array('status'=> 'danger', 'msg' => $ex->getMessage()) ) );
+                }
+                $students = $students_DB->getAll($g['groupID']);
+                foreach ($students as $s) {
+                    $new_student = array('studentID' => $s['studentID'],
+                                        'fieldID'    => $_SESSION['Default']['field'],
+                                        'groupID'    => $group_id);
+                    try{
+                        $student_id = $students_DB->insert($new_student);
+                    } catch (Exception $ex) {
+                        die( json_encode( array('status'=> 'danger', 'msg' => $ex->getMessage()) ) );
+                    }
+                }
+            }
+            $this->_redirect("/managegroups");
+        } else {
+            $fields_DB = new Application_Model_DbTable_Field();
+            $fields   = $fields_DB->getAll();
+
+            $this->view->fields = $fields;
+            $this->view->fieldID = $_SESSION['Default']['field'];
+        }
     }
 }

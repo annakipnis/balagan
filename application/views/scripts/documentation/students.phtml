@@ -10,6 +10,7 @@
                 <div class="title"><?php echo $this->lang->_('DOC_AFTER_GAME'); ?></div>
             </div>
         </div>
+    <?php if ($this->acl->isAllowed($this->userRole,'documentation','read')):?>
         <!--Pop up-->
         <input type="hidden" id="base_url" value="<?php echo $this->baseUrl(); ?>">
         <div id="modal" style="display: none;">
@@ -80,5 +81,8 @@
                 </div>
             </div>
         </div>
+    <?php else: ?>
+        <?php echo $this->lang->_('ACCESS_DENIED'); ?>
+    <?php endif;?>
     </div>
 </div>

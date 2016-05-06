@@ -112,6 +112,8 @@ ADMIN_ADD_GOAL;"הוסף מטרה"
 ADMIN_EDIT_GOAL;"עריכת מטרה"
 ADMIN_ADD_GAME;"הוסף משחק"
 ADMIN_ADD_FIELD;"הוסף תחום"
+ADMIN_EDIT_FIELD;"עריכת תחום"
+ADMIN_EDIT_GAME;"עריכת משחק"
 ADMIN_EDIT_GOAL;"עריכת מטרה"
 
 
@@ -139,12 +141,17 @@ REPORT_RECOMMEND;"המלצה"
 
 SELECT_FIELD;"בחר תחום"
 NO_FIELD_CHOSEN;"לא נבחר תחום."
+NO_GAMES;"אין משחקים במטרה זו."
 
 REQUIRED_FIELD_NAME;"נא להכניס שם תחום"
 FIELD_NAME_EXISTS;"נא לבחור שם תחום שאינו קיים"
-
+NO_GROUPS_FOR_FIELD;"לא קיימות קבוצות בתחום זה."
+IMPORT_GROUPS_QUESTION;"לא קיימות קבוצות בתחום זה. האם ברצונך לייבא מתחומים אחרים?"
+IMPORT_FROM_FIELD;"ייבוא קבוצות מתחום:"
 
 GRADE1;"היגד עם ציון 1"
 GRADE2;"היגד עם ציון 2"
 GRADE3;"היגד עם ציון 3"
 GRADE4;"היגד עם ציון 4"
+
+ACCESS_DENIED;"אין לך הרשאות לדף זה."

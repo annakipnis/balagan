@@ -7,6 +7,7 @@
         </div>
     </div>
     </div>
+    <?php if ($this->acl->isAllowed($this->userRole,'managegroups','edit')):?>
     <!--Groups Tables-->
     <div class="row">
         <div class="students-doc">
@@ -36,4 +37,7 @@
             </div>
         </div>
     </div>
+    <?php else: ?>
+        <?php echo $this->lang->_('ACCESS_DENIED'); ?>
+    <?php endif;?>
 </div>

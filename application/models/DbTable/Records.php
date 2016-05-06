@@ -24,7 +24,7 @@ class Application_Model_DbTable_Records extends Zend_Db_Table_Abstract
         $sql = "
             SELECT *
             FROM `$this->_name` 
-            WHERE studentID = $studentID AND gameID = $gameID AND gradeID = $gradeID";
+            WHERE studentinfieldID = $studentID AND gameID = $gameID AND gradeID = $gradeID";
         
         return $this->_db->fetchAll($sql);
     }

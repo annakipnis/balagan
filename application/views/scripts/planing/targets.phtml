@@ -7,6 +7,7 @@
                 <div class="title"><?php echo $this->lang->_('SELECT_GOAL'); ?></div>
             </div>
         </div>
+        <?php if ($this->acl->isAllowed($this->userRole,'planning','read')):?>
         <!--Groups Tables-->
         <div class="row">
             <table class="table table-goals">
@@ -36,5 +37,8 @@
                 </tbody>
             </table>
         </div>
+        <?php else: ?>
+            <?php echo $this->lang->_('ACCESS_DENIED'); ?>
+        <?php endif;?>
     </div>
 </div>

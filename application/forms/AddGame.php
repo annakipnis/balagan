@@ -7,7 +7,7 @@ class Application_Form_AddGame extends Zend_Form {
  public function init(){
     $lang = Zend_Registry::get('lang');
     $this->setMethod('post');
-    $this->setName('addgame_form');        
+    $this->setName('addgame_form');   
     $this->setAction($this->_getUrl('planing', 'addgame')); 
     $this->setAttrib('lang', $lang); 
     $this->setAttrib('enctype', 'application/x-www-form-urlencoded');
@@ -19,7 +19,7 @@ class Application_Form_AddGame extends Zend_Form {
     $gameName->setRequired(true)
           ->addErrorMessage($lang->_('REQUIRED_FIELD'));
 
-
+    
     $submit = $this->createElement('submit', 'submit', array('class' => 'btn btn-finish', 'label' => $lang->_('FINISH')));
 
     $this->addElements( array(

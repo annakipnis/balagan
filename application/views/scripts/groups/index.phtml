@@ -6,6 +6,7 @@
             <div class="title"><?php echo $this->lang->_('SELECT_GROUP'); ?></div>
         </div>
     </div>
+    <?php if ($this->acl->isAllowed($this->userRole,'groups','read')):?>
     <!--Pop Up-->
     <div id="modal">
         <div class="modalconent">
@@ -27,13 +28,22 @@
     <div class="row">
         <table class="table table-groups">
             <tbody>
+                <?php if (isset ($this->groups)): ?>
                 <?php foreach ($this->groups as $g) : ?>
                 <tr>
                     <td class="icon"><img src="<?php echo $this->baseUrl(); ?>/images/groups/group_<?php echo $g['color']; ?>.png" class="" alt="group_<?php echo $g['color']; ?>" /></td>
                     <td class="body" ng-click="group = <?php echo $g['groupID']; ?>" ng-class="{'active' : group == <?php echo $g['groupID']; ?>}"><a href="<?php echo $this->baseurl(); ?>/groups/group/g/<?php echo $g['groupID']; ?>"><div class="big-title"><?php echo $g['name']; ?></div><span class="small-title"><?php echo $g['students']; ?></span></a></td>
                 </tr>
                 <?php endforeach; ?>
+                <?php else: ?>
+                    <tr>                    
+                        <td class="body"><?php echo $this->lang->_('NO_GROUPS_FOR_FIELD'); ?></td>
+                    </tr>
+                <?php endif; ?>
             </tbody>
         </table>
     </div>
+    <?php else: ?>
+        <?php echo $this->lang->_('ACCESS_DENIED'); ?>
+    <?php endif;?>
 </div>

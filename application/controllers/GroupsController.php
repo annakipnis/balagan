@@ -15,15 +15,6 @@ class GroupsController extends Zend_Controller_Action
         {
             $this->_redirect('/');
         }
-        
-        $user = Zend_Auth::getInstance()->getStorage()->read();
-        
-        #GROUPS
-        $group_DB = new Application_Model_DbTable_Group();
-        $groups   = $group_DB->getAll( $user->ganID );
-        
-        #VIEWS
-        $this->view->groups = $groups;
                 
         #Layout
         $this->_helper->layout->setLayout('layout');
@@ -36,6 +27,8 @@ class GroupsController extends Zend_Controller_Action
         $this->msger = $this->_helper->getHelper('FlashMessenger');
         $this->view->flashmsgs = $this->msger->getMessages();
         $this->lang = Zend_Registry::get('lang');
+        
+        $this->view->userRole = $_SESSION['Default']['role'];
     }
     
     /*
@@ -47,20 +40,23 @@ class GroupsController extends Zend_Controller_Action
         if ($field_id) {
             $_SESSION['Default']['field'] = $field_id;
             
-            /**for pop up**/
+            /**for groups view**/
             $user = Zend_Auth::getInstance()->getStorage()->read();
             $group_DB = new Application_Model_DbTable_Group();
-            $groups   = $group_DB->getAll( $user->ganID );
-            
+            $groups = $group_DB->getAll( $user->ganID, $_SESSION['Default']['field']);
+            if ($groups) {
+                $this->view->groups = $groups;
+            }
+
+            /**for pop up**/            
             $plans_DB = new Application_Model_DbTable_Planing ();
             $goals_DB = new Application_Model_DbTable_Target ();
             $_groups  = array();
             foreach($groups as $g) {
-                if ($plans_DB->getLastPlan($g['groupID'], $_SESSION['Default']['field'])) {
-                    $lastplan = $plans_DB->getLastPlan($g['groupID'], $_SESSION['Default']['field'])[0];
+                $lastplan = $plans_DB->getLastPlan($g['groupID'], $_SESSION['Default']['field']);
+                if ($lastplan) {
                     $g['plan']= $lastplan['game_name'];
                     $g['goal']= $goals_DB->getGoalName($lastplan['goal_id']);
-
                     $_groups[] = $g;
                 }
             }
@@ -70,7 +66,16 @@ class GroupsController extends Zend_Controller_Action
     }
     //homepage without popup
     public function groupsAction () {
-        
+        $user = Zend_Auth::getInstance()->getStorage()->read();
+        $group_DB = new Application_Model_DbTable_Group();
+        if (isset ($_SESSION['Default']['field'])) {
+            $groups = $group_DB->getAll( $user->ganID, $_SESSION['Default']['field']);
+            if ($groups) {
+                $this->view->groups = $groups;
+            }
+        } else {
+            $this->view->error = true;
+        }
     }
     /*
      * Author : M_AbuAjaj

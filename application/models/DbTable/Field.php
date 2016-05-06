@@ -12,6 +12,15 @@ class Application_Model_DbTable_Field extends Zend_Db_Table_Abstract
         return $this->_db->fetchAll($sql);
     }
     
+    public function getFieldName($fieldID) {
+        $sql = "
+            SELECT name
+            FROM `$this->_name`
+            WHERE fieldID = $fieldID";
+        
+        return $this->_db->fetchOne($sql);
+    }
+    
     public function isExists ($fieldName) {
         $sql = "
             SELECT name

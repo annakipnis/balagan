@@ -40,5 +40,15 @@ class Application_Model_DbTable_Users extends Zend_Db_Table_Abstract
             WHERE email = '$username' AND isAdmin = 1";
         return $this->_db->fetchRow($sql);
     }
+    
+    public function getRole ($username) {
+        $sql = "
+            SELECT r.name as 'roleName'
+            FROM $this->_name as u
+            LEFT JOIN `roles` as r
+            ON (u.roleID = r.roleID)
+            WHERE email = '$username'";
+        return $this->_db->fetchOne($sql);
+    }
    
 }

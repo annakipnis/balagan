@@ -9,13 +9,16 @@ class Application_Model_DbTable_Group extends Zend_Db_Table_Abstract
      * Date   : 24/02/2015
      * Get All Groups of Gan
      */
-    public function getAll( $ganID ){
+    public function getAll( $ganID, $fieldID){
         $sql = "
             SELECT g.*, GROUP_CONCAT(s.name SEPARATOR ', ') as students
             FROM `$this->_name` as g
+            LEFT JOIN `studentsinfield` as sf
+            ON(g.groupID = sf.groupID)
             LEFT JOIN `students` as s
-            ON(g.groupID = s.groupID)
+            ON(sf.studentID = s.studentID)
             WHERE g.ganID = $ganID
+            AND g.fieldID = $fieldID
             GROUP BY g.groupID";
         
         return $this->_db->fetchAll($sql);
@@ -29,8 +32,10 @@ class Application_Model_DbTable_Group extends Zend_Db_Table_Abstract
         $sql = "
             SELECT g.*, GROUP_CONCAT(s.name SEPARATOR ', ') as students
             FROM `$this->_name` as g
+            LEFT JOIN `studentsinfield` as sf
+            ON(g.groupID = sf.groupID)
             LEFT JOIN `students` as s
-            ON(g.groupID = s.groupID)
+            ON(sf.studentID = s.studentID)
             WHERE g.groupID = $groupID";
         
         return $this->_db->fetchRow($sql);

@@ -23,6 +23,8 @@ class StudentsController extends Zend_Controller_Action
         $this->view->flashmsgs = $this->msger->getMessages();
         $this->lang   = Zend_Registry::get('lang');
         date_default_timezone_set('Asia/Tel_Aviv');
+        
+        $this->view->userRole = $_SESSION['Default']['role'];
     }
     
     /*
@@ -32,9 +34,11 @@ class StudentsController extends Zend_Controller_Action
     public function indexAction(){
         unset($_SESSION['Default']['report']);
         #Get All Students
-        $student_DB = new Application_Model_DbTable_Student();
-        $students   = $student_DB->getAllInGan( $this->user->ganID );
-        $this->view->students = $students;
+        $student_DB = new Application_Model_DbTable_StudentsInField();
+        if (isset($_SESSION['Default']['field'])) {
+            $students   = $student_DB->getAllInGan( $this->user->ganID, $_SESSION['Default']['field']);
+            $this->view->students = $students;
+        }
     }
     /*
      * Author : M_AbuAjaj
@@ -44,7 +48,7 @@ class StudentsController extends Zend_Controller_Action
     public function getAction(){
         if( $this->getRequest()->isGet() ){
             $student_id = $this->_request->getParam('s');
-            $student_DB = new Application_Model_DbTable_Student();
+            $student_DB = new Application_Model_DbTable_StudentsInField();
             if (!isset($_SESSION['Default']['field'])) {
                 $this->view->field_error = true;
             } else {
@@ -70,7 +74,7 @@ class StudentsController extends Zend_Controller_Action
         $student_id = $this->_request->getParam('s');
         $_SESSION['Default']['report'] = true;
         
-        $student_DB = new Application_Model_DbTable_Student();
+        $student_DB = new Application_Model_DbTable_StudentsInField();
         $student = $student_DB->getRecords($student_id, $_SESSION['Default']['field']);
         $results = array();
         foreach ($student as $row) {

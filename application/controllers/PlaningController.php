@@ -28,6 +28,8 @@ class PlaningController extends Zend_Controller_Action
         
         $this->msger = $this->_helper->getHelper('FlashMessenger');
         $this->lang = Zend_Registry::get('lang');
+        
+        $this->view->userRole = $_SESSION['Default']['role'];
     }
     
     /*
@@ -68,9 +70,10 @@ class PlaningController extends Zend_Controller_Action
         if( $group_id && $target_id ){
             $game_DB = new Application_Model_DbTable_Game();
             $games = $game_DB->getAll($_SESSION['Default']['field'], $target_id);
-            
+            if ($games) {
+                $this->view->games  = $games;
+            }
             $this->view->group_id = $group_id;
-            $this->view->games  = $games;
         }
     }
     
@@ -132,7 +135,7 @@ class PlaningController extends Zend_Controller_Action
         try{
             $game_id = $games_DB->insert( $new_game );
         } catch (Exception $ex) {
-            die( json_encode( array('status'=> 'danger', 'msg' => $group_id) ) );
+            die( json_encode( array('status'=> 'danger', 'msg' => $ex->getMessage()) ) );
         }
         $this->_redirect("/planing/games/g/".$group_id."/t/".$target_id);
     }
@@ -140,17 +143,21 @@ class PlaningController extends Zend_Controller_Action
     public function  plannedactivitiesAction () {
         $user = Zend_Auth::getInstance()->getStorage()->read();
         $group_DB = new Application_Model_DbTable_Group();
-        $groups   = $group_DB->getAll( $user->ganID );
-        
-        $plans_DB = new Application_Model_DbTable_Planing ();
-        $_groups  = array();
         if (!isset ($_SESSION['Default']['field'])) {
             $this->view->field_error = true;
         } else {
+            $groups   = $group_DB->getAll( $user->ganID, $_SESSION['Default']['field']);
+
+            $plans_DB = new Application_Model_DbTable_Planing ();
+            $games_DB = new Application_Model_DbTable_Game ();
+            $_groups  = array();
             foreach($groups as $g) {
-                $result = $plans_DB->getLastPlan($g['groupID'], $_SESSION['Default']['field']);
-                if (count($result) > 0) {
-                    $g['plan']= $result[0]['game_name'];
+                $last_plan = $plans_DB->getLastPlan($g['groupID'], $_SESSION['Default']['field']);
+                $gameID = $last_plan['game_id'];
+                $goalName = $games_DB->getGoalName ($gameID);
+                if ($last_plan) {
+                    $g['plan'] = $last_plan['game_name'];
+                    $g['goal'] = $goalName;
                     $_groups[] = $g;
                 }
             }            
@@ -162,9 +169,12 @@ class PlaningController extends Zend_Controller_Action
     public function doneactivitiesAction () {
         $user = Zend_Auth::getInstance()->getStorage()->read();
         $group_DB = new Application_Model_DbTable_Group();
-        $groups   = $group_DB->getAll( $user->ganID );
-        
-        #VIEWS
-        $this->view->groups = $groups;
+        if (!isset ($_SESSION['Default']['field'])) {
+            $this->view->field_error = true;
+        } else {
+            $groups   = $group_DB->getAll( $user->ganID, $_SESSION['Default']['field']);      
+            #VIEWS
+            $this->view->groups = $groups;
+        }
     }
 }

@@ -7,10 +7,12 @@
                 <div class="title"><?php echo $this->lang->_('SELECT_GAME'); ?></div>
             </div>
         </div>
+        <?php if ($this->acl->isAllowed($this->userRole,'planning','read')):?>
         <!--Games Tables-->
         <div class="row">
             <table class="table table-games">
                 <tbody>
+                <?php if (isset($this->games)) : ?>
                     <?php foreach ($this->games as $g) : ?>
                     <tr data-ng-click="game = <?php echo $g['gameID']; ?>" data-ng-class="{'active' : game == <?php echo $g['gameID']; ?>}">
                         <td class="icon"><img src="<?php echo $this->baseUrl(); ?>/images/games/<?php echo $g['icon']; ?>.png" class="" alt="memory_game" /></td>
@@ -25,8 +27,14 @@
                             <a href="<?php echo $this->baseurl(); ?>/planing/newgame/g/<?php echo $this->group_id; ?>/t/<?php echo $g['goalID']; ?>"><div class="big-title"><?php echo $this->lang->_('ADD_GAME'); ?></div></a>
                         </td>
                     </tr>
+                <?php else: ?>
+                    <tr><td><?php echo $this->lang->_('NO_GAMES'); ?></td></tr>
+                <?php endif; ?>
                 </tbody> 
             </table>
         </div>
+        <?php else: ?>
+            <?php echo $this->lang->_('ACCESS_DENIED'); ?>
+        <?php endif;?>`
     </div>
 </div>

@@ -38,7 +38,7 @@ class Application_Model_DbTable_Game extends Zend_Db_Table_Abstract
         $sql = "
            SELECT gm.*
             FROM $this->_name as gm
-            LEFT JOIN 'goals' as g
+            LEFT JOIN `goals` as g
             ON (gm.goalID = g.goalID)
             WHERE g.level = $goalLevel
             ANd g.fieldID = $fieldID";
@@ -78,5 +78,24 @@ class Application_Model_DbTable_Game extends Zend_Db_Table_Abstract
         
         return $this->_db->fetchOne($sql);
     }
+    
+    public function getGameName($gameID) {
+        $sql = "
+            SELECT name
+            FROM `$this->_name`
+            WHERE gameID = $gameID";
+        
+        return $this->_db->fetchOne($sql);
+    }
    
+    public function getGoalName ($gameID) {
+        $sql = "
+            SELECT g.name
+            FROM `$this->_name` as gm
+            LEFT JOIN `goals` as g
+            ON (gm.goalID = g.goalID)
+            WHERE gameID = $gameID";
+        
+        return $this->_db->fetchOne($sql);
+    }
 }

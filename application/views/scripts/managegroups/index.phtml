@@ -6,24 +6,43 @@
             <div class="title"><?php echo $this->lang->_('MANAGE_GROUPS'); ?></div>
         </div>
     </div>
+    <?php if ($this->acl->isAllowed($this->userRole,'managegroups','edit')):?>
     <!--Groups Tables-->
     <input type="hidden" id="base_url" value="<?php echo $this->baseUrl(); ?>">
     <input type="hidden" id="are_you_sure" value="<?php echo $this->lang->_('ARE_YOU_SURE_QUESTION'); ?>">
     <div class="row">
         <table class="table table-groups">
             <tbody>
-                <?php foreach ($this->groups as $g) : ?>
-                <tr>
-                    <td class="icon"><img src="<?php echo $this->baseUrl(); ?>/images/groups/group_<?php echo $g['color']; ?>.png" class="" alt="group_<?php echo $g['color']; ?>" /></td>
-                    <td class="body" ng-click="group = <?php echo $g['groupID']; ?>" ng-class="{'active' : group == <?php echo $g['groupID']; ?>}"><a href="<?php echo $this->baseurl(); ?>/managegroups/group/g/<?php echo $g['groupID']; ?>"><div class="big-title"><?php echo $g['name']; ?></div><span class="small-title"><?php echo $g['students']; ?></span></a></td>
-                    <td class="delete"><br><button onclick="deletegroup('<?php echo $g['groupID']; ?>')"><img src="<?php echo $this->baseUrl(); ?>/images/delete.png" class="" alt="" /></button></td>
+                <?php if (isset ($this->error)): ?>
+                    <tr><td><?php echo $this->lang->_('NO_FIELD_CHOSEN'); ?></td></tr>
+                <?php elseif (isset ($this->groups)): ?>
+                    <?php foreach ($this->groups as $g) : ?>
+                    <tr>
+                        <td class="icon"><img src="<?php echo $this->baseUrl(); ?>/images/groups/group_<?php echo $g['color']; ?>.png" class="" alt="group_<?php echo $g['color']; ?>" /></td>
+                        <td class="body" ng-click="group = <?php echo $g['groupID']; ?>" ng-class="{'active' : group == <?php echo $g['groupID']; ?>}"><a href="<?php echo $this->baseurl(); ?>/managegroups/group/g/<?php echo $g['groupID']; ?>"><div class="big-title"><?php echo $g['name']; ?></div><span class="small-title"><?php echo $g['students']; ?></span></a></td>
+                        <td class="delete"><br><button onclick="deletegroup('<?php echo $g['groupID']; ?>')"><img src="<?php echo $this->baseUrl(); ?>/images/delete.png" class="" alt="" /></button></td>
 
-                </tr>
-                <?php endforeach; ?>
+                    </tr>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <script type="text/javascript">
+                        (function() {
+                            var ans = confirm('<?php echo $this->lang->_('IMPORT_GROUPS_QUESTION'); ?>');
+                            if (ans == true) {
+                                window.location.href = document.getElementById('base_url').value + '/managegroups/importgroups/';
+                            } 
+                        })(); 
+                    </script>
+                <?php endif; ?>
             </tbody>
         </table>
+        <?php if (!isset ($this->error)): ?>
         <div class="form-group add-student">
             <a href="<?php echo $this->baseurl(); ?>/managegroups/add" class="btn btn-add-student" style="width: 50%; color: #fff;"><img src="<?php echo $this->baseUrl(); ?>/images/add.png" alt="add" /><span><?php echo $this->lang->_('ADD_GROUP'); ?></span></a>
         </div>
+        <?php endif; ?>
     </div>
+    <?php else: ?>
+        <?php echo $this->lang->_('ACCESS_DENIED'); ?>
+    <?php endif;?>
 </div>

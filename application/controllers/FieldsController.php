@@ -17,6 +17,7 @@ class FieldsController extends Zend_Controller_Action
         
         #VIEWS
         $this->view->fields = $fields;
+        $this->view->userRole = $_SESSION['Default']['role'];
         
         
         #Layout

@@ -35,28 +35,28 @@ class Application_Model_DbTable_Student extends Zend_Db_Table_Abstract
      * Date   : 24/02/15
      * get all students from a group
      */
-    public function getAll( $groupID = 0 ){
-        $sql = "
-            SELECT *, name as studentName
-            FROM $this->_name ";
-        if( $groupID ){
-           $sql .= "WHERE groupID = $groupID "; 
-        }
-        $sql .= "ORDER BY name ASC";
-        
-        return $this->_db->fetchAll($sql);
-    }
+//    public function getAll( $groupID = 0 ){
+//        $sql = "
+//            SELECT *, name as studentName
+//            FROM $this->_name ";
+//        if( $groupID ){
+//           $sql .= "WHERE groupID = $groupID "; 
+//        }
+//        $sql .= "ORDER BY name ASC";
+//        
+//        return $this->_db->fetchAll($sql);
+//    }
     
-    public function getAllGroupless($ganID){
-        $sql = "
-            SELECT *, name as studentName
-            FROM $this->_name 
-            WHERE groupID IS NULL
-            AND ganID = $ganID
-            ORDER BY name ASC";
-        
-        return $this->_db->fetchAll($sql);
-    }
+//    public function getAllGroupless($ganID){
+//        $sql = "
+//            SELECT *, name as studentName
+//            FROM $this->_name 
+//            WHERE groupID IS NULL
+//            AND ganID = $ganID
+//            ORDER BY name ASC";
+//        
+//        return $this->_db->fetchAll($sql);
+//    }
     /*
      * Author : M_AbuAjaj
      * Date   : 24/02/15
@@ -71,46 +71,57 @@ class Application_Model_DbTable_Student extends Zend_Db_Table_Abstract
         
         return $this->_db->fetchAll($sql);
     }
+    
+    public function getID($studentID, $fieldID){
+        $sql = "
+            SELECT id
+            FROM $this->_name as s
+            LEFT JOIN `studentsinfield` as sf
+            ON(s.studentID = sf.studentID)
+            WHERE s.studentID = $studentID AND sf.fieldID = $fieldID";
+        
+        return $this->_db->fetchOne($sql);
+    }
     /*
      * Author : M_AbuAjaj
      * Date   : 03/03/15
      * get all games and grades of a student (התקדמות אישית)
      */
-    public function get( $studentID, $fieldID){
-        $sql = "
-            SELECT s.name as student, r.date, gr.name as grade, go.name as goal
-            FROM $this->_name as s
-            LEFT JOIN `records` as r
-            ON(s.studentID = r.studentID)
-            LEFT JOIN `games` as g
-            ON(r.gameID = g.gameID)
-            LEFT JOIN `goals` as go
-            ON(g.goalID = go.goalID)
-            LEFT JOIN `grades` as gr
-            ON(r.gradeID = gr.gradeID)
-            WHERE s.studentID = $studentID
-            AND go.fieldID = $fieldID
-            ORDER BY r.date DESC";
-        
-        return $this->_db->fetchAll($sql);
-    }
+//    public function get( $studentID, $fieldID){
+//        $sql = "
+//            SELECT s.name as student, r.date, gr.name as grade, go.name as goal
+//            FROM $this->_name as s
+//            LEFT JOIN `records` as r
+//            ON(s.studentID = r.studentID)
+//            LEFT JOIN `games` as g
+//            ON(r.gameID = g.gameID)
+//            LEFT JOIN `goals` as go
+//            ON(g.goalID = go.goalID)
+//            LEFT JOIN `grades` as gr
+//            ON(r.gradeID = gr.gradeID)
+//            WHERE s.studentID = $studentID
+//            AND go.fieldID = $fieldID
+//            ORDER BY r.date DESC";
+//        
+//        return $this->_db->fetchAll($sql);
+//    }
     
-    public function getRecords( $studentID, $fieldID){
-        $sql = "
-            SELECT s.name as student, r.date, gr.name as grade, go.name as goal
-            FROM $this->_name as s
-            LEFT JOIN `records` as r
-            ON(s.studentID = r.studentID)
-            LEFT JOIN `games` as g
-            ON(r.gameID = g.gameID)
-            LEFT JOIN `goals` as go
-            ON(g.goalID = go.goalID)
-            LEFT JOIN `grades` as gr
-            ON(r.gradeID = gr.gradeID)
-            WHERE s.studentID = $studentID
-            AND go.fieldID = $fieldID
-            ORDER BY r.date ASC";
-        
-        return $this->_db->fetchAll($sql);
-    }
+//    public function getRecords( $studentID, $fieldID){
+//        $sql = "
+//            SELECT s.name as student, r.date, gr.name as grade, go.name as goal
+//            FROM $this->_name as s
+//            LEFT JOIN `records` as r
+//            ON(s.studentID = r.studentID)
+//            LEFT JOIN `games` as g
+//            ON(r.gameID = g.gameID)
+//            LEFT JOIN `goals` as go
+//            ON(g.goalID = go.goalID)
+//            LEFT JOIN `grades` as gr
+//            ON(r.gradeID = gr.gradeID)
+//            WHERE s.studentID = $studentID
+//            AND go.fieldID = $fieldID
+//            ORDER BY r.date ASC";
+//        
+//        return $this->_db->fetchAll($sql);
+//    }
 }

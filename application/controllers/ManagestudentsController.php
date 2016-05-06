@@ -22,7 +22,8 @@ class ManagestudentsController extends Zend_Controller_Action
         $students = $student_DB->getAllInGan ($user->ganID);
         #VIEWS
         $this->view->students = $students;
-        
+        $this->view->userRole = $_SESSION['Default']['role'];
+
         
         #Layout
         $this->_helper->layout->setLayout('layout');
@@ -80,7 +81,18 @@ class ManagestudentsController extends Zend_Controller_Action
         try{
             $student_id = $student_DB->insert( $new_student );
         } catch (Exception $ex) {
-            die( json_encode( array('status'=> 'danger', 'msg' => $student_data['birthDate']) ) );
+            die( json_encode( array('status'=> 'danger', 'msg' => $ex->getMessage()) ) );
+        }
+        $fields_DB = new Application_Model_DbTable_Field ();
+        $fields = $fields_DB->getAll();
+        $studentinfield_DB = new Application_Model_DbTable_StudentsInField();
+        foreach ($fields as $f) {
+            $new_studentinfield = array('studentID' => $student_id, 'fieldID' => $f['fieldID']);
+            try{
+                $id = $studentinfield_DB->insert( $new_studentinfield );
+            } catch (Exception $ex) {
+                die( json_encode( array('status'=> 'danger', 'msg' => $ex->getMessage()) ) );
+            }
         }
         $this->_redirect("/managestudents");
     }

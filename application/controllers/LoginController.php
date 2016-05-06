@@ -35,76 +35,76 @@ class LoginController extends Zend_Controller_Action
     }
     
     
-    public function grantAction(){
-        
-        if( !$this->admin_is_on ) {
-           die('ACCESS DENIED!');
-        }
-        
-        $request = $this->getRequest();
-        $user_data = $request->getPost();
-
-        //$authAdapter = $this->getAuthAdapter();
-
-        # get the username and password from the form
-        $username = trim($user_data['username']);
-      
-        $password =  'boss';
-   
-        if (!strlen($username)){
-           echo  $this->view->lang->_('MISSING USERNAME');die;
-        }
-      
-        # pass to the adapter the submitted username and password
-        $authAdapter = $this->getAuthAdapter();
-        $authAdapter->setIdentity($username)
-                    ->setCredential($password);
-
-        $auth = Zend_Auth::getInstance();
-        $result = $auth->authenticate($authAdapter);
-
-         # is the user a valid one?
-        if( $this->admin_is_on )
-        {
-            # all info about this user from the login table
-            # ommit only the password, we don't need that
-           $user = new Application_Model_DbTable_Users();
-         
-            $userInfo = $user->getUserInfo($username);
-
-            # the default storage is a session with namespace Zend_Auth
-            $authStorage = $auth->getStorage();
-            $authStorage->write($userInfo);
-            
-            
-            if ( $userInfo->role == Application_Model_DbTable_Users::$EMPLOYER ) {
-              $jobs = $user->getEmpJobs($userInfo->user_id);
-      //        print_r ($jobs);die;
-              $user_jobs = new Zend_Session_Namespace('jobs');
-              foreach ($jobs as $id) {   
-                  $user_jobs->jobs[] = $id->job_id;
-              }
-              
-              $this->_redirect('/empconsole/'); 
-            }
-                  
-                        
-            if ( $userInfo->role == Application_Model_DbTable_Users::$SEEKER )
-                 $this->_redirect('/sekconsole/'); 
-            
-            if ( $userInfo->role == Application_Model_DbTable_Users::$ADMIN )
-                 $this->_redirect('/addmin/');
-              
-            
-            die ('Invalid user account!');
-        }
-        else
-        {
-
- echo Zend_Json::encode(array('status' => false, 'msg' => $this->view->lang->_('WRONG LOGIN') ));die;
-        }
-
-    }
+//    public function grantAction(){
+//        
+//        if( !$this->admin_is_on ) {
+//           die('ACCESS DENIED!');
+//        }
+//        
+//        $request = $this->getRequest();
+//        $user_data = $request->getPost();
+//
+//        //$authAdapter = $this->getAuthAdapter();
+//
+//        # get the username and password from the form
+//        $username = trim($user_data['username']);
+//      
+//        $password =  'boss';
+//   
+//        if (!strlen($username)){
+//           echo  $this->view->lang->_('MISSING USERNAME');die;
+//        }
+//      
+//        # pass to the adapter the submitted username and password
+//        $authAdapter = $this->getAuthAdapter();
+//        $authAdapter->setIdentity($username)
+//                    ->setCredential($password);
+//
+//        $auth = Zend_Auth::getInstance();
+//        $result = $auth->authenticate($authAdapter);
+//
+//         # is the user a valid one?
+//        if( $this->admin_is_on )
+//        {
+//            # all info about this user from the login table
+//            # ommit only the password, we don't need that
+//           $user = new Application_Model_DbTable_Users();
+//         
+//            $userInfo = $user->getUserInfo($username);
+//
+//            # the default storage is a session with namespace Zend_Auth
+//            $authStorage = $auth->getStorage();
+//            $authStorage->write($userInfo);
+//            
+//            
+//            if ( $userInfo->role == Application_Model_DbTable_Users::$EMPLOYER ) {
+//              $jobs = $user->getEmpJobs($userInfo->user_id);
+//      //        print_r ($jobs);die;
+//              $user_jobs = new Zend_Session_Namespace('jobs');
+//              foreach ($jobs as $id) {   
+//                  $user_jobs->jobs[] = $id->job_id;
+//              }
+//              
+//              $this->_redirect('/empconsole/'); 
+//            }
+//                  
+//                        
+//            if ( $userInfo->role == Application_Model_DbTable_Users::$SEEKER )
+//                 $this->_redirect('/sekconsole/'); 
+//            
+//            if ( $userInfo->role == Application_Model_DbTable_Users::$ADMIN )
+//                 $this->_redirect('/addmin/');
+//              
+//            
+//            die ('Invalid user account!');
+//        }
+//        else
+//        {
+//
+// echo Zend_Json::encode(array('status' => false, 'msg' => $this->view->lang->_('WRONG LOGIN') ));die;
+//        }
+//
+//    }
 
     
     /**
@@ -175,7 +175,9 @@ class LoginController extends Zend_Controller_Action
             //$user->setLastLogin($userInfo->user_id);
             
             #check if user is admin
-            if ($user_DB->isAdmin($username)) {
+            $role = (string)$user_DB->getRole($username);
+            $_SESSION['Default']['role'] = $role;
+            if ($role == 'admin') {
                 $_SESSION['Default']['entry'] = true;
                 $this->_redirect('/entry');
             }

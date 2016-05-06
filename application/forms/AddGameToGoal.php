@@ -4,11 +4,20 @@
 
 class Application_Form_AddGameToGoal extends Zend_Form {
     
+    protected $_gamename = null;
+    public function setGamename($gamename){
+        $this->_gamename = $gamename;
+    }
+    
  public function init(){
     $lang = Zend_Registry::get('lang');
     $this->setMethod('post');
     $this->setName('addgame_form');        
-    $this->setAction($this->_getUrl('admin', 'savegame')); 
+    if($this->_gamename != NULL) {
+        $this->setAction($this->_getUrl('admin', 'updategame')); 
+    } else {
+        $this->setAction($this->_getUrl('admin', 'savegame')); 
+    }
     $this->setAttrib('lang', $lang); 
     $this->setAttrib('enctype', 'application/x-www-form-urlencoded');
     $this->setDecorators(array(
@@ -19,6 +28,9 @@ class Application_Form_AddGameToGoal extends Zend_Form {
     $gameName->setRequired(true)
           ->addErrorMessage($lang->_('REQUIRED_FIELD'));
 
+    if($this->_gamename != NULL){
+        $gameName->setValue($this->_gamename);
+    }
 
     $submit = $this->createElement('submit', 'submit', array('class' => 'btn btn-finish', 'label' => $lang->_('FINISH')));
 

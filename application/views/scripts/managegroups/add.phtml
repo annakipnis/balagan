@@ -12,6 +12,7 @@
                         echo $msg;
         } } ?>
     </div>
+    <?php if ($this->acl->isAllowed($this->userRole,'managegroups','edit')):?>
     <!--Groups Tables-->
     <div class="form-group"><br></div>
     <form id="addgroup-form"
@@ -35,4 +36,7 @@
             </div>
         </div>
     </form>
+    <?php else: ?>
+        <?php echo $this->lang->_('ACCESS_DENIED'); ?>
+    <?php endif;?>
 </div>

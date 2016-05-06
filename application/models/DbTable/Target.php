@@ -148,7 +148,7 @@ class Application_Model_DbTable_Target extends Zend_Db_Table_Abstract
             FROM $this->_name 
             WHERE name REGEXP '$goalName'";
         
-        return $this->_db->fetchOne($sql);
+        return $this->_db->fetchAll($sql);
     }
     
 }

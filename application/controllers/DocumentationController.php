@@ -29,6 +29,8 @@ class DocumentationController extends Zend_Controller_Action
         $this->msger = $this->_helper->getHelper('FlashMessenger');
         $this->view->flashmsgs = $this->msger->getMessages();
         $this->lang = Zend_Registry::get('lang');
+        
+        $this->view->userRole = $_SESSION['Default']['role'];
     }
     
     /*
@@ -51,7 +53,7 @@ class DocumentationController extends Zend_Controller_Action
         
         //Return After Planining
         if( $group_id && $target_id ){
-            $student_DB = new Application_Model_DbTable_Student();
+            $student_DB = new Application_Model_DbTable_StudentsInField();
             $grade_DB   = new Application_Model_DbTable_Grade();
             $students   = $student_DB->getAll($group_id);
 
@@ -70,14 +72,13 @@ class DocumentationController extends Zend_Controller_Action
         } 
         else {
             $plans_DB = new Application_Model_DbTable_Planing();
-            if ($plans_DB->getLastPlan ($group_id, $_SESSION['Default']['field'])) {
-                $last_plan = $plans_DB->getLastPlan ($group_id, $_SESSION['Default']['field']) [0];
+            $last_plan = $plans_DB->getLastPlan($group_id, $_SESSION['Default']['field']);
+            if ($last_plan) {
                 $group_id = $last_plan ['groupID'];
                 $target_id = $last_plan ['goal_id'];
                 $game_id = $last_plan ['game_id'];
 
-
-                $student_DB = new Application_Model_DbTable_Student();
+                $student_DB = new Application_Model_DbTable_StudentsInField();
                 $grade_DB   = new Application_Model_DbTable_Grade();
                 $students   = $student_DB->getAll($group_id);
 
@@ -86,7 +87,6 @@ class DocumentationController extends Zend_Controller_Action
                 foreach ($students as $s) { 
                     $s['grades'] = $grades; 
                     $_students[] = $s; 
-
                 }
 
                 $this->view->students  = $_students;
@@ -129,7 +129,7 @@ class DocumentationController extends Zend_Controller_Action
             if( $_params['studentID'] && $_params['gradeID'] && $_params['gameID'] && $_params['groupID']){
                 $doc_DB = new Application_Model_DbTable_Records();
                 $new_doc = array(
-                    'studentID'  => $_params['studentID'],
+                    'studentinfieldID'  => $_params['studentID'],
                     'gameID'     => $_params['gameID'],
                     'gradeID'    => $_params['gradeID'],
                     'date'       => date('Y-m-d H:i:s'),
@@ -180,8 +180,8 @@ class DocumentationController extends Zend_Controller_Action
         $group_id  = $this->_request->getParam('g');
 
         $plans_DB = new Application_Model_DbTable_Planing();
-        if ($plans_DB->getLastPlan ($group_id, $_SESSION['Default']['field'])) {
-            $last_plan = $plans_DB->getLastPlan ($group_id, $_SESSION['Default']['field']) [0];
+        $last_plan = $plans_DB->getLastPlan ($group_id, $_SESSION['Default']['field']);
+        if ($last_plan) {
             $target_id = $last_plan ['goal_id'];
             $game_id = $last_plan ['game_id'];
             $related_plan_id = $last_plan ['planID'];
@@ -213,7 +213,7 @@ class DocumentationController extends Zend_Controller_Action
 
             $num_of_students = count($records);
             $continue_childrenless = false;
-            $students_DB = new Application_Model_DbTable_Student();
+            $students_DB = new Application_Model_DbTable_StudentsInField();
             $real_num_of_students = count($students_DB->getAll($group_id));
             if ($num_of_students < $real_num_of_students) {
                 $continue_childrenless = true;

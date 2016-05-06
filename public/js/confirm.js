@@ -52,3 +52,10 @@ function deletegame(gameID) {
         window.location.href = document.getElementById('base_url').value + '/admin/deletegame/g/'+ gameID;
     } 
 }
+
+function copygroups (text) {
+    var ans = confirm(text);
+    if (ans == true) {
+        window.location.href = document.getElementById('base_url').value + '/managegroups/copygroups/';
+    } 
+}

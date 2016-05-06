@@ -1,5 +1,9 @@
 <?php
 
+//use Zend\Acl;
+//use Zend\Acl\Role\GenericRole as Role;
+//use Zend\Acl\Resource\GenericResource as Resource;
+
 class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 {
 
@@ -35,6 +39,35 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         
         $view->lang = $translate;
         Zend_Registry::set('lang', $translate);
+        
+        /**Permissions**/
+        $acl = new Zend_Acl();
+        $acl->addRole(new Zend_Acl_Role('user'))
+            ->addRole(new Zend_Acl_Role('admin'), 'user');
+                
+        $acl->addResource(new Zend_Acl_Resource('groups'));
+        $acl->addResource(new Zend_Acl_Resource('students'));
+        $acl->addResource(new Zend_Acl_Resource('fields'));
+        $acl->addResource(new Zend_Acl_Resource('planning'));
+        $acl->addResource(new Zend_Acl_Resource('documentation'));
+        $acl->addResource(new Zend_Acl_Resource('managegroups'));
+        $acl->addResource(new Zend_Acl_Resource('managestudents'));
+        
+        $acl->addResource(new Zend_Acl_Resource('manage fields'));
+        $acl->addResource(new Zend_Acl_Resource('manage goals and games'));
+        $acl->addResource(new Zend_Acl_Resource('manage gans and users'));
+
+        $acl->allow('user', 'groups', array('read','edit'));
+        $acl->allow('user', 'students', array('read','edit'));
+        $acl->allow('user', 'fields', array('read','edit'));
+        $acl->allow('user', 'planning', array('read','edit'));
+        $acl->allow('user', 'documentation', array('read','edit'));
+        $acl->allow('user', 'managegroups', array('read','edit'));
+        $acl->allow('user', 'managestudents', array('read','edit'));
+        $acl->allow('admin');
+
+        $view->acl = $acl;
+        Zend_Registry::set('acl', $acl);
     }
 
     protected function _initConfig()

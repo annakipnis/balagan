@@ -9,7 +9,7 @@ class LogoutController extends Zend_Controller_Action
 {
     function init()
     {
-        $this->admin_is_on = false;
+//        $this->admin_is_on = false;
         
         if( Zend_Auth::getInstance()->hasIdentity() )
         {
@@ -32,6 +32,7 @@ class LogoutController extends Zend_Controller_Action
         unset($_SESSION['Default']['admin']);
         unset($_SESSION['Default']['entry']);
         unset($_SESSION['Default']['field']);
+        unset($_SESSION['Default']['role']);
         $this->_redirect('/');
     }
     
