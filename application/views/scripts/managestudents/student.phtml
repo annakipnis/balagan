@@ -1,0 +1,96 @@
+<div class="container-fluid">
+    <!--Title-->
+    <div class="row">
+        <div class="second-header">
+            <img src="<?php echo $this->baseUrl(); ?>/images/GROUP_HEADER.png" class="" alt="GROUP_HEADER" />
+            <div class="title"><?php echo $this->lang->_('STUDENT_INFO'); ?></div>
+        </div>
+    </div>
+    </div>
+    <?php if ($this->acl->isAllowed($this->userRole,'managestudents','edit')):?>
+    <!--Groups Tables-->
+    <div class="row">
+        <table class="table table-groups">
+            <tbody>
+                <tr>
+                    <td class="icon"><img src="" class="" alt="" /></td>
+                    <td class="body">                        
+                        <div class="big-title"><?php echo $this->lang->_('STUDENTNAME'); ?>:</div>
+                        <div class="small-title"><?php echo $this->studentName; ?></div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="icon"><img src="" class="" alt="" /></td>
+                    <td class="body">
+                        <div class="big-title"><?php echo $this->lang->_('STUDENTLASTNAME'); ?>:</div>
+                        <div class="small-title"><?php echo $this->studentLastName; ?></div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="icon"><img src="" class="" alt="" /></td>
+                    <td class="body">
+                        <div class="big-title"><?php echo $this->lang->_('GENDER'); ?>:</div>
+                        <div class="small-title"><?php echo $this->studentGender; ?></div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="icon"><img src="" class="" alt="" /></td>
+                    <td class="body">
+                        <div class="big-title"><?php echo $this->lang->_('BIRTHDATE'); ?>:</div>
+                        <div class="small-title"><?php echo $this->studentBirthDate; ?></div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="icon"><img src="" class="" alt="" /></td>
+                    <td class="body">
+                        <div class="big-title"><?php echo $this->lang->_('MOTHERNAME'); ?>:</div>
+                        <div class="small-title"><?php echo $this->motherName; ?></div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="icon"><img src="" class="" alt="" /></td>
+                    <td class="body">
+                        <div class="big-title"><?php echo $this->lang->_('MOTHERPHONE'); ?>:</div>
+                        <div class="small-title"><?php echo $this->motherPhone; ?></div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="icon"><img src="" class="" alt="" /></td>
+                    <td class="body">
+                        <div class="big-title"><?php echo $this->lang->_('FATHERNAME'); ?>:</div>
+                        <div class="small-title"><?php echo $this->fatherName; ?></div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="icon"><img src="" class="" alt="" /></td>
+                    <td class="body">
+                        <div class="big-title"><?php echo $this->lang->_('FATHERPHONE'); ?>:</div>
+                        <div class="small-title"><?php echo $this->fatherPhone; ?></div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="icon"><img src="" class="" alt="" /></td>
+                    <td class="body">
+                        <div class="big-title"><?php echo $this->lang->_('STUDENTIDNUMBER'); ?>:</div>
+                        <div class="small-title"><?php echo $this->idNumber; ?></div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="row">
+        <div class="col-xs-6">
+            <div class="form-group">
+                <a href="<?php echo $this->baseurl(); ?>/managestudents/editstudent/s/<?php echo $this->studentID; ?>" class="btn btn-next-action"><img src="<?php echo $this->baseUrl(); ?>/images/docomuntation.png" alt="save" /><span><?php echo $this->lang->_('EDIT_STUDENT'); ?></span></a>
+            </div>
+        </div>
+        <div class="col-xs-6">
+            <div class="form-group">
+                <a href="<?php echo $this->baseurl(); ?>/managestudents/report/s/<?php echo $this->studentID; ?>" class="btn btn-planning"><img src="<?php echo $this->baseUrl(); ?>/images/report.png" alt="next" /><span><?php echo $this->lang->_('STUDENT_REPORT'); ?></a>
+            </div>
+        </div>
+    </div>
+    <?php else: ?>
+        <?php echo $this->lang->_('ACCESS_DENIED'); ?>
+    <?php endif;?>
+</div>

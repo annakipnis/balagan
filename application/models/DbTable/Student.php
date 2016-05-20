@@ -82,6 +82,15 @@ class Application_Model_DbTable_Student extends Zend_Db_Table_Abstract
         
         return $this->_db->fetchOne($sql);
     }
+    
+    public function get ($studentID) {
+      $sql = "
+            SELECT *
+            FROM $this->_name
+            WHERE studentID = $studentID";
+        
+        return $this->_db->fetchRow($sql);  
+    }
     /*
      * Author : M_AbuAjaj
      * Date   : 03/03/15

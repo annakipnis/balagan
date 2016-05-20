@@ -475,6 +475,16 @@ dt > label{
 .form-group.add-student {
     text-align: center !important;
 }
+
+.deletestudent > button {
+    border: none;
+    background-color: transparent;
+}
+.deletestudent > button > img {
+    height: 62px;
+    width: 62px;
+}
+
 .delete > button {
     border: none;
     background-color: transparent;

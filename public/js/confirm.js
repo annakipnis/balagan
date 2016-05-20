@@ -11,6 +11,20 @@ function deletegroup(groupID) {
     } 
 }
 
+function deletestudent(studentID) {
+    var ans = confirm(document.getElementById('are_you_sure').value);
+    if (ans == true) {
+        window.location.href = document.getElementById('base_url').value + '/managestudents/deletestudent/s/' + studentID;
+    } 
+}
+
+function deletestudentingroup(studentID, groupID) {
+    var ans = confirm(document.getElementById('are_you_sure').value);
+    if (ans == true) {
+        window.location.href = document.getElementById('base_url').value + '/managegroups/deletestudent/s/' + studentID + '/g/' + groupID;
+    } 
+}
+
 function deleteuser(userID, ganID) {
     var ans = confirm(document.getElementById('are_you_sure').value);
     if (ans == true) {

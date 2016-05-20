@@ -1,0 +1,33 @@
+<div class="container-fluid">
+    <!--Title-->
+    <div class="row">
+        <div class="second-header">
+            <img src="<?php echo $this->baseUrl(); ?>/images/GROUP_HEADER.png" class="" alt="GROUP_HEADER" />
+            <div class="title"><?php echo $this->lang->_('MANAGE_STUDENTS'); ?></div>
+        </div>
+    </div>
+    </div>
+    <?php if ($this->acl->isAllowed($this->userRole,'managegroups','edit')):?>
+    <input type="hidden" id="base_url" value="<?php echo $this->baseUrl(); ?>">
+    <input type="hidden" id="are_you_sure" value="<?php echo $this->lang->_('ARE_YOU_SURE_QUESTION'); ?>">
+    <!--Groups Tables-->
+    <div class="row">
+        <div class="students-doc">
+            <?php foreach ($this->students as $s) : ?>
+            <div class="col-xs-6 col-md-3 text-center">
+                <div class="icon col-xs-6 col-md-3">
+                    <span class="deletestudent">
+                    <button onclick="deletestudentingroup('<?php echo $s['studentID']; ?>','<?php echo $this->groupID; ?>')">
+                    <img src="<?php echo $this->baseUrl(); ?>/images/students/student.png" class="" alt=""/></button>
+                    </span>
+                    <div class="manage-student small-title"><?php echo $s['studentName']; ?></div>
+                </div>
+            </div>
+            <?php endforeach; ?>
+            
+        </div>
+    </div>
+    <?php else: ?>
+        <?php echo $this->lang->_('ACCESS_DENIED'); ?>
+    <?php endif;?>
+</div>

@@ -121,6 +121,16 @@ class ManagegroupsController extends Zend_Controller_Action
 
     }
     
+    public function deletestudentsAction () {
+        $groupID = $this->_request->getParam('g');
+        
+        $student_DB = new Application_Model_DbTable_StudentsInField();
+        $students = $student_DB->getAll ($groupID);
+
+        $this->view->students = $students;
+        $this->view->groupID = $groupID;
+    }
+
     public function deletestudentAction () {
         $studentID = $this->_request->getParam('s');
         $groupID = $this->_request->getParam('g');

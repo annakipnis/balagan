@@ -50,7 +50,7 @@ class DocumentationController extends Zend_Controller_Action
         $game_id   = $this->_request->getParam('gm');
         
         $is_recommend = $this->_request->getParam('recommend');
-        
+                
         //Return After Planining
         if( $group_id && $target_id ){
             $student_DB = new Application_Model_DbTable_StudentsInField();
@@ -126,10 +126,27 @@ class DocumentationController extends Zend_Controller_Action
     public function savegradeAction(){
         if( $this->getRequest()->isPost() ){
             $_params = $this->_request->getParams();
-            if( $_params['studentID'] && $_params['gradeID'] && $_params['gameID'] && $_params['groupID']){
-                $doc_DB = new Application_Model_DbTable_Records();
-                $new_doc = array(
-                    'studentinfieldID'  => $_params['studentID'],
+            if( $_params['studentID'] && $_params['gradeID'] && $_params['gameID'] && $_params['groupID']) {
+                $student_DB = new Application_Model_DbTable_Student();
+                $studentinfieldID = $student_DB->getID($_params['studentID'], $_SESSION['Default']['field']);
+                $records_DB = new Application_Model_DbTable_Records();
+                //if record in this game already exists, delete and insert again
+                $prev_record = $records_DB->isExists($studentinfieldID, $_params['gameID']);
+                $isUpdate = false;
+                if ($prev_record && isset($_SESSION['Default']['updateGrade'])) {
+                    $where['studentinfieldID = ?']  = $studentinfieldID;   
+                    $where['gameID = ?']            = $_params['gameID']; 
+                    $where['gradeID = ?']           = $prev_record['gradeID'];
+                    $where['date = ?']              = $prev_record['date'];
+                    try {
+                        $records_DB->delete($where);
+                    } catch (Exception $ex) {
+                        die( json_encode( array('status'=> 'danger', 'msg' => $this->lang->_('FAILED_DOC')) ) );
+                    }
+                    $isUpdate = true;
+                }
+                $new_record = array(
+                    'studentinfieldID'  => $studentinfieldID,
                     'gameID'     => $_params['gameID'],
                     'gradeID'    => $_params['gradeID'],
                     'date'       => date('Y-m-d H:i:s'),
@@ -137,11 +154,16 @@ class DocumentationController extends Zend_Controller_Action
                     'fieldID'    => $_SESSION['Default']['field']
                 );
                 try{
-                    $doc_id = $doc_DB->insert( $new_doc );
+                    $doc_id = $records_DB->insert( $new_record );
+                    $_SESSION['Default']['updateGrade'] = true;
                 } catch (Exception $ex) {
                     die( json_encode( array('status'=> 'danger', 'msg' => $this->lang->_('FAILED_DOC')) ) );
                 }
-                die( json_encode( array('status'=> 'success', 'msg' => $this->lang->_('SUCCESS_DOC')) ) );
+                if ($isUpdate) {
+                    die( json_encode( array('status'=> 'success', 'msg' => $this->lang->_('SUCCESS_UPDATE')) ) );
+                } else {
+                    die( json_encode( array('status'=> 'success', 'msg' => $this->lang->_('SUCCESS_DOC')) ) );
+                }
             }
             die( json_encode( array('status'=> 'danger', 'msg' => $this->lang->_('FAILED_DOC')) ) );
         }

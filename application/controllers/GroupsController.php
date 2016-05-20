@@ -68,6 +68,9 @@ class GroupsController extends Zend_Controller_Action
     public function groupsAction () {
         $user = Zend_Auth::getInstance()->getStorage()->read();
         $group_DB = new Application_Model_DbTable_Group();
+        if (isset($_SESSION['Default']['updateGrade'])) {
+            unset($_SESSION['Default']['updateGrade']);
+        }
         if (isset ($_SESSION['Default']['field'])) {
             $groups = $group_DB->getAll( $user->ganID, $_SESSION['Default']['field']);
             if ($groups) {

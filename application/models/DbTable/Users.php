@@ -33,13 +33,13 @@ class Application_Model_DbTable_Users extends Zend_Db_Table_Abstract
         return $this->_db->fetchRow('SELECT SQL_CACHE email FROM '.$this->_name.' WHERE `email` = "'.$username.'"');
     }
     
-    public function isAdmin( $username ){
-        $sql = "
-            SELECT *
-            FROM $this->_name 
-            WHERE email = '$username' AND isAdmin = 1";
-        return $this->_db->fetchRow($sql);
-    }
+//    public function isAdmin( $username ){
+//        $sql = "
+//            SELECT *
+//            FROM $this->_name 
+//            WHERE email = '$username' AND isAdmin = 1";
+//        return $this->_db->fetchRow($sql);
+//    }
     
     public function getRole ($username) {
         $sql = "
@@ -47,6 +47,14 @@ class Application_Model_DbTable_Users extends Zend_Db_Table_Abstract
             FROM $this->_name as u
             LEFT JOIN `roles` as r
             ON (u.roleID = r.roleID)
+            WHERE email = '$username'";
+        return $this->_db->fetchOne($sql);
+    }
+    
+    public function getPassword($username) {
+        $sql = "
+            SELECT password
+            FROM $this->_name
             WHERE email = '$username'";
         return $this->_db->fetchOne($sql);
     }

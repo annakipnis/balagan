@@ -93,4 +93,26 @@ class Application_Model_DbTable_StudentsInField extends Zend_Db_Table_Abstract
         
         return $this->_db->fetchAll($sql);
     }
+    
+    public function getRecordsForAllFields( $studentID){
+        $sql = "
+            SELECT s.name as student, r.date, gr.name as grade, go.name as goal, f.name as fieldName
+            FROM $this->_name as sf
+            LEFT JOIN `records` as r
+            ON(sf.id = r.studentinfieldID)
+            LEFT JOIN `games` as g
+            ON(r.gameID = g.gameID)
+            LEFT JOIN `goals` as go
+            ON(g.goalID = go.goalID)
+            LEFT JOIN `grades` as gr
+            ON(r.gradeID = gr.gradeID)
+            LEFT JOIN `students` as s
+            ON(sf.studentID = s.studentID)
+            LEFT JOIN `fields` as f
+            ON(f.fieldID = r.fieldID)
+            WHERE s.studentID = $studentID
+            ORDER BY r.date ASC";
+        
+        return $this->_db->fetchAll($sql);
+    }
 }

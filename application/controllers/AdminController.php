@@ -90,12 +90,15 @@ class AdminController extends Zend_Controller_Action
             $this->msger->addMessage('<div class="alert alert-danger text-center" role="alert"><button type="button" class="close" data-dismiss="alert">&times;</button>'.$this->lang->_('INVALID_EMAIL').'</div>');
             $this->_redirect('/admin/adduser/g/'.$ganID);
         } 
+        $roles_DB = new Application_Model_DbTable_Roles ();
+        $roleID = $roles_DB->getRoleID ($user_data['isAdmin'] ? "admin" : "user");
+        $hashed_password = crypt($user_data['password']); //the salt is automatically generated
         
         $new_user = array(
             'email'       => $user_data['email'],
-            'password'    => $user_data['password'],
-            'isAdmin'     => $user_data['isAdmin'],
-            'ganID'       => intval($ganID)
+            'password'    => $hashed_password,
+            'ganID'       => intval($ganID),
+            'roleID'      => $roleID
         );
         try{
             $user_id = $users_DB->insert( $new_user );
@@ -227,6 +230,10 @@ class AdminController extends Zend_Controller_Action
     public function savefieldAction () {
         $request = $this->getRequest();
         $field_data = $request->getPost();
+        $files = $request->getFiles();
+        if ($files) {
+            $this->msger->addMessage('<div class="alert alert-danger text-center" role="alert"><button type="button" class="close" data-dismiss="alert">&times;</button>'.'!!!!!!!!'.'</div>');
+        }
         $field_DB = new Application_Model_DbTable_Field();
                 
         $fieldName = trim($field_data['fieldName']);

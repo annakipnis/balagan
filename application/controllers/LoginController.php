@@ -132,11 +132,11 @@ class LoginController extends Zend_Controller_Action
             $this->_redirect('/');
         }
         # pass to the adapter the submitted username and password
-        $authAdapter = $this->getAuthAdapter();
-        $authAdapter->setIdentity($username)
-                    ->setCredential($password);
+//        $authAdapter = $this->getAuthAdapter();
+//        $authAdapter->setIdentity($username)
+//                    ->setCredential($password);
         $auth = Zend_Auth::getInstance();
-        $result = $auth->authenticate($authAdapter);
+//        $result = $auth->authenticate($authAdapter);
         
         $user_DB = new Application_Model_DbTable_Users();
         $user_Info = $user_DB->getUserInfo( $username );
@@ -145,17 +145,18 @@ class LoginController extends Zend_Controller_Action
             $this->msger->addMessage('<div class="alert alert-danger text-center" role="alert"><button type="button" class="close" data-dismiss="alert">&times;</button>'.$this->lang->_('NOT_VERIFIED').'</div>');
             $this->_redirect('/');
         }
-        
-        # is the user a valid one?
-        if($result->isValid())
-        {
-            # all info about this user from the login table
-            # ommit only the password, we don't need that
-            $userInfo = $authAdapter->getResultRowObject(null, 'password');
+        $hashed_password = $user_DB->getPassword($username);
+        if ($this->hashequals($hashed_password, crypt($user_data['password'], $hashed_password))) {
+//        # is the user a valid one?
+//        if($result->isValid())
+//        {
+//            # all info about this user from the login table
+//            # ommit only the password, we don't need that
+//            $userInfo = $authAdapter->getResultRowObject(null, 'password');
             
             # the default storage is a session with namespace Zend_Auth
             $authStorage = $auth->getStorage();
-            $authStorage->write($userInfo);
+            $authStorage->write($user_Info);
             // print_r ($userInfo);die;
             // Throw signin event
 //            topxiteHooksRegistry::dispatchEvent('onSignIn', $userInfo); 
@@ -185,8 +186,7 @@ class LoginController extends Zend_Controller_Action
                 $this->_redirect('/fields');
             }
         }
-        else
-        {
+        else {
             $this->msger->addMessage('<div class="alert alert-danger text-center" role="alert"><button type="button" class="close" data-dismiss="alert">&times;</button>'.$this->lang->_('WRONG_LOGIN').'</div>');
             $this->_redirect('/');
         }
@@ -197,22 +197,33 @@ class LoginController extends Zend_Controller_Action
      *
      * @return object
      */
-    protected function getAuthAdapter()
-    {
-        $dbAdapter = Zend_Db_Table::getDefaultAdapter();
-        $authAdapter = new Zend_Auth_Adapter_DbTable($dbAdapter);
-        
-        $config = Zend_Registry::get('config');
-        $salt = $config->topxite->enc->salt;
-        
-        
-        $authAdapter->setTableName('users')
-                    ->setIdentityColumn('email')
-                    ->setCredentialColumn('password');
-//                    ->setCredentialTreatment('MD5( CONCAT(?,"'.$salt.'") ) AND status');
-           
-        return $authAdapter;
-    }
-   
+//    protected function getAuthAdapter()
+//    {
+//        $dbAdapter = Zend_Db_Table::getDefaultAdapter();
+//        $authAdapter = new Zend_Auth_Adapter_DbTable($dbAdapter);
+//        
+//        $config = Zend_Registry::get('config');
+//        $salt = $config->topxite->enc->salt;
+//        
+//        
+//        $authAdapter->setTableName('users')
+//                    ->setIdentityColumn('email')
+//                    ->setCredentialColumn('password');
+////                    ->setCredentialTreatment('MD5( CONCAT(?,"'.$salt.'") ) AND status');
+//           
+//        return $authAdapter;
+//    }
+
+    function hashequals($str1, $str2) {
+      if(strlen($str1) != strlen($str2)) {
+        return false;
+      } else {
+        $res = $str1 ^ $str2;
+        $ret = 0;
+        for($i = strlen($res) - 1; $i >= 0; $i--) $ret |= ord($res[$i]);
+        return !$ret;
+      }   
+    } 
+    
 }
 ?>
