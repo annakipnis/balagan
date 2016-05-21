@@ -31,6 +31,12 @@ class DocumentationController extends Zend_Controller_Action
         $this->lang = Zend_Registry::get('lang');
         
         $this->view->userRole = $_SESSION['Default']['role'];
+        
+        if (isset($_SESSION['Default']['field'])) {
+            $fieldID = $_SESSION['Default']['field'];
+            $fields_DB = new Application_Model_DbTable_Field ();
+            $this->view->fieldName = $fields_DB->getFieldName($fieldID);
+        }
     }
     
     /*
@@ -69,6 +75,9 @@ class DocumentationController extends Zend_Controller_Action
             $this->view->group_id  = $group_id;
             $this->view->target_id = $target_id;
             $this->view->game_id   = $game_id;
+            
+            $groups_DB = new Application_Model_DbTable_Group();
+            $this->view->groupName = $groups_DB->getName($group_id);
         } 
         else {
             $plans_DB = new Application_Model_DbTable_Planing();
@@ -93,8 +102,13 @@ class DocumentationController extends Zend_Controller_Action
                 $this->view->group_id  = $group_id;
                 $this->view->target_id = $target_id;
                 $this->view->game_id   = $game_id;
+                
+                $groups_DB = new Application_Model_DbTable_Group();
+                $this->view->groupName = $groups_DB->getName($group_id);
             } else {
                 $this->view->group_id  = $group_id;
+                $groups_DB = new Application_Model_DbTable_Group();
+                $this->view->groupName = $groups_DB->getName($group_id);
             }
         }
         

@@ -19,7 +19,7 @@ class Application_Form_AddField extends Zend_Form {
            $this->setAction($this->_getUrl('admin', 'savefield')); 
        }
        $this->setAttrib('lang', $lang); 
-       $this->setAttrib('enctype', 'application/x-www-form-urlencoded');
+       $this->setAttrib('enctype', 'multipart/form-data');
        $this->setDecorators(array(
            array('ViewScript', array('viewScript' => 'admin/addfield.phtml'),'Form')
        ));
@@ -32,19 +32,19 @@ class Application_Form_AddField extends Zend_Form {
            $fieldName->setValue($this->_fieldname);
        }
 
-       $config = Zend_Registry::get('config');
-       $image = new Zend_Form_Element_File('image');
-       $image->setLabel($lang->_('CHOOSE_FILE'))
-             ->setDestination($config->paths->upload)
-             ->setRequired(true);
-       $image->addValidator('Count', false, 1); // ensure only 1 file
-       $image->addValidator('Extension', false, 'jpg,jpeg,png,gif');// only JPEG, PNG, and GIFs
+//       $config = Zend_Registry::get('config');
+//       $image = new Zend_Form_Element_File('image');
+//       $image->setLabel($lang->_('CHOOSE_FILE'))
+//             ->setDestination($config->paths->upload)
+//             ->setRequired(true);
+//       $image->addValidator('Count', false, 1); // ensure only 1 file
+//       $image->addValidator('Extension', false, 'jpg,jpeg,png,gif');// only JPEG, PNG, and GIFs
 
        $submit = $this->createElement('submit', 'submit', array('class' => 'btn btn-finish', 'label' => $lang->_('FINISH')));
 
        $this->addElements( array(
            $fieldName,
-           $image,
+//           $image,
            $submit)
        );
 

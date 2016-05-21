@@ -230,10 +230,43 @@ class AdminController extends Zend_Controller_Action
     public function savefieldAction () {
         $request = $this->getRequest();
         $field_data = $request->getPost();
-        $files = $request->getFiles();
-        if ($files) {
-            $this->msger->addMessage('<div class="alert alert-danger text-center" role="alert"><button type="button" class="close" data-dismiss="alert">&times;</button>'.'!!!!!!!!'.'</div>');
+        if(isset($_FILES["photo"]["error"])){
+            if($_FILES["photo"]["error"] > 0){
+                $this->msger->addMessage('<div class="alert alert-danger text-center" role="alert"><button type="button" class="close" data-dismiss="alert">&times;</button>'.$_FILES["photo"]["error"].'</div>');
+                $this->_redirect('/admin/addfield');
+            } else{
+                $allowed = array("jpg" => "image/jpg", "jpeg" => "image/jpeg", "gif" => "image/gif", "png" => "image/png");
+                $filename = $_FILES["photo"]["name"];
+                $filetype = $_FILES["photo"]["type"];
+                $filesize = $_FILES["photo"]["size"];
+                // Verify file extension
+                $ext = pathinfo($filename, PATHINFO_EXTENSION);
+                if(!array_key_exists($ext, $allowed)) {
+                    $this->msger->addMessage('<div class="alert alert-danger text-center" role="alert"><button type="button" class="close" data-dismiss="alert">&times;</button>'.$this->lang->_('FILE_WRONG_FORMAT').'</div>');
+                    $this->_redirect('/admin/addfield');
+                }
+                // Verify file size - 5MB maximum
+                $maxsize = 5 * 1024 * 1024;
+                if($filesize > $maxsize) {
+                    $this->msger->addMessage('<div class="alert alert-danger text-center" role="alert"><button type="button" class="close" data-dismiss="alert">&times;</button>'.$this->lang->_('FILE_SIZE_LIMIT').'</div>');
+                    $this->_redirect('/admin/addfield');
+                }
+                // Verify MYME type of the file
+                if(in_array($filetype, $allowed)){
+                    // Check whether file exists before uploading it
+                    if(!file_exists($this->config->paths->upload->fields . $_FILES["photo"]["name"])){
+                        move_uploaded_file($_FILES["photo"]["tmp_name"], $this->config->paths->upload->fields . $_FILES["photo"]["name"]);
+                    } 
+                } else{
+                    $this->msger->addMessage('<div class="alert alert-danger text-center" role="alert"><button type="button" class="close" data-dismiss="alert">&times;</button>'.$this->lang->_('FILE_ERROR').'</div>');
+                    $this->_redirect('/admin/addfield');
+                }
+            }
+        } else{
+            $this->msger->addMessage('<div class="alert alert-danger text-center" role="alert"><button type="button" class="close" data-dismiss="alert">&times;</button>'.$this->lang->_('FILE_ERROR').'</div>');
+            $this->_redirect('/admin/addfield');
         }
+        
         $field_DB = new Application_Model_DbTable_Field();
                 
         $fieldName = trim($field_data['fieldName']);
@@ -248,6 +281,7 @@ class AdminController extends Zend_Controller_Action
         
         $new_field = array(
             'name'  => $field_data['fieldName'],
+            'icon'  => $_FILES["photo"]["name"],
         );
         try{
             $field_id = $field_DB->insert( $new_field );
@@ -261,6 +295,45 @@ class AdminController extends Zend_Controller_Action
         $request = $this->getRequest();
         $field_data = $request->getPost();
         $field_DB = new Application_Model_DbTable_Field();
+        
+        if ($_FILES["photo"]["name"]) {
+            if(isset($_FILES["photo"]["error"])){
+                if($_FILES["photo"]["error"] > 0){
+                    $this->msger->addMessage('<div class="alert alert-danger text-center" role="alert"><button type="button" class="close" data-dismiss="alert">&times;</button>'.$_FILES["photo"]["error"].'</div>');
+                    $this->_redirect('/admin/addfield');
+                } else{
+                    $allowed = array("jpg" => "image/jpg", "jpeg" => "image/jpeg", "gif" => "image/gif", "png" => "image/png");
+                    $filename = $_FILES["photo"]["name"];
+                    $filetype = $_FILES["photo"]["type"];
+                    $filesize = $_FILES["photo"]["size"];
+                    // Verify file extension
+                    $ext = pathinfo($filename, PATHINFO_EXTENSION);
+                    if(!array_key_exists($ext, $allowed)) {
+                        $this->msger->addMessage('<div class="alert alert-danger text-center" role="alert"><button type="button" class="close" data-dismiss="alert">&times;</button>'.$this->lang->_('FILE_WRONG_FORMAT').'</div>');
+                        $this->_redirect('/admin/addfield');
+                    }
+                    // Verify file size - 5MB maximum
+                    $maxsize = 5 * 1024 * 1024;
+                    if($filesize > $maxsize) {
+                        $this->msger->addMessage('<div class="alert alert-danger text-center" role="alert"><button type="button" class="close" data-dismiss="alert">&times;</button>'.$this->lang->_('FILE_SIZE_LIMIT').'</div>');
+                        $this->_redirect('/admin/addfield');
+                    }
+                    // Verify MYME type of the file
+                    if(in_array($filetype, $allowed)){
+                        // Check whether file exists before uploading it
+                        if(!file_exists($this->config->paths->upload->fields . $_FILES["photo"]["name"])){
+                            move_uploaded_file($_FILES["photo"]["tmp_name"], $this->config->paths->upload->fields . $_FILES["photo"]["name"]);
+                        } 
+                    } else{
+                        $this->msger->addMessage('<div class="alert alert-danger text-center" role="alert"><button type="button" class="close" data-dismiss="alert">&times;</button>'.$this->lang->_('FILE_ERROR').'</div>');
+                        $this->_redirect('/admin/addfield');
+                    }
+                }
+            } else{
+                $this->msger->addMessage('<div class="alert alert-danger text-center" role="alert"><button type="button" class="close" data-dismiss="alert">&times;</button>'.$this->lang->_('FILE_ERROR').'</div>');
+                $this->_redirect('/admin/addfield');
+            }
+        }
                 
         $fieldName = trim($field_data['fieldName']);
 
@@ -268,8 +341,12 @@ class AdminController extends Zend_Controller_Action
             $this->msger->addMessage('<div class="alert alert-danger text-center" role="alert"><button type="button" class="close" data-dismiss="alert">&times;</button>'.$this->lang->_('REQUIRED_FIELD_NAME').'</div>');
             $this->_redirect('/admin/editfield/f/'.$fieldID);
         }
-        
-        $updated_field = array('name'  => $field_data['fieldName']);
+        if ($_FILES["photo"]["name"]) {
+            $updated_field = array('name'  => $field_data['fieldName'],
+                                   'icon'  => $_FILES["photo"]["name"]);
+        } else {
+            $updated_field = array('name'  => $field_data['fieldName']);
+        }
         try {
             $where['fieldID = ?']  = $fieldID;            
             $field_DB->update($updated_field, $where);

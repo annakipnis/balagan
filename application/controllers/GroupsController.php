@@ -29,6 +29,12 @@ class GroupsController extends Zend_Controller_Action
         $this->lang = Zend_Registry::get('lang');
         
         $this->view->userRole = $_SESSION['Default']['role'];
+        
+        if (isset($_SESSION['Default']['field'])) {
+            $fieldID = $_SESSION['Default']['field'];
+            $fields_DB = new Application_Model_DbTable_Field ();
+            $this->view->fieldName = $fields_DB->getFieldName($fieldID);
+        }
     }
     
     /*

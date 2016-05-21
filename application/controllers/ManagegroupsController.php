@@ -40,6 +40,12 @@ class ManagegroupsController extends Zend_Controller_Action
         $this->lang = Zend_Registry::get('lang');
         
         $this->view->userRole = $_SESSION['Default']['role'];
+        
+        if (isset($_SESSION['Default']['field'])) {
+            $fieldID = $_SESSION['Default']['field'];
+            $fields_DB = new Application_Model_DbTable_Field ();
+            $this->view->fieldName = $fields_DB->getFieldName($fieldID);
+        }
     }
     
     
@@ -80,18 +86,21 @@ class ManagegroupsController extends Zend_Controller_Action
         $this->_redirect("/managegroups");
     }
     
-        public function editAction(){
-            
-        }
+    public function editAction(){
+
+    }
         
-        public function groupAction () {
+    public function groupAction () {
         $groupID = $this->_request->getParam('g');
-        
+
         $student_DB = new Application_Model_DbTable_StudentsInField();
         $students = $student_DB->getAll ($groupID);
 
         $this->view->students = $students;
         $this->view->groupID = $groupID;
+
+        $groups_DB = new Application_Model_DbTable_Group();
+        $this->view->groupName = $groups_DB->getName($groupID);
     }
     
     public function addtogroupAction () {
@@ -105,6 +114,9 @@ class ManagegroupsController extends Zend_Controller_Action
 
         $this->view->students = $students;
         $this->view->groupID = $groupID;
+        
+        $groups_DB = new Application_Model_DbTable_Group();
+        $this->view->groupName = $groups_DB->getName($groupID);
     }
     
     public function addstudentAction () {
@@ -129,6 +141,9 @@ class ManagegroupsController extends Zend_Controller_Action
 
         $this->view->students = $students;
         $this->view->groupID = $groupID;
+        
+        $groups_DB = new Application_Model_DbTable_Group();
+        $this->view->groupName = $groups_DB->getName($groupID);
     }
 
     public function deletestudentAction () {

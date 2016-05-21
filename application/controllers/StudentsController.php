@@ -25,6 +25,12 @@ class StudentsController extends Zend_Controller_Action
         date_default_timezone_set('Asia/Tel_Aviv');
         
         $this->view->userRole = $_SESSION['Default']['role'];
+        
+        if (isset($_SESSION['Default']['field'])) {
+            $fieldID = $_SESSION['Default']['field'];
+            $fields_DB = new Application_Model_DbTable_Field ();
+            $this->view->fieldName = $fields_DB->getFieldName($fieldID);
+        }
     }
     
     /*

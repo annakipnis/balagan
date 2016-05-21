@@ -30,6 +30,12 @@ class PlaningController extends Zend_Controller_Action
         $this->lang = Zend_Registry::get('lang');
         
         $this->view->userRole = $_SESSION['Default']['role'];
+        
+        if (isset($_SESSION['Default']['field'])) {
+            $fieldID = $_SESSION['Default']['field'];
+            $fields_DB = new Application_Model_DbTable_Field ();
+            $this->view->fieldName = $fields_DB->getFieldName($fieldID);
+        }
     }
     
     /*
@@ -57,6 +63,9 @@ class PlaningController extends Zend_Controller_Action
 
             $this->view->group_id = $group_id;
             $this->view->targets  = $_targets;
+            
+            $groups_DB = new Application_Model_DbTable_Group();
+            $this->view->groupName = $groups_DB->getName($group_id);
         }
     }
     /*
@@ -74,6 +83,9 @@ class PlaningController extends Zend_Controller_Action
                 $this->view->games  = $games;
             }
             $this->view->group_id = $group_id;
+            
+            $groups_DB = new Application_Model_DbTable_Group();
+            $this->view->groupName = $groups_DB->getName($group_id);
         }
     }
     
@@ -104,6 +116,9 @@ class PlaningController extends Zend_Controller_Action
             } catch (Exception $ex) {
                 die( json_encode( array('status'=> 'danger', 'msg' => $this->lang->_('FAILED_DOC')) ) );
             }
+            
+            $groups_DB = new Application_Model_DbTable_Group();
+            $this->view->groupName = $groups_DB->getName($group_id);
         }
     }
     
@@ -137,6 +152,10 @@ class PlaningController extends Zend_Controller_Action
         } catch (Exception $ex) {
             die( json_encode( array('status'=> 'danger', 'msg' => $ex->getMessage()) ) );
         }
+        
+        $groups_DB = new Application_Model_DbTable_Group();
+        $this->view->groupName = $groups_DB->getName($group_id);
+        
         $this->_redirect("/planing/games/g/".$group_id."/t/".$target_id);
     }
     

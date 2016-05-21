@@ -130,6 +130,7 @@ GANNAME;"שם הגן"
 GOAL_NAME;"שם המטרה"
 GOAL_LEVEL;"רמה"
 FIELD_NAME;"שם התחום"
+FIELD;"תחום: "
 
 REQUIRED_GOAL_NAME;"נא להכניס שם מטרה"
 REQUIRED_GOAL_LEVEL;"נא להכניס רמה"
@@ -165,3 +166,10 @@ GRADE4;"היגד עם ציון 4"
 
 ACCESS_DENIED;"אין לך הרשאות לדף זה."
 CHOOSE_FILE;"בחירת תמונה"
+
+GROUP;"קבוצה: "
+
+FILE_WRONG_FORMAT;"נא להעלות תמונה באחד מהפורמטים הבאים: jpg, jpeg, gif, png"
+FILE_SIZE_LIMIT;"התמונה חרגה מהגודל המותר."
+FILE_ALREADY_EXISTS;"התמונה שנבחרה כבר קיימת."
+FILE_ERROR;"קרתה שגיאה בלתי צפויה, נא לנסות שוב."
