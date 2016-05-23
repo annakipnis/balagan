@@ -13,7 +13,11 @@
             <tbody>
                 <?php foreach ($this->fields as $f) : ?>
                 <tr>
-                    <td class="icon"><img src="<?php echo $this->baseUrl(); ?>/images/games/memory.png" class="" alt="" /></td>
+                    <?php if(!$f['icon']): ?>
+                        <td class="icon"><img src="<?php echo $this->baseUrl(); ?>/images/games/memory.png" class="" alt="" /></td>
+                    <?php else: ?>
+                        <td class="icon"><img src="<?php echo $this->baseUrl(); ?>/images/fields/<?php echo $f['icon']; ?>" class="" alt="" /></td>
+                    <?php endif; ?>
                     <td class="body" ng-click="field = <?php echo $f['fieldID']; ?>" ng-class="{'active' : field == <?php echo $f['fieldID']; ?>}"><a href="<?php echo $this->baseurl(); ?>/groups/index/f/<?php echo $f['fieldID']; ?>"><div class="big-title"><?php echo $f['name']; ?></div></a></td>
                 </tr>
                 <?php endforeach; ?>

@@ -232,8 +232,10 @@ class AdminController extends Zend_Controller_Action
         $field_data = $request->getPost();
         if(isset($_FILES["photo"]["error"])){
             if($_FILES["photo"]["error"] > 0){
-                $this->msger->addMessage('<div class="alert alert-danger text-center" role="alert"><button type="button" class="close" data-dismiss="alert">&times;</button>'.$_FILES["photo"]["error"].'</div>');
-                $this->_redirect('/admin/addfield');
+                if($_FILES["photo"]["error"] != 4){ 
+                    $this->msger->addMessage('<div class="alert alert-danger text-center" role="alert"><button type="button" class="close" data-dismiss="alert">&times;</button>'.$_FILES["photo"]["error"].'</div>');
+                    $this->_redirect('/admin/addfield');
+                } //else 4 = No file was uploaded, than do nothing. (add with default icon)
             } else{
                 $allowed = array("jpg" => "image/jpg", "jpeg" => "image/jpeg", "gif" => "image/gif", "png" => "image/png");
                 $filename = $_FILES["photo"]["name"];
@@ -411,11 +413,52 @@ class AdminController extends Zend_Controller_Action
         } else {
             $goalLevel = 0;
         }
+        //upload photo of icon just for parent goals.
+        if (!$goalID_parent) {
+            if(isset($_FILES["photo"]["error"])){
+                if($_FILES["photo"]["error"] > 0){
+                    if($_FILES["photo"]["error"] != 4){ 
+                        $this->msger->addMessage('<div class="alert alert-danger text-center" role="alert"><button type="button" class="close" data-dismiss="alert">&times;</button>'.$_FILES["photo"]["error"].'</div>');
+                        $this->_redirect('/admin/addgoal/g/'.$goalID_parent);
+                    } //else 4 = No file was uploaded, than do nothing. (add with default icon
+                } else{
+                    $allowed = array("jpg" => "image/jpg", "jpeg" => "image/jpeg", "gif" => "image/gif", "png" => "image/png");
+                    $filename = $_FILES["photo"]["name"];
+                    $filetype = $_FILES["photo"]["type"];
+                    $filesize = $_FILES["photo"]["size"];
+                    // Verify file extension
+                    $ext = pathinfo($filename, PATHINFO_EXTENSION);
+                    if(!array_key_exists($ext, $allowed)) {
+                        $this->msger->addMessage('<div class="alert alert-danger text-center" role="alert"><button type="button" class="close" data-dismiss="alert">&times;</button>'.$this->lang->_('FILE_WRONG_FORMAT').'</div>');
+                        $this->_redirect('/admin/addgoal/g/'.$goalID_parent);
+                    }
+                    // Verify file size - 5MB maximum
+                    $maxsize = 5 * 1024 * 1024;
+                    if($filesize > $maxsize) {
+                        $this->msger->addMessage('<div class="alert alert-danger text-center" role="alert"><button type="button" class="close" data-dismiss="alert">&times;</button>'.$this->lang->_('FILE_SIZE_LIMIT').'</div>');
+                        $this->_redirect('/admin/addgoal/g/'.$goalID_parent);
+                    }
+                    // Verify MYME type of the file
+                    if(in_array($filetype, $allowed)){
+                        // Check whether file exists before uploading it
+                        if(!file_exists($this->config->paths->upload->goals . $_FILES["photo"]["name"])){
+                            move_uploaded_file($_FILES["photo"]["tmp_name"], $this->config->paths->upload->goals . $_FILES["photo"]["name"]);
+                        } 
+                    } else{
+                        $this->msger->addMessage('<div class="alert alert-danger text-center" role="alert"><button type="button" class="close" data-dismiss="alert">&times;</button>'.$this->lang->_('FILE_ERROR').'</div>');
+                        $this->_redirect('/admin/addgoal/g/'.$goalID_parent);
+                    }
+                }
+            } else{
+                $this->msger->addMessage('<div class="alert alert-danger text-center" role="alert"><button type="button" class="close" data-dismiss="alert">&times;</button>'.$this->lang->_('FILE_ERROR').'</div>');
+                $this->_redirect('/admin/addgoal/g/'.$goalID_parent);
+            }
+        }
         
         $new_goal = array(
             'goalID_parent' => $goalID_parent,
             'name'  => $goal_data['goalName'],
-            'icon' => 'counting',
+            'icon' => $_FILES["photo"]["name"],
             'level' => $goalLevel,
             'fieldID' => $_SESSION['Default']['field']
         );
@@ -563,6 +606,45 @@ class AdminController extends Zend_Controller_Action
         $goalID = $this->_request->getParam('g');
         $grade_DB = new Application_Model_DbTable_Grade();
                 
+        if ($_FILES["photo"]["name"] && !$goalID_parent) {
+            if(isset($_FILES["photo"]["error"])){
+                if($_FILES["photo"]["error"] > 0){
+                    $this->msger->addMessage('<div class="alert alert-danger text-center" role="alert"><button type="button" class="close" data-dismiss="alert">&times;</button>'.$_FILES["photo"]["error"].'</div>');
+                    $this->_redirect('/admin/editgoal/g/'.$goalID.'/gp/'.$goalID_parent);
+                } else{
+                    $allowed = array("jpg" => "image/jpg", "jpeg" => "image/jpeg", "gif" => "image/gif", "png" => "image/png");
+                    $filename = $_FILES["photo"]["name"];
+                    $filetype = $_FILES["photo"]["type"];
+                    $filesize = $_FILES["photo"]["size"];
+                    // Verify file extension
+                    $ext = pathinfo($filename, PATHINFO_EXTENSION);
+                    if(!array_key_exists($ext, $allowed)) {
+                        $this->msger->addMessage('<div class="alert alert-danger text-center" role="alert"><button type="button" class="close" data-dismiss="alert">&times;</button>'.$this->lang->_('FILE_WRONG_FORMAT').'</div>');
+                        $this->_redirect('/admin/editgoal/g/'.$goalID.'/gp/'.$goalID_parent);
+                    }
+                    // Verify file size - 5MB maximum
+                    $maxsize = 5 * 1024 * 1024;
+                    if($filesize > $maxsize) {
+                        $this->msger->addMessage('<div class="alert alert-danger text-center" role="alert"><button type="button" class="close" data-dismiss="alert">&times;</button>'.$this->lang->_('FILE_SIZE_LIMIT').'</div>');
+                        $this->_redirect('/admin/editgoal/g/'.$goalID.'/gp/'.$goalID_parent);
+                    }
+                    // Verify MYME type of the file
+                    if(in_array($filetype, $allowed)){
+                        // Check whether file exists before uploading it
+                        if(!file_exists($this->config->paths->upload->goals . $_FILES["photo"]["name"])){
+                            move_uploaded_file($_FILES["photo"]["tmp_name"], $this->config->paths->upload->goals . $_FILES["photo"]["name"]);
+                        } 
+                    } else{
+                        $this->msger->addMessage('<div class="alert alert-danger text-center" role="alert"><button type="button" class="close" data-dismiss="alert">&times;</button>'.$this->lang->_('FILE_ERROR').'</div>');
+                        $this->_redirect('/admin/editgoal/g/'.$goalID.'/gp/'.$goalID_parent);
+                    }
+                }
+            } else{
+                $this->msger->addMessage('<div class="alert alert-danger text-center" role="alert"><button type="button" class="close" data-dismiss="alert">&times;</button>'.$this->lang->_('FILE_ERROR').'</div>');
+                $this->_redirect('/admin/editgoal/g/'.$goalID.'/gp/'.$goalID_parent);
+            }
+        }
+        
         $goalName = trim($goal_data['goalName']);
         
         if (!strlen($goalName) ){
@@ -592,12 +674,16 @@ class AdminController extends Zend_Controller_Action
             $updated_goal = array(
                 'goalID_parent' => $goalID_parent,
                 'name'  => $goal_data['goalName'],
-                'icon' => 'counting',
                 'level' => $goalLevel,
                 'fieldID' => $_SESSION['Default']['field']);
         } else {
             $goalLevel = 0;
-            $updated_goal = array('name'  => $goal_data['goalName']);
+            if ($_FILES["photo"]["name"]) { //icon selected 
+                $updated_goal = array('name'  => $goal_data['goalName'],
+                                      'icon'  => $_FILES["photo"]["name"]);
+            } else {
+                $updated_goal = array('name'  => $goal_data['goalName']);
+            }   
         }
         
         try{

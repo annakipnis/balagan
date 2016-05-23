@@ -13,7 +13,11 @@
             <tbody>
                 <?php foreach ($this->goals as $g) : ?>
                 <tr>
-                    <td class="icon"><img src="<?php echo $this->baseUrl(); ?>/images/goals/<?php echo $g['icon']; ?>.png" class="" alt="" /></td>
+                    <?php if (!$g['icon']): ?>
+                        <td class="icon"><img src="<?php echo $this->baseUrl(); ?>/images/goals/omdan.png" class="" alt="" /></td>
+                    <?php else: ?>
+                        <td class="icon"><img src="<?php echo $this->baseUrl(); ?>/images/goals/<?php echo $g['icon']; ?>" class="" alt="" /></td>
+                    <?php endif; ?>
                     <td class="body"><a href="<?php echo $this->baseurl(); ?>/admin/subgoals/g/<?php echo $g['goalID']; ?>"><div class="big-title"><?php echo $g['name']; ?></div></a></td>
                     <td class="delete"><br><a href="<?php echo $this->baseurl(); ?>/admin/editgoal/g/<?php echo $g['goalID']; ?>" class=""><img src="<?php echo $this->baseUrl(); ?>/images/edit.png" alt="" /></a></td>
                     <td class="delete"><br><button onclick="deletegoal('<?php echo $g['goalID']; ?>')"><img src="<?php echo $this->baseUrl(); ?>/images/delete.png" class="" alt="" /></button></td>

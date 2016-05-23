@@ -38,7 +38,7 @@ class Application_Form_AddGoal extends Zend_Form {
         $this->setAction($this->_getUrl('admin', 'savegoal')); 
     }
     $this->setAttrib('lang', $lang); 
-    $this->setAttrib('enctype', 'application/x-www-form-urlencoded');
+    $this->setAttrib('enctype', 'multipart/form-data');
     $this->setDecorators(array(
         array('ViewScript', array('viewScript' => 'admin/addgoal.phtml'),'Form')
     ));
