@@ -20,16 +20,18 @@
         <!--Actions-->
         <?php if (!isset($this->field_error)): ?>
         <div class="row">
-            <div class="col-xs-6">
+            <div class="col-xs-0 col-md-3"></div>
+            <div class="col-xs-6 col-md-3">
                 <div class="form-group">
                     <a href="<?php echo $this->baseurl(); ?>/planing/targets/g/<?php echo $this->group_id; ?>" class="btn btn-planning"><img src="<?php echo $this->baseUrl(); ?>/images/planing.png" alt="save" /><span><?php echo $this->lang->_('PLANING'); ?></span></a>
                 </div>
             </div>
-            <div class="col-xs-6">
+            <div class="col-xs-6 col-md-3">
                 <div class="form-group">
                     <a href="<?php echo $this->baseurl(); ?>/documentation/students/g/<?php echo $this->group_id; ?><?php echo isset($this->target_id) ? '/t/' . $this->target_id : ''; ?><?php echo isset($this->game_id) ? '/gm/' . $this->game_id : ''; ?>" class="btn btn-next-action"><img src="<?php echo $this->baseUrl(); ?>/images/docomuntation.png" alt="next" /><span><?php echo $this->lang->_('DOCUMENTATION'); ?></a>
                 </div>
             </div>
+            <div class="col-xs-0 col-md-3"></div>
         </div>
         <?php else: ?>
             <?php echo $this->lang->_('NO_FIELD_CHOSEN'); ?>

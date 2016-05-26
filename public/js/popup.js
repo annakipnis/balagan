@@ -4,14 +4,20 @@
  * and open the template in the editor.
  */
 window.onload = function () {
-    var button = document.getElementById('button');
-    if (button) {
-        button.onclick = function () {
-            document.getElementById('modal').style.display = "none";
-            window.location.href = document.getElementById('base_url').value + "/groups/groups";
-        };
-    }
+    $('#largeModal').modal();
+
+//    var button = document.getElementById('button');
+//    if (button) {
+//        button.onclick = function () {
+//            document.getElementById('modal').style.display = "none";
+//            window.location.href = document.getElementById('base_url').value + "/groups/groups";
+//        };
+//    }
 };
+
+function closeDialog () {
+    window.location.href = document.getElementById('base_url').value + "/groups/groups";
+}
 
 function nextActivity(groupID, recommendation){
     var notes = $('#groupNotes').val();
@@ -33,11 +39,11 @@ function nextActivity(groupID, recommendation){
                 if (data.continue_childrenless == true) {
                     var ans = confirm(document.getElementById('contiue_childrenless').value);
                     if (ans == true) {
-                        document.getElementById('modal').style.display = "block";
+                        $('#modal').modal();
                     } 
                 }
                 else {
-                    document.getElementById('modal').style.display = "block";
+                        $('#modal').modal();
                 }
             }
         }

@@ -132,7 +132,18 @@ ul{
 /*
 */
 
-#modal {
+.modal-title {
+    text-align: center;
+}
+#modalbody {
+    text-align: center;
+}
+.modal-img {
+    width: 50px;
+    height: 50px;
+}
+
+/*#modal {
     position: fixed;
     font-family: Arial, Helvetica, sans-serif;
     top: 0;
@@ -163,7 +174,7 @@ ul{
 .modalconent h2 {
     text-align: center;
     font-size: 1em;
-}
+}*/
 
 /************/
 

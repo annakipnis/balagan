@@ -34,8 +34,10 @@
             <?php endif;?>
         </div>
     </div>
-    <?php if (!isset($this->field_error)): ?>
-    <div class="col-xs-6">
+</div>
+<br>
+<?php if (!isset($this->field_error)): ?>
+    <div class="col-xs-8 col-xs-offset-2 col-md-4 col-md-offset-4">
         <div class="form-group">
             <a href="<?php echo $this->baseurl(); ?>/students/report/s/<?php echo $this->studentID; ?>" class="btn btn-finish"><img src="<?php echo $this->baseUrl(); ?>/images/report.png" alt="next" /><span><?php echo $this->lang->_('STUDENT_REPORT'); ?></a>
         </div>
@@ -44,4 +46,3 @@
     <?php else: ?>
         <?php echo $this->lang->_('ACCESS_DENIED'); ?>
     <?php endif;?>
-</div>

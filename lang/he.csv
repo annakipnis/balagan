@@ -137,8 +137,8 @@ REQUIRED_GOAL_LEVEL;"נא להכניס רמה"
 REQUIRED_GOAL_LEVEL_INT;"נא להכניס מספר בשדה רמה"
 GOAL_NAME_EXISTS;"נא לבחור שם מטרה שאינו קיים"
 
-ADMIN_ENTRY;"כניסת מנהל מערכת"
-USER_ENTRY;"כניסת משתמש"
+ADMIN_ENTRY;"מנהל מערכת"
+USER_ENTRY;"משתמש"
 
 STUDENT_REPORT;"צור דוח"
 

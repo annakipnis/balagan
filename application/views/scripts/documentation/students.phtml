@@ -14,15 +14,21 @@
     <?php if ($this->acl->isAllowed($this->userRole,'documentation','read')):?>
         <!--Pop up-->
         <input type="hidden" id="base_url" value="<?php echo $this->baseUrl(); ?>">
-        <div id="modal" style="display: none;">
-            <div class="modalconent">
-                <button id="button">X</button>
-                <h1><img src="<?php echo $this->baseUrl(); ?>/images/logo2.png" class="recommend" alt="" /><br></h1>
-                <h1 id="recommendation"><?php echo $this->recommendation; ?></h1>
-                <h2><?php echo $this->lang->_('RECOMMEND_GAME'); ?></h2>
-                <h2 id="recommended_game"><?php echo $this->recommended_game; ?></h2>
+        <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modal" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true" onclick="closeDialog()">&times;</button>
+              <h3 class="modal-title" id="recommendation"><?php echo $this->recommendation; ?></h3>
             </div>
+            <div id="modalbody" class="modal-body">
+                <img src="<?php echo $this->baseUrl(); ?>/images/logo2.png" class="modal-img" alt="" /><br>
+                <h4><?php echo $this->lang->_('RECOMMEND_GAME'); ?></h4>
+                <h4 id="recommended_game"><?php echo $this->recommended_game; ?></h4>
+            </div>
+          </div>
         </div>
+      </div>
         <!--Students Tables-->
         <input type="hidden" id="baseurl" name="baseurl" value="<?php echo $this->baseUrl(); ?>">
         <input type="hidden" id="contiue_childrenless" value="<?php echo $this->lang->_('CONTINUE_QUESTION'); ?>">
@@ -71,16 +77,18 @@
         </div>
         <!--Actions-->
         <div class="row">
-            <div class="col-xs-6">
+            <div class="col-xs-0 col-md-2"></div>
+            <div class="col-xs-6 col-md-4">
                 <div class="form-group">
                     <div class="btn btn-finish" onclick="nextActivity('<?php echo $this->group_id; ?>', '0')"><img src="<?php echo $this->baseUrl(); ?>/images/save.png" alt="save" /><span><?php echo $this->lang->_('FINISH'); ?></span></div>
                 </div>
             </div>
-            <div class="col-xs-6">
+            <div class="col-xs-6 col-md-4">
                 <div class="form-group">
                     <div class="btn btn-next-action" onclick="nextActivity('<?php echo $this->group_id; ?>', '1')"><img src="<?php echo $this->baseUrl(); ?>/images/next.png" alt="next" /><span><?php echo $this->lang->_('NEXT_ACTION'); ?></span></div>
                 </div>
             </div>
+            <div class="col-xs-0 col-md-2"></div>
         </div>
     <?php else: ?>
         <?php echo $this->lang->_('ACCESS_DENIED'); ?>

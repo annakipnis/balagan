@@ -9,22 +9,31 @@
     </div>
     <?php if ($this->acl->isAllowed($this->userRole,'groups','read')):?>
     <!--Pop Up-->
-    <div id="modal">
-        <div class="modalconent">
-            <button id="button">X</button>
-            <h1>הפעילויות המתוכננות</h1>
-            <table class="table table-groups">
-                <tbody>
-                    <?php foreach ($this->groups_with_plans as $g) : ?>
-                    <tr>
-                        <td class="icon"><img src="<?php echo $this->baseUrl(); ?>/images/groups/group_<?php echo $g['color']; ?>.png" class="" alt="group_<?php echo $g['color']; ?>" /></td>
-                        <td class="body" ng-click="group = <?php echo $g['groupID']; ?>" ng-class="{'active' : group == <?php echo $g['groupID']; ?>}"><div class="big-title"><?php echo $g['name']; ?></div><span class="small-title"><?php echo $g['goal']; ?></span><br><span class="small-title"><?php echo $g['plan']; ?></span></td>
-                    </tr>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
+    <div class="modal fade" id="largeModal" tabindex="-1" role="dialog" aria-labelledby="largeModal" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+              <h3 id="modaltitle" class="modal-title" id="myModalLabel"><?php echo $this->lang->_('PLANNED_ACTIVITIES'); ?></h3>
+            </div>
+            <div class="modal-body">
+                <table class="table table-groups">
+                  <tbody>
+                      <?php foreach ($this->groups_with_plans as $g) : ?>
+                      <tr>
+                          <td class="icon"><img src="<?php echo $this->baseUrl(); ?>/images/groups/group_<?php echo $g['color']; ?>.png" class="" alt="group_<?php echo $g['color']; ?>" /></td>
+                          <td class="body" ng-click="group = <?php echo $g['groupID']; ?>" ng-class="{'active' : group == <?php echo $g['groupID']; ?>}">
+                              <div class="big-title"><?php echo $g['name']; ?></div>
+                              <b><span class="small-title"><?php echo $g['goal']; ?></span></b><br>
+                              <span class="small-title"><?php echo $g['plan']; ?></span></td>
+                      </tr>
+                      <?php endforeach; ?>
+                  </tbody>
+                </table>
+            </div>
+          </div>
         </div>
-    </div>
+      </div>
     <!--Groups Tables-->
     <div class="row">
         <table class="table table-groups">
