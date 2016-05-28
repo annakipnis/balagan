@@ -134,6 +134,45 @@ class PlaningController extends Zend_Controller_Action
         $request = $this->getRequest();
         $game_data = $request->getPost();
         
+        if(isset($_FILES["photo"]["error"])){
+            if($_FILES["photo"]["error"] > 0){
+                if($_FILES["photo"]["error"] != 4){ 
+                    $this->msger->addMessage('<div class="alert alert-danger text-center" role="alert"><button type="button" class="close" data-dismiss="alert">&times;</button>'.$_FILES["photo"]["error"].'</div>');
+                    $this->_redirect("/planing/addgame");
+                } //else 4 = No file was uploaded, than do nothing. (add with default icon)
+            } else{
+                $allowed = array("jpg" => "image/jpg", "jpeg" => "image/jpeg", "gif" => "image/gif", "png" => "image/png");
+                $filename = $_FILES["photo"]["name"];
+                $filetype = $_FILES["photo"]["type"];
+                $filesize = $_FILES["photo"]["size"];
+                // Verify file extension
+                $ext = pathinfo($filename, PATHINFO_EXTENSION);
+                if(!array_key_exists($ext, $allowed)) {
+                    $this->msger->addMessage('<div class="alert alert-danger text-center" role="alert"><button type="button" class="close" data-dismiss="alert">&times;</button>'.$this->lang->_('FILE_WRONG_FORMAT').'</div>');
+                    $this->_redirect("/planing/addgame");
+                }
+                // Verify file size - 5MB maximum
+                $maxsize = 5 * 1024 * 1024;
+                if($filesize > $maxsize) {
+                    $this->msger->addMessage('<div class="alert alert-danger text-center" role="alert"><button type="button" class="close" data-dismiss="alert">&times;</button>'.$this->lang->_('FILE_SIZE_LIMIT').'</div>');
+                    $this->_redirect("/admin/addgame/g/".$goalID);
+                }
+                // Verify MYME type of the file
+                if(in_array($filetype, $allowed)){
+                    // Check whether file exists before uploading it
+                    if(!file_exists($this->config->paths->upload->games . $_FILES["photo"]["name"])){
+                        move_uploaded_file($_FILES["photo"]["tmp_name"], $this->config->paths->upload->games . $_FILES["photo"]["name"]);
+                    } 
+                } else{
+                    $this->msger->addMessage('<div class="alert alert-danger text-center" role="alert"><button type="button" class="close" data-dismiss="alert">&times;</button>'.$this->lang->_('FILE_ERROR').'</div>');
+                    $this->_redirect("/planing/addgame");
+                }
+            }
+        } else{
+            $this->msger->addMessage('<div class="alert alert-danger text-center" role="alert"><button type="button" class="close" data-dismiss="alert">&times;</button>'.$this->lang->_('FILE_ERROR').'</div>');
+            $this->_redirect("/planing/addgame");
+        }
+        
         $gameName = trim($game_data['gameName']);
 
         if ( !strlen($gameName) ){
@@ -146,6 +185,7 @@ class PlaningController extends Zend_Controller_Action
             'goalID'    => $target_id,
             'name'      => $game_data['gameName'],
             'fieldID'   => $_SESSION['Default']['field'],
+            'icon'  => $_FILES["photo"]["name"],
         );
         try{
             $game_id = $games_DB->insert( $new_game );

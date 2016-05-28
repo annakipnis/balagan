@@ -10,7 +10,7 @@ class Application_Form_AddGame extends Zend_Form {
     $this->setName('addgame_form');   
     $this->setAction($this->_getUrl('planing', 'addgame')); 
     $this->setAttrib('lang', $lang); 
-    $this->setAttrib('enctype', 'application/x-www-form-urlencoded');
+    $this->setAttrib('enctype', 'multipart/form-data');
     $this->setDecorators(array(
         array('ViewScript', array('viewScript' => 'planing/newgame.phtml'),'Form')
     ));

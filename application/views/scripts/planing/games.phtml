@@ -16,7 +16,7 @@
                 <?php if (isset($this->games)) : ?>
                     <?php foreach ($this->games as $g) : ?>
                     <tr data-ng-click="game = <?php echo $g['gameID']; ?>" data-ng-class="{'active' : game == <?php echo $g['gameID']; ?>}">
-                        <td class="icon"><img src="<?php echo $this->baseUrl(); ?>/images/games/<?php echo $g['icon']; ?>.png" class="" alt="memory_game" /></td>
+                        <td class="icon"><img src="<?php echo $this->baseUrl(); ?>/images/games/<?php echo $g['icon']; ?>" class="" alt="" /></td>
                         <td class="body middle" >
                             <a href="<?php echo $this->baseurl(); ?>/planing/plan/g/<?php echo $this->group_id; ?>/t/<?php echo $g['goalID']; ?>/gm/<?php echo $g['gameID']; ?>"><div class="big-title"><?php echo $g['name']; ?></div></a>
                         </td>

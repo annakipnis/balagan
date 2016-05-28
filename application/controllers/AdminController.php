@@ -518,17 +518,58 @@ class AdminController extends Zend_Controller_Action
         $request = $this->getRequest();
         $game_data = $request->getPost();
         
+        
+        if(isset($_FILES["photo"]["error"])){
+            if($_FILES["photo"]["error"] > 0){
+                if($_FILES["photo"]["error"] != 4){ 
+                    $this->msger->addMessage('<div class="alert alert-danger text-center" role="alert"><button type="button" class="close" data-dismiss="alert">&times;</button>'.$_FILES["photo"]["error"].'</div>');
+                    $this->_redirect("/admin/addgame/g/".$goalID);
+                } //else 4 = No file was uploaded, than do nothing. (add with default icon)
+            } else{
+                $allowed = array("jpg" => "image/jpg", "jpeg" => "image/jpeg", "gif" => "image/gif", "png" => "image/png");
+                $filename = $_FILES["photo"]["name"];
+                $filetype = $_FILES["photo"]["type"];
+                $filesize = $_FILES["photo"]["size"];
+                // Verify file extension
+                $ext = pathinfo($filename, PATHINFO_EXTENSION);
+                if(!array_key_exists($ext, $allowed)) {
+                    $this->msger->addMessage('<div class="alert alert-danger text-center" role="alert"><button type="button" class="close" data-dismiss="alert">&times;</button>'.$this->lang->_('FILE_WRONG_FORMAT').'</div>');
+                    $this->_redirect("/admin/addgame/g/".$goalID);
+                }
+                // Verify file size - 5MB maximum
+                $maxsize = 5 * 1024 * 1024;
+                if($filesize > $maxsize) {
+                    $this->msger->addMessage('<div class="alert alert-danger text-center" role="alert"><button type="button" class="close" data-dismiss="alert">&times;</button>'.$this->lang->_('FILE_SIZE_LIMIT').'</div>');
+                    $this->_redirect("/admin/addgame/g/".$goalID);
+                }
+                // Verify MYME type of the file
+                if(in_array($filetype, $allowed)){
+                    // Check whether file exists before uploading it
+                    if(!file_exists($this->config->paths->upload->games . $_FILES["photo"]["name"])){
+                        move_uploaded_file($_FILES["photo"]["tmp_name"], $this->config->paths->upload->games . $_FILES["photo"]["name"]);
+                    } 
+                } else{
+                    $this->msger->addMessage('<div class="alert alert-danger text-center" role="alert"><button type="button" class="close" data-dismiss="alert">&times;</button>'.$this->lang->_('FILE_ERROR').'</div>');
+                    $this->_redirect("/admin/addgame/g/".$goalID);
+                }
+            }
+        } else{
+            $this->msger->addMessage('<div class="alert alert-danger text-center" role="alert"><button type="button" class="close" data-dismiss="alert">&times;</button>'.$this->lang->_('FILE_ERROR').'</div>');
+            $this->_redirect("/admin/addgame/g/".$goalID);
+        }
+        
         $gameName = trim($game_data['gameName']);
 
         if ( !strlen($gameName) ){
             $this->msger->addMessage('<div class="alert alert-danger text-center" role="alert"><button type="button" class="close" data-dismiss="alert">&times;</button>'.$this->lang->_('REQUIRED_GAMENAME').'</div>');
-            $this->_redirect('/admin/addgame/g/'.$goalID);
+            $this->_redirect("/admin/addgame/g/".$goalID);
         }
         
         $games_DB = new Application_Model_DbTable_Game();
         $new_game = array(
             'goalID'    => $goalID,
             'name'      => $game_data['gameName'],
+            'icon'  => $_FILES["photo"]["name"],
             'fieldID'   => $_SESSION['Default']['field'],
         );
         try{
@@ -544,6 +585,44 @@ class AdminController extends Zend_Controller_Action
 
         $request = $this->getRequest();
         $game_data = $request->getPost();
+        if ($_FILES["photo"]["name"]) {
+            if(isset($_FILES["photo"]["error"])){
+                if($_FILES["photo"]["error"] > 0){
+                    $this->msger->addMessage('<div class="alert alert-danger text-center" role="alert"><button type="button" class="close" data-dismiss="alert">&times;</button>'.$_FILES["photo"]["error"].'</div>');
+                    $this->_redirect('/admin/games/g'.$gameID);
+                } else{
+                    $allowed = array("jpg" => "image/jpg", "jpeg" => "image/jpeg", "gif" => "image/gif", "png" => "image/png");
+                    $filename = $_FILES["photo"]["name"];
+                    $filetype = $_FILES["photo"]["type"];
+                    $filesize = $_FILES["photo"]["size"];
+                    // Verify file extension
+                    $ext = pathinfo($filename, PATHINFO_EXTENSION);
+                    if(!array_key_exists($ext, $allowed)) {
+                        $this->msger->addMessage('<div class="alert alert-danger text-center" role="alert"><button type="button" class="close" data-dismiss="alert">&times;</button>'.$this->lang->_('FILE_WRONG_FORMAT').'</div>');
+                        $this->_redirect('/admin/games/g'.$gameID);
+                    }
+                    // Verify file size - 5MB maximum
+                    $maxsize = 5 * 1024 * 1024;
+                    if($filesize > $maxsize) {
+                        $this->msger->addMessage('<div class="alert alert-danger text-center" role="alert"><button type="button" class="close" data-dismiss="alert">&times;</button>'.$this->lang->_('FILE_SIZE_LIMIT').'</div>');
+                        $this->_redirect('/admin/games/g'.$gameID);
+                    }
+                    // Verify MYME type of the file
+                    if(in_array($filetype, $allowed)){
+                        // Check whether file exists before uploading it
+                        if(!file_exists($this->config->paths->upload->games . $_FILES["photo"]["name"])){
+                            move_uploaded_file($_FILES["photo"]["tmp_name"], $this->config->paths->upload->games . $_FILES["photo"]["name"]);
+                        } 
+                    } else{
+                        $this->msger->addMessage('<div class="alert alert-danger text-center" role="alert"><button type="button" class="close" data-dismiss="alert">&times;</button>'.$this->lang->_('FILE_ERROR').'</div>');
+                        $this->_redirect('/admin/games/g'.$gameID);
+                    }
+                }
+            } else{
+                $this->msger->addMessage('<div class="alert alert-danger text-center" role="alert"><button type="button" class="close" data-dismiss="alert">&times;</button>'.$this->lang->_('FILE_ERROR').'</div>');
+                $this->_redirect('/admin/games/g'.$gameID);
+            }
+        }
         
         $gameName = trim($game_data['gameName']);
 
@@ -553,7 +632,12 @@ class AdminController extends Zend_Controller_Action
         }
         
         $games_DB = new Application_Model_DbTable_Game();
-        $updated_game = array('name' => $game_data['gameName']);
+        if ($_FILES["photo"]["name"]) {
+            $updated_game = array('name'  => $game_data['gameName'],
+                                  'icon'  => $_FILES["photo"]["name"]);
+        } else {
+            $updated_game = array('name'  => $game_data['gameName']);
+        }
         try{
             $games_DB->update($updated_game, "gameID = $gameID");
         } catch (Exception $ex) {

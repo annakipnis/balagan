@@ -19,7 +19,7 @@ class Application_Form_AddGameToGoal extends Zend_Form {
         $this->setAction($this->_getUrl('admin', 'savegame')); 
     }
     $this->setAttrib('lang', $lang); 
-    $this->setAttrib('enctype', 'application/x-www-form-urlencoded');
+    $this->setAttrib('enctype', 'multipart/form-data');
     $this->setDecorators(array(
         array('ViewScript', array('viewScript' => 'admin/addgame.phtml'),'Form')
     ));

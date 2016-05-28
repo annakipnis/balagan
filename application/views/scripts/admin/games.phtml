@@ -13,7 +13,7 @@
             <tbody>
                 <?php foreach ($this->games as $g) : ?>
                 <tr>
-                    <td class="icon"><img src="<?php echo $this->baseUrl(); ?>/images/games/<?php echo $g['icon']; ?>.png" class="" alt="" /></td>
+                    <td class="icon"><img src="<?php echo $this->baseUrl(); ?>/images/games/<?php echo $g['icon']; ?>" class="" alt="" /></td>
                     <td class="body"><div class="big-title"><?php echo $g['name']; ?></div></td>
                     <td class="delete"><br><a href="<?php echo $this->baseurl(); ?>/admin/editgame/g/<?php echo $this->goalID; ?>/gm/<?php echo $g['gameID']; ?>" class=""><img src="<?php echo $this->baseUrl(); ?>/images/edit.png" alt="" /></a></td>
                     <td class="delete"><br><button onclick="deletegame('<?php echo $g['gameID']; ?>')"><img src="<?php echo $this->baseUrl(); ?>/images/delete.png" class="" alt="" /></button></td>
