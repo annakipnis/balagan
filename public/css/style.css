@@ -215,6 +215,18 @@ ul{
     font-size: 16px;
 }
 
+@media screen and (max-width: 1600px) {
+    .second-header .small-title{
+        font-size:16px;
+    }
+}
+ 
+@media screen and (max-width: 568px) {
+    .second-header .small-title{
+        font-size:14px;
+    }
+}
+
 .table-groups, .table-goals, .table-games, .table-students, .students-doc, .student-doc{
     color: #589691;
 }
@@ -288,6 +300,17 @@ ul{
     font-size: 16px;
     border-radius: 30px;
 }
+@media screen and (max-width: 1600px) {
+    .btn {
+        font-size:16px;
+    }
+}
+ 
+@media screen and (max-width: 568px) {
+    .btn {
+        font-size:14px;
+    }
+}
 
 
 .btn-planning, .btn-finish{
@@ -297,15 +320,19 @@ ul{
 .btn-doc, .btn-next-action, .btn-add-student{
     background-color: #b3cc57;
 }
-.btn-planning > img, .btn-finish > img, .btn-doc > img, .btn-next-action > img, .btn-add-student > img{
+.btn-delete-student {
+    background-color: #57cc94;
+}
+.btn-planning > img, .btn-finish > img, .btn-doc > img, .btn-next-action > img, .btn-add-student > img, .btn-delete-student > img{
     width: 30px;
     float: right;
 }
-.btn-planning span, .btn-finish span, .btn-doc span, .btn-next-action span, .btn-add-student span{
+.btn-planning span, .btn-finish span, .btn-doc span, .btn-next-action span, .btn-add-student span, .btn-delete-student span{
     line-height: 30px
 }
-.no-padding{
-    padding: 0;
+.no-padding {
+    padding-left: 2px !important;
+    padding-right: 2px !important;
 }
 
 
@@ -517,8 +544,18 @@ dt > label{
     height: 30px !important;
     margin-left: -15px;
 }
-.form-element {
-    width: 100%;
-    font-size: 24px;
+.form_table {
+    font-size: 20px;
+    padding-bottom: 10px;
 }
 
+.form-element {
+    width: 100%;
+    font-size: 20px;
+}
+
+.form-label {
+    font-weight: bold;
+    font-size: 20px;
+    padding-bottom: 5px;
+}

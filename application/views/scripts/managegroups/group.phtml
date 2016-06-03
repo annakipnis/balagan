@@ -3,7 +3,7 @@
     <div class="row">
         <div class="second-header">
             <img src="<?php echo $this->baseUrl(); ?>/images/GROUP_HEADER.png" class="" alt="GROUP_HEADER" />
-            <div class="small-title"><?php echo $this->lang->_('FIELD').$this->fieldName; ?> > <?php echo $this->lang->_('GROUP').$this->groupName; ?></div>
+            <div class="small-title col-xs-12"><?php echo $this->lang->_('FIELD').$this->fieldName; ?> > <?php echo $this->lang->_('GROUP').$this->groupName; ?></div>
             <div class="title"><?php echo $this->lang->_('MANAGE_STUDENTS'); ?></div>
         </div>
     </div>
@@ -24,17 +24,17 @@
         </div>
     </div>
     <div class="form-group add-student">
-        <div class="col-xs-4 col-md-4">
+        <div class="col-xs-4 col-md-4  no-padding">
             <div class="form-group">
                 <a href="<?php echo $this->baseurl(); ?>/managegroups/addtogroup/g/<?php echo $this->groupID ?>" class="btn btn-next-action"><img src="<?php echo $this->baseUrl(); ?>/images/add.png" alt="next" /><span><?php echo $this->lang->_('ADD_STUDENT'); ?></span></a>
             </div>
         </div>
-        <div class="col-xs-4 col-md-4">
+        <div class="col-xs-4 col-md-4  no-padding">
             <div class="form-group">
-                <a href="<?php echo $this->baseurl(); ?>/managegroups/deletestudents/g/<?php echo $this->groupID ?>" class="btn btn-next-action"><img src="<?php echo $this->baseUrl(); ?>/images/add.png" alt="next" /><span><?php echo $this->lang->_('DELETE_STUDENT'); ?></a>
+                <a href="<?php echo $this->baseurl(); ?>/managegroups/deletestudents/g/<?php echo $this->groupID ?>" class="btn btn-delete-student"><img src="<?php echo $this->baseUrl(); ?>/images/add.png" alt="next" /><span><?php echo $this->lang->_('DELETE_STUDENT'); ?></a>
             </div>
         </div>
-        <div class="col-xs-4 col-md-4">
+        <div class="col-xs-4 col-md-4 no-padding">
             <div class="form-group">
                 <a href="<?php echo $this->baseurl(); ?>/managegroups" class="btn btn-finish"><img src="<?php echo $this->baseUrl(); ?>/images/save.png" alt="save" /><span><?php echo $this->lang->_('FINISH'); ?></span></a>
             </div>

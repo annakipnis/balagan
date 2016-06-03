@@ -166,7 +166,7 @@ GRADE4;"היגד עם ציון 4"
 
 ACCESS_DENIED;"אין לך הרשאות לדף זה."
 CHOOSE_FILE;"בחירת תמונה"
-
+FORM_FILE;"תמונה"
 GROUP;"קבוצה: "
 
 FILE_WRONG_FORMAT;"נא להעלות תמונה באחד מהפורמטים הבאים: jpg, jpeg, gif, png"
