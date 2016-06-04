@@ -205,7 +205,7 @@ ul{
 .second-header .title{
     display: inline-block;
     position: absolute;
-    line-height: 80px;
+    line-height: 75px;
 }
 
 .second-header .small-title{
@@ -215,14 +215,21 @@ ul{
     font-size: 16px;
 }
 
+.second-header .small-title2{
+    display: inline-block;
+    position: absolute;
+    line-height: 120px;
+    font-size: 16px;
+}
+
 @media screen and (max-width: 1600px) {
-    .second-header .small-title{
+    .second-header .small-title, .second-header .small-title2{
         font-size:16px;
     }
 }
  
 @media screen and (max-width: 568px) {
-    .second-header .small-title{
+    .second-header .small-title, .second-header .small-title2{
         font-size:14px;
     }
 }

@@ -112,6 +112,9 @@ class DocumentationController extends Zend_Controller_Action
             }
         }
         
+        $games_DB = new Application_Model_DbTable_Game();
+        $this->view->gameName = $games_DB->getGameName($game_id);
+        
         $notes = $this->getRequest()->getPost('notes');
         if ($notes) {
             $comments_DB = new Application_Model_DbTable_Comments();

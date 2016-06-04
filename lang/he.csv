@@ -168,7 +168,7 @@ ACCESS_DENIED;"אין לך הרשאות לדף זה."
 CHOOSE_FILE;"בחירת תמונה"
 FORM_FILE;"תמונה"
 GROUP;"קבוצה: "
-
+GAN;"גן: "
 FILE_WRONG_FORMAT;"נא להעלות תמונה באחד מהפורמטים הבאים: jpg, jpeg, gif, png"
 FILE_SIZE_LIMIT;"התמונה חרגה מהגודל המותר."
 FILE_ALREADY_EXISTS;"התמונה שנבחרה כבר קיימת."

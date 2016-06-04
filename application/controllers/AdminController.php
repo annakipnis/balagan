@@ -57,6 +57,8 @@ class AdminController extends Zend_Controller_Action
     
     public function adduserAction() {
         $ganID = $this->_request->getParam('g');
+        $ganDB = new Application_Model_DbTable_Gan();
+        $this->view->ganName = $ganDB->getGanName($ganID);
         $form = new Application_Form_AddUser();        
         $this->view->form = $form; 
     }
