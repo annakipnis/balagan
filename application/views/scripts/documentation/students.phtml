@@ -24,7 +24,9 @@
             </div>
             <div id="modalbody" class="modal-body">
                 <img src="<?php echo $this->baseUrl(); ?>/images/logo2.png" class="modal-img" alt="" /><br>
-                <h4><?php echo $this->lang->_('RECOMMEND_GAME'); ?></h4>
+                <h4><u><?php echo $this->lang->_('RECOMMEND_TARGET'); ?></u></h4>
+                <h4 id="recommended_target"><?php echo $this->recommended_target_name; ?></h4>
+                <h4><u><?php echo $this->lang->_('RECOMMEND_GAME'); ?></u></h4>
                 <h4 id="recommended_game"><?php echo $this->recommended_game; ?></h4>
             </div>
           </div>
@@ -41,7 +43,7 @@
                         <tr>
                             <td class="icon"><span class="icon-student"><i class="fa <?php echo 'Male' == $s['gender'] ? 'fa-male' : 'fa-female'; ?>"></i></span></td>
                             <td class="body middle">
-                                <a data-toggle="collapse" data-parent="" id="student-answers-<?php echo $s['studentID']; ?>" href="#game-answers-<?php echo $s['studentID']; ?>" data-ng-click="activeArrowUp()" aria-expanded="true" aria-controls="collapseOne"><div class="big-title"><?php echo $s['name']; ?></div></a>
+                                <a data-toggle="collapse" data-parent="" id="student-answers-<?php echo $s['studentID']; ?>" href="#game-answers-<?php echo $s['studentID']; ?>" data-ng-click="activeArrowUp()" aria-expanded="true" aria-controls="collapseOne"><span class="big-title"><?php echo $s['name']; ?></span></a>
                             </td>
                             <td class="middle"><a data-toggle="collapse" data-parent="" href="#game-answers-<?php echo $s['studentID']; ?>" data-ng-click="activeArrowUp()" aria-expanded="true" aria-controls="collapseOne"><img class="arrow" data-ng-class="{'arrow-up': arrowUp === true, 'arrow-down': arrowUp === false}" src="<?php echo $this->baseUrl(); ?>/images/arrow.png" class="" alt="arrow" /></a></td>
                         </tr>

@@ -302,7 +302,8 @@ class DocumentationController extends Zend_Controller_Action
                 $recommended_game = $unplayed_games [0];
             }
 
-            $this->view->recommended_target = $recommended_target;
+            $recommended_target_name = $targets_DB->getGoalName($recommended_target);
+            $this->view->recommended_target = $recommended_target_name;
             $this->view->recommendation = $recommendation;
             $this->view->recommended_game = $recommended_game['name'];
 
@@ -328,6 +329,7 @@ class DocumentationController extends Zend_Controller_Action
 
             echo json_encode(array ('recommendation'   => $recommendation, 
                                     'recommended_game' => $recommended_game['name'],
+                                    'recommended_target' => $recommended_target_name,
                                     'continue_childrenless' => $continue_childrenless));
         }
         

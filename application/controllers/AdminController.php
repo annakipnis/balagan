@@ -124,6 +124,15 @@ class AdminController extends Zend_Controller_Action
         $this->view->form = $form; 
     }
     
+    public function editgannameAction() {
+        $ganID = $this->_request->getParam('g');
+        $gan_DB = new Application_Model_DbTable_Gan();
+        $ganName = $gan_DB->get($ganID)['name'];
+
+        $form = new Application_Form_AddGan (array('ganname' => $ganName));        
+        $this->view->form = $form; 
+    }
+    
     public function saveganAction() {
         $request = $this->getRequest();
         $gan_data = $request->getPost();
@@ -142,6 +151,28 @@ class AdminController extends Zend_Controller_Action
         );
         try{
             $gan_id = $gan_DB->insert( $new_gan );
+        } catch (Exception $ex) {
+            die( json_encode( array('status'=> 'danger', 'msg' => $ex->getMessage()) ) );
+        }
+        $this->_redirect("/admin/gan");
+    }
+    
+    public function updategannameAction() {
+        $request = $this->getRequest();
+        $gan_data = $request->getPost();
+        $gan_DB = new Application_Model_DbTable_Gan();
+        $ganID = $this->_request->getParam('g');
+                
+        $ganName = trim($gan_data['ganName']);
+
+        if ( !strlen($ganName) ){
+            $this->msger->addMessage('<div class="alert alert-danger text-center" role="alert"><button type="button" class="close" data-dismiss="alert">&times;</button>'.$this->lang->_('REQUIRED_GAN_NAME').'</div>');
+            $this->_redirect('/admin/editganname/g'.$ganID);
+        }
+
+        try{
+            $data = array ('name' => $gan_data['ganName']);
+            $gan_DB->update($data, "ganID = $ganID");            
         } catch (Exception $ex) {
             die( json_encode( array('status'=> 'danger', 'msg' => $ex->getMessage()) ) );
         }

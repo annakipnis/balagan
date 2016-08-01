@@ -4,11 +4,20 @@
 
 class Application_Form_AddGan extends Zend_Form {
     
+    protected $_ganname = null;
+    public function setGanname($ganname){
+        $this->_ganname = $ganname;
+    }
+    
  public function init(){
     $lang = Zend_Registry::get('lang');
     $this->setMethod('post');
     $this->setName('addgan_form');        
-    $this->setAction($this->_getUrl('admin', 'savegan')); 
+    if($this->_ganname != NULL){
+        $this->setAction($this->_getUrl('admin', 'updateganname')); 
+    } else {
+        $this->setAction($this->_getUrl('admin', 'savegan')); 
+    }
     $this->setAttrib('lang', $lang); 
     $this->setAttrib('enctype', 'application/x-www-form-urlencoded');
     $this->setDecorators(array(
@@ -18,7 +27,11 @@ class Application_Form_AddGan extends Zend_Form {
     $ganName = $this->createElement('text', 'ganName', array('class' => 'form-element', 'placeholder' => $lang->_('GANNAME')));
     $ganName->setRequired(true)
           ->addErrorMessage($lang->_('REQUIRED_FIELD'));
-
+    
+    if($this->_ganname != NULL){
+        $ganName->setValue($this->_ganname);
+    }
+    
     $submit = $this->createElement('submit', 'submit', array('class' => 'btn btn-finish', 'label' => $lang->_('FINISH')));
 
     $this->addElements( array(

@@ -35,6 +35,7 @@ function nextActivity(groupID, recommendation){
                //return parameters to view, for popup
                 var data = JSON.parse(result);
                 $("#recommended_game").text(data.recommended_game);
+                $("#recommended_target").text(data.recommended_target);
                 $("#recommendation").text(data.recommendation);
                 if (data.continue_childrenless == true) {
                     var ans = confirm(document.getElementById('contiue_childrenless').value);

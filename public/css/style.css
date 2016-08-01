@@ -218,8 +218,8 @@ ul{
 .second-header .small-title2{
     display: inline-block;
     position: absolute;
-    line-height: 120px;
     font-size: 16px;
+    margin-top: 50px;
 }
 
 @media screen and (max-width: 1600px) {

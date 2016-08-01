@@ -15,6 +15,7 @@
                 <tr>
                     <td class="icon"><img src="<?php echo $this->baseUrl(); ?>/images/home.png" class="" alt="" /></td>
                     <td class="body"><a href="<?php echo $this->baseurl(); ?>/admin/editgan/g/<?php echo $g['ganID']; ?>"><div class="big-title"><?php echo $g['name']; ?></div></a></td>
+                    <td class="delete"><br><a href="<?php echo $this->baseurl(); ?>/admin/editganname/g/<?php echo $g['ganID']; ?>" class=""><img src="<?php echo $this->baseUrl(); ?>/images/edit.png" alt="" /></a></td>
                     <td class="delete"><br><button onclick="deletegan('<?php echo $g['ganID']; ?>')"><img src="<?php echo $this->baseUrl(); ?>/images/delete.png" class="" alt="" /></button></td>
 
                 </tr>

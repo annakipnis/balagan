@@ -98,6 +98,7 @@ RECOMMEND_CURRENT_LEVEL;"מומלץ לערוך תרגול נוסף"
 RECOMMEND_NEXT_LEVEL;"הידד נראה שהקבוצה הפנימה את הנושא"
 RECOMMEND_PREV_LEVEL;"מומלץ לערוך תרגול נוסף"
 RECOMMEND_GAME;"משחק מומלץ:"
+RECOMMEND_TARGET;"מטרה:"
 
 PLANNED_ACTIVITIES;"פעילויות מתוכננות"
 DONE_ACTIVITIES;"פעילויות שבוצעו"
@@ -123,6 +124,7 @@ ADMIN_ADD_FIELD;"הוסף תחום"
 ADMIN_EDIT_FIELD;"עריכת תחום"
 ADMIN_EDIT_GAME;"עריכת משחק"
 ADMIN_EDIT_GOAL;"עריכת מטרה"
+ADMIN_EDIT_GAN_NAME;"עריכת גן"
 
 
 IS_ADMIN;"מנהל מערכת"
@@ -131,6 +133,7 @@ GOAL_NAME;"שם המטרה"
 GOAL_LEVEL;"רמה"
 FIELD_NAME;"שם התחום"
 FIELD;"תחום: "
+GAN_NAME;"שם הגן:"
 
 REQUIRED_GOAL_NAME;"נא להכניס שם מטרה"
 REQUIRED_GOAL_LEVEL;"נא להכניס רמה"
